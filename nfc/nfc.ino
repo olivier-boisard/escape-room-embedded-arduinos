@@ -30,6 +30,10 @@
 #define LOOP_DELAY_MS 100
 #define BUFFER_SIZE 8
 
+#define ATQA_BUFFER_SIZE 2
+
+#define N_ABSENCE_CHECKS 3
+
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
   ss_pin,
@@ -43,7 +47,13 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 
 MFRC522 mfrc522{driver};
 
+typedef enum {
+  noCard,
+  cardIsPresent
+} State;
+
 void setup() {
+  Serial.begin(115200);
   mfrc522.PCD_Init();
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
@@ -58,7 +68,7 @@ bool uidIsValid(const MFRC522::Uid& uid) {
   }
 
   bool output = true;
-  byte expectedValue[] = {0x04, 0xCE, 0x89, 0xCA, 0x27, 0x73, 0x80};
+  static const byte expectedValue[] = {0x04, 0xCE, 0x89, 0xCA, 0x27, 0x73, 0x80};
   for (size_t i = 0 ; i < expectedSize ; i++) {
     if (uid.uidByte[i] != expectedValue[i]) {
       output = false;
@@ -69,15 +79,39 @@ bool uidIsValid(const MFRC522::Uid& uid) {
 }
 
 void loop() {
-  if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
-    //digitalWrite(GREEN_LED_PIN, LOW);
-    //digitalWrite(RED_LED_PIN, LOW);
-  } else if (uidIsValid(mfrc522.uid)) {
-    digitalWrite(GREEN_LED_PIN, HIGH);
-    digitalWrite(RED_LED_PIN, LOW);
-  } else {
-    digitalWrite(GREEN_LED_PIN, LOW);
-    digitalWrite(RED_LED_PIN, HIGH);
+  // check this https://highvoltages.co/tutorial/arduino-tutorial/arduino-mfrc522-tutorial-is-rfid-tag-present-or-removed/
+
+  static State state = State::noCard;
+  static bool cardIsPresentFlag = false;
+  switch (state) {
+    case State::noCard:
+      if (mfrc522.PICC_IsNewCardPresent() || mfrc522.PICC_ReadCardSerial()) {
+        MFRC522Debug::PICC_DumpToSerial(mfrc522, Serial, &(mfrc522.uid));
+        if (uidIsValid(mfrc522.uid)) {
+          digitalWrite(GREEN_LED_PIN, HIGH);
+          digitalWrite(RED_LED_PIN, LOW);
+        } else {
+          digitalWrite(GREEN_LED_PIN, LOW);
+          digitalWrite(RED_LED_PIN, HIGH);
+        }
+      }
+      state = State::cardIsPresent;
+      break;
+   case State::cardIsPresent:
+      for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++){
+        if (mfrc522.PICC_ReadCardSerial()) {
+          cardIsPresentFlag = true;
+          break;
+        }
+      }
+      if (!cardIsPresentFlag){
+        digitalWrite(GREEN_LED_PIN, LOW);
+        digitalWrite(RED_LED_PIN, LOW);
+        state = State::noCard;
+      }
+      break;
+   default:
+      break;
   }
   
   delay(LOOP_DELAY_MS);
