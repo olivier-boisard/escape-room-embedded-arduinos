@@ -29,11 +29,8 @@
 #define RED_LED_PIN 8
 
 #define LOOP_DELAY_MS 100
-#define BUFFER_SIZE 8
 
-#define ATQA_BUFFER_SIZE 2
-
-#define N_ABSENCE_CHECKS 10
+#define N_ABSENCE_CHECKS 2
 
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
@@ -54,9 +51,7 @@ typedef enum {
 } State;
 
 void setup() {
-  Serial.begin(115200);
   mfrc522.PCD_Init();
-  MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial);
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
   digitalWrite(GREEN_LED_PIN, LOW);
@@ -80,18 +75,17 @@ bool uidIsValid(const MFRC522::Uid& uid) {
   return output;
 }
 
-void loop() {
-  // check this https://highvoltages.co/tutorial/arduino-tutorial/arduino-mfrc522-tutorial-is-rfid-tag-present-or-removed/
+bool tryReadCardSerial(MFRC522& mfrc522) {
+  return mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial();
+}
 
+void loop() {
   static State state = State::noCard;
   static bool cardIsPresentFlag = false;
-  static byte bufferATQA[ATQA_BUFFER_SIZE];
-  static byte bufferSize = ATQA_BUFFER_SIZE;
   static MFRC522Constants::StatusCode status;
   switch (state) {
     case State::noCard:
-      if (mfrc522.PICC_IsNewCardPresent() || mfrc522.PICC_ReadCardSerial()) {
-        MFRC522Debug::PICC_DumpToSerial(mfrc522, Serial, &(mfrc522.uid));
+      if (tryReadCardSerial(mfrc522)) {
         if (uidIsValid(mfrc522.uid)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
@@ -101,15 +95,19 @@ void loop() {
         }
         state = State::cardIsPresent;
       }
-      Serial.println("State 1");
       break;
    case State::cardIsPresent:
-      status = mfrc522.PICC_WakeupA(bufferATQA, &bufferSize);
-      if (status != MFRC522Constants::StatusCode::STATUS_OK) {
+      cardIsPresentFlag = false;
+      for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++) {
+        if (tryReadCardSerial(mfrc522)) {
+          cardIsPresentFlag = true;
+          break;
+        }
+      }
+      if (!cardIsPresentFlag) {
         digitalWrite(GREEN_LED_PIN, LOW);
         digitalWrite(RED_LED_PIN, LOW);
         state = State::noCard;
-        Serial.println("State 2");
       }
       break;
    default:
