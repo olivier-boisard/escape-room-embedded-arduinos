@@ -22,6 +22,7 @@
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
 #include <MFRC522Debug.h>
+#include <MFRC522Constants.h>
 
 #define SS_PIN 10
 #define GREEN_LED_PIN 9
@@ -32,7 +33,7 @@
 
 #define ATQA_BUFFER_SIZE 2
 
-#define N_ABSENCE_CHECKS 3
+#define N_ABSENCE_CHECKS 10
 
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
@@ -55,6 +56,7 @@ typedef enum {
 void setup() {
   Serial.begin(115200);
   mfrc522.PCD_Init();
+  MFRC522Debug::PCD_DumpVersionToSerial(mfrc522, Serial);
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
   digitalWrite(GREEN_LED_PIN, LOW);
@@ -83,6 +85,9 @@ void loop() {
 
   static State state = State::noCard;
   static bool cardIsPresentFlag = false;
+  static byte bufferATQA[ATQA_BUFFER_SIZE];
+  static byte bufferSize = ATQA_BUFFER_SIZE;
+  static MFRC522Constants::StatusCode status;
   switch (state) {
     case State::noCard:
       if (mfrc522.PICC_IsNewCardPresent() || mfrc522.PICC_ReadCardSerial()) {
@@ -94,20 +99,17 @@ void loop() {
           digitalWrite(GREEN_LED_PIN, LOW);
           digitalWrite(RED_LED_PIN, HIGH);
         }
+        state = State::cardIsPresent;
       }
-      state = State::cardIsPresent;
+      Serial.println("State 1");
       break;
    case State::cardIsPresent:
-      for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++){
-        if (mfrc522.PICC_ReadCardSerial()) {
-          cardIsPresentFlag = true;
-          break;
-        }
-      }
-      if (!cardIsPresentFlag){
+      status = mfrc522.PICC_WakeupA(bufferATQA, &bufferSize);
+      if (status != MFRC522Constants::StatusCode::STATUS_OK) {
         digitalWrite(GREEN_LED_PIN, LOW);
         digitalWrite(RED_LED_PIN, LOW);
         state = State::noCard;
+        Serial.println("State 2");
       }
       break;
    default:
