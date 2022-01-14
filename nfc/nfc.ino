@@ -26,10 +26,13 @@
 
 // Config
 #define SS_PIN 10
+#define BLUE_LED_PIN 6
 #define GREEN_LED_PIN 9
 #define RED_LED_PIN 8
 #define LOOP_DELAY_MS 100
 #define N_ABSENCE_CHECKS 2
+
+#define SWITCH_INPUT_PIN 7
 
 // TODO this should be moved to another file, however this fails with "redeclared as different kind of symbol" error.
 bool tryReadCardSerial(MFRC522& mfrc522) {

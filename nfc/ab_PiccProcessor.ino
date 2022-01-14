@@ -1,6 +1,7 @@
 typedef enum {
   noCard,
-  cardIsPresent
+  cardIsPresent,
+  configuration
 } State;
 
 class PiccProcessor {
@@ -16,9 +17,16 @@ class PiccProcessor {
        case State::cardIsPresent:
           processCardIsPresentState();
           break;
+       case State::configuration:
+          digitalWrite(BLUE_LED_PIN, HIGH);
+          break;
        default:
           break;
       }
+    }
+
+    void toggleConfigurationMode() {
+      state = state != State::configuration ? State::configuration : State::noCard;
     }
   
   private:
@@ -27,6 +35,7 @@ class PiccProcessor {
     State state = State::noCard;
 
     void processNoCardState() {
+      digitalWrite(BLUE_LED_PIN, LOW);
       if (tryReadCardSerial(mfrc522)) {
         if (uidChecker.checkUid(mfrc522.uid)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
@@ -40,6 +49,7 @@ class PiccProcessor {
     }
 
    void processCardIsPresentState() {
+      digitalWrite(BLUE_LED_PIN, LOW);
       bool cardIsPresentFlag = false;
       for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++) {
         if (tryReadCardSerial(mfrc522)) {
