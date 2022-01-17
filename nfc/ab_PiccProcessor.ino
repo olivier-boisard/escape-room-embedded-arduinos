@@ -6,8 +6,7 @@ typedef enum {
 
 class PiccProcessor {
   public:
-    PiccProcessor(MFRC522& mfrc522, const MFRC522::Uid& uid)
-      : mfrc522(mfrc522), uidChecker(uid) {}
+    PiccProcessor(MFRC522& mfrc522) : mfrc522(mfrc522) {}
 
     void process() {
       switch (state) {
@@ -18,11 +17,16 @@ class PiccProcessor {
           processCardIsPresentState();
           break;
        case State::configuration:
+          //TODO update uid and write it in EEPROM
           digitalWrite(BLUE_LED_PIN, HIGH);
           break;
        default:
           break;
       }
+    }
+
+    void setValidUid(const MFRC522::Uid& uid) {
+      uidChecker.setExpectedUid(uid);
     }
 
     void toggleConfigurationMode() {

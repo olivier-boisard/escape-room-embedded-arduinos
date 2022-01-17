@@ -1,8 +1,18 @@
-#define UID_MAX_SIZE 7
+#define MAX_UID_SIZE 10
 
 class UidChecker {
   public:
-    UidChecker(const MFRC522::Uid& expectedUid) : expectedUid(expectedUid) {}
+
+    void setExpectedUid(const MFRC522::Uid& expectedUid) {
+      size_t uidSize = expectedUid.size;
+      if (uidSize > MAX_UID_SIZE) { // TODO this should somehow raise a warning
+        uidSize = MAX_UID_SIZE;
+      }
+      this->expectedUid.size = uidSize;
+      for (size_t i = 0 ; i < uidSize ; i++) {
+        this->expectedUid.uidByte[i] = expectedUid.uidByte[i];
+      }
+    }
 
     bool checkUid(const MFRC522::Uid& uid) {
       if (uid.size != expectedUid.size) {
@@ -20,5 +30,5 @@ class UidChecker {
     }
   
   private:
-    MFRC522::Uid expectedUid;
+    MFRC522::Uid expectedUid{0};
 };
