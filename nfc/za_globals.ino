@@ -15,5 +15,5 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 };
 MFRC522 mfrc522{driver};
 
-int eepromAddress = 0;
+int eepromAddress = 8;
 PiccProcessor piccProcessor(mfrc522, eepromAddress);

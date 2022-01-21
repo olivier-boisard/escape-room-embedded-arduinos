@@ -1,10 +1,8 @@
 #include <EEPROM.h>
 
 void setup() {
-  Serial.begin(115200);
-
   piccProcessor.initialize();
-  
+
   mfrc522.PCD_Init();
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);

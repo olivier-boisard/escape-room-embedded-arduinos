@@ -14,14 +14,11 @@ class PiccProcessor {
 
     void initialize() {
       MFRC522::Uid validUid{0};
-      int uidAddress = 0;
-      size_t uidSize = EEPROM.read(uidAddress);
-      Serial.println(uidSize);
+      size_t uidSize = EEPROM.read(eepromSaveAddress);
       for (size_t i = 0 ; i < uidSize ; i++) {
-        validUid.uidByte[i] = EEPROM.read(uidAddress + i + 1);
-        Serial.println(validUid.uidByte[i]);
+        validUid.uidByte[i] = EEPROM.read(eepromSaveAddress + i + 1);
       }
-      Serial.println("OK");
+      validUid.size = uidSize;
       setValidUid(validUid);
     }
 
@@ -34,19 +31,15 @@ class PiccProcessor {
           processCardIsPresentState();
           break;
        case State::configurationNoCard:
-          //TODO update uid and write it in EEPROM
           digitalWrite(BLUE_LED_PIN, HIGH);
           digitalWrite(GREEN_LED_PIN, LOW);
           if (tryReadCardSerial(mfrc522)) {
             setValidUid(mfrc522.uid);
             MFRC522::Uid& uid = mfrc522.uid;
             int uidSize = uid.size;
-            Serial.println("UID SIZE");
-            Serial.println(uidSize);
             EEPROM.update(eepromSaveAddress, uidSize);
             for (int i = 0 ; i < uidSize ; i++) {
               EEPROM.update(eepromSaveAddress + i + 1, uid.uidByte[i]);
-              Serial.println(uid.uidByte[i]);
             }
             state = State::configurationCardIsPresent;
           }
