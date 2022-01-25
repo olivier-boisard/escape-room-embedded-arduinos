@@ -15,12 +15,12 @@ void loop() {
     }
     if (configSwitchPressed && configSwitchWasReleased) {
       configSwitchWasReleased = false;
-      piccProcessor.toggleConfigurationMode();
+      stateMachine.toggleConfigurationMode();
     }
   } else {
     configSwitchWasReleased = true;
   }
   
-  piccProcessor.process();
+  stateMachine.process();
   delay(LOOP_DELAY_MS);
 }

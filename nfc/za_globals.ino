@@ -16,4 +16,5 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 MFRC522 mfrc522{driver};
 
 int eepromAddress = 8;
-PiccProcessor piccProcessor(mfrc522, eepromAddress);
+UidReaderFromEeprom uidReader(eepromAddress);
+StateMachine stateMachine(mfrc522);

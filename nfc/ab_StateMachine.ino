@@ -1,4 +1,4 @@
-#include <EEPROM.h>
+
 
 typedef enum {
   noCard,
@@ -7,19 +7,18 @@ typedef enum {
   configurationCardIsPresent
 } State;
 
-class PiccProcessor {
+class StateMachine {
   public:
-    PiccProcessor(MFRC522& mfrc522, int eepromSaveAddress) :
-          mfrc522(mfrc522), eepromSaveAddress(eepromSaveAddress) {}
+    StateMachine(MFRC522& mfrc522) : mfrc522(mfrc522) {}
 
     void initialize() {
       MFRC522::Uid validUid{0};
-      size_t uidSize = EEPROM.read(eepromSaveAddress);
-      for (size_t i = 0 ; i < uidSize ; i++) {
-        validUid.uidByte[i] = EEPROM.read(eepromSaveAddress + i + 1);
+      if (uidReader == 0) {
+        //TODO raise error somehow
+        return;
       }
-      validUid.size = uidSize;
-      setValidUid(validUid);
+      uidReader->read(&validUid);
+      uidChecker.setExpectedUid(validUid);
     }
 
     void process() {
@@ -31,18 +30,7 @@ class PiccProcessor {
           processCardIsPresentState();
           break;
        case State::configurationNoCard:
-          digitalWrite(BLUE_LED_PIN, HIGH);
-          digitalWrite(GREEN_LED_PIN, LOW);
-          if (tryReadCardSerial(mfrc522)) {
-            setValidUid(mfrc522.uid);
-            MFRC522::Uid& uid = mfrc522.uid;
-            int uidSize = uid.size;
-            EEPROM.update(eepromSaveAddress, uidSize);
-            for (int i = 0 ; i < uidSize ; i++) {
-              EEPROM.update(eepromSaveAddress + i + 1, uid.uidByte[i]);
-            }
-            state = State::configurationCardIsPresent;
-          }
+          processConfigurationNoCard();
           break;
        case State::configurationCardIsPresent:
           processConfigurationCardIsPresentState();
@@ -52,8 +40,8 @@ class PiccProcessor {
       }
     }
 
-    void setValidUid(const MFRC522::Uid& uid) {
-      uidChecker.setExpectedUid(uid);
+    void setUidReader(UidReaderInterface* uidReader) {
+      this->uidReader = uidReader;
     }
 
     void toggleConfigurationMode() {
@@ -64,7 +52,8 @@ class PiccProcessor {
     MFRC522& mfrc522;
     UidChecker uidChecker;
     State state = State::noCard;
-    int eepromSaveAddress;
+    UidReaderInterface* uidReader = 0;
+    
 
     void processNoCardState() {
       digitalWrite(BLUE_LED_PIN, LOW);
@@ -100,14 +89,30 @@ class PiccProcessor {
       }
    }
 
-   void processConfigurationCardIsPresentState() {
+  void processConfigurationNoCard() {
+    digitalWrite(BLUE_LED_PIN, HIGH);
+    digitalWrite(GREEN_LED_PIN, LOW);
+    //TODO
+    /*if (tryReadCardSerial(mfrc522)) {
+      setValidUid(mfrc522.uid);
+      MFRC522::Uid& uid = mfrc522.uid;
+      int uidSize = uid.size;
+      EEPROM.update(eepromAddress, uidSize);
+      for (int i = 0 ; i < uidSize ; i++) {
+        EEPROM.update(eepromAddress + i + 1, uid.uidByte[i]);
+      }
+      state = State::configurationCardIsPresent;
+    }*/
+   }
+
+  void processConfigurationCardIsPresentState() {
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, HIGH);
       digitalWrite(RED_LED_PIN, LOW);
       if (!checkCardIsPresent()) {
         state = State::configurationNoCard;
       }
-   }
+  }
 
    
 };

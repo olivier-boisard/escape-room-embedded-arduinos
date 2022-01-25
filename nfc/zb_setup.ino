@@ -1,7 +1,8 @@
 #include <EEPROM.h>
 
 void setup() {
-  piccProcessor.initialize();
+  stateMachine.setUidReader(&uidReader);
+  stateMachine.initialize();
 
   mfrc522.PCD_Init();
   pinMode(GREEN_LED_PIN, OUTPUT);
