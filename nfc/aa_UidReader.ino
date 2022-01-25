@@ -7,9 +7,9 @@ class UidReaderInterface {
     virtual ~UidReaderInterface() {}
 };
 
-class UidReaderFromEeprom : public UidReaderInterface {
+class UidFromEepromReader : public UidReaderInterface {
   public:
-    UidReaderFromEeprom(int address) : address(address) {}
+    UidFromEepromReader(int address) : address(address) {}
 
     virtual void read(MFRC522::Uid* output) {
       size_t uidSize = EEPROM.read(address);

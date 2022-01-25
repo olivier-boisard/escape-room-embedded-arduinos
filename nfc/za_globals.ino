@@ -16,5 +16,6 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 MFRC522 mfrc522{driver};
 
 int eepromAddress = 8;
-UidReaderFromEeprom uidReader(eepromAddress);
+UidFromEepromReader uidReader(eepromAddress);
+UidToEepromWriter uidWriter(eepromAddress);
 StateMachine stateMachine(mfrc522);

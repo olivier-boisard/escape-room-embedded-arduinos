@@ -18,7 +18,7 @@ class StateMachine {
         return;
       }
       uidReader->read(&validUid);
-      uidChecker.setExpectedUid(validUid);
+      setExpectedUid(validUid);
     }
 
     void process() {
@@ -44,6 +44,10 @@ class StateMachine {
       this->uidReader = uidReader;
     }
 
+    void setUidWriter(UidWriterInterface* uidWriter) {
+      this->uidWriter = uidWriter;
+    }
+
     void toggleConfigurationMode() {
       state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
     }
@@ -53,6 +57,7 @@ class StateMachine {
     UidChecker uidChecker;
     State state = State::noCard;
     UidReaderInterface* uidReader = 0;
+    UidWriterInterface* uidWriter = 0;
     
 
     void processNoCardState() {
@@ -92,18 +97,17 @@ class StateMachine {
   void processConfigurationNoCard() {
     digitalWrite(BLUE_LED_PIN, HIGH);
     digitalWrite(GREEN_LED_PIN, LOW);
-    //TODO
-    /*if (tryReadCardSerial(mfrc522)) {
-      setValidUid(mfrc522.uid);
+    if (tryReadCardSerial(mfrc522)) {
       MFRC522::Uid& uid = mfrc522.uid;
-      int uidSize = uid.size;
-      EEPROM.update(eepromAddress, uidSize);
-      for (int i = 0 ; i < uidSize ; i++) {
-        EEPROM.update(eepromAddress + i + 1, uid.uidByte[i]);
+      setExpectedUid(uid);
+      if (uidWriter == 0) {
+        //TODO raise error somehow
+        return;
       }
+      uidWriter->write(uid);
       state = State::configurationCardIsPresent;
-    }*/
-   }
+    }
+  }
 
   void processConfigurationCardIsPresentState() {
       digitalWrite(BLUE_LED_PIN, HIGH);
@@ -114,5 +118,7 @@ class StateMachine {
       }
   }
 
-   
+  void setExpectedUid(const MFRC522::Uid& expectedUid) {
+    uidChecker.setExpectedUid(expectedUid);
+  }
 };

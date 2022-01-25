@@ -2,6 +2,7 @@
 
 void setup() {
   stateMachine.setUidReader(&uidReader);
+  stateMachine.setUidWriter(&uidWriter);
   stateMachine.initialize();
 
   mfrc522.PCD_Init();
