@@ -18,4 +18,5 @@ MFRC522 mfrc522{driver};
 int eepromAddress = 8;
 UidFromEepromReader uidReader(eepromAddress);
 UidToEepromWriter uidWriter(eepromAddress);
+NoCardState noCardState(&mfrc522);
 StateMachine stateMachine(mfrc522);
