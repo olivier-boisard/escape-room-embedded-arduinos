@@ -1,12 +1,13 @@
 class NoCardState : public StateInterface {
   public:
-    NoCardState(MFRC522* mfrc522) : mfrc522(mfrc522) {}
+    NoCardState(const MFRC522* mfrc522, const UidChecker* uidChecker)
+      : mfrc522(mfrc522), uidChecker(uidChecker) {}
   
     State run() {
       State newState = State::noCard;
       digitalWrite(BLUE_LED_PIN, LOW);
       if (tryReadCardSerial(*mfrc522)) {
-        if (uidChecker.checkUid(mfrc522->uid)) {
+        if (uidChecker->checkUid(mfrc522->uid)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
         } else {
@@ -18,11 +19,7 @@ class NoCardState : public StateInterface {
       return newState;
    }
 
-   void setExpectedUid(const MFRC522::Uid& expectedUid) {
-      uidChecker.setExpectedUid(expectedUid);
-   }
-
   private:
-   UidChecker uidChecker;
+   UidChecker* uidChecker;
    MFRC522* mfrc522;
 };

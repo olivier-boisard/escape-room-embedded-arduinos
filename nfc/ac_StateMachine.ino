@@ -1,10 +1,16 @@
 class StateMachine {
   public:
-    StateMachine(MFRC522& mfrc522)
-      : mfrc522(mfrc522),
-        noCardState(&mfrc522),
-        cardIsPresentState(&mfrc522),
-        configurationNoCardState(&mfrc522) {}
+    StateMachine(
+      const MFRC522* mfrc522,
+      const UidChecker* uidChecker,
+      const NoCardState* noCardState,
+      const CardIsPresentState* cardIsPresentState,
+      const ConfigurationNoCardState* configurationNoCardState
+    ) : mfrc522(mfrc522),
+        uidChecker(uidChecker),
+        noCardState(noCardState),
+        cardIsPresentState(cardIsPresentState),
+        configurationNoCardState(configurationNoCardState) {}
 
     void initialize() {
       MFRC522::Uid validUid{0};
@@ -13,19 +19,19 @@ class StateMachine {
         return;
       }
       uidReader->read(&validUid);
-      noCardState.setExpectedUid(validUid);
+      uidChecker->setExpectedUid(validUid);
     }
 
     void process() {
       switch (state) {
         case State::noCard:
-          state = noCardState.run();
+          state = noCardState->run();
           break;
        case State::cardIsPresent:
-          state = cardIsPresentState.run();
+          state = cardIsPresentState->run();
           break;
        case State::configurationNoCard:
-          state = configurationNoCardState.run();
+          state = configurationNoCardState->run();
           break;
        case State::configurationCardIsPresent:
           processConfigurationCardIsPresentState();
@@ -35,11 +41,11 @@ class StateMachine {
       }
     }
 
-    void setUidReader(UidReaderInterface* uidReader) {
+    void setUidReader(const UidReaderInterface* uidReader) {
       this->uidReader = uidReader;
     }
 
-    void setUidWriter(UidWriterInterface* uidWriter) {
+    void setUidWriter(const UidWriterInterface* uidWriter) {
       this->uidWriter = uidWriter;
     }
 
@@ -48,14 +54,14 @@ class StateMachine {
     }
   
   private:
-    MFRC522& mfrc522;
-    UidChecker uidChecker;
+    MFRC522* mfrc522;
+    UidChecker* uidChecker;
     State state = State::noCard;
     UidReaderInterface* uidReader = 0;
     UidWriterInterface* uidWriter = 0;
-    NoCardState noCardState;    
-    CardIsPresentState cardIsPresentState;
-    ConfigurationNoCardState configurationNoCardState;
+    NoCardState* noCardState;    
+    CardIsPresentState* cardIsPresentState;
+    ConfigurationNoCardState* configurationNoCardState;
   
     void processConfigurationCardIsPresentState() {
         digitalWrite(BLUE_LED_PIN, HIGH);
@@ -69,7 +75,7 @@ class StateMachine {
     bool checkCardIsPresent() {
       bool cardIsPresentFlag = false;
       for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++) {
-        if (tryReadCardSerial(mfrc522)) {
+        if (tryReadCardSerial(*mfrc522)) {
           cardIsPresentFlag = true;
           break;
         }

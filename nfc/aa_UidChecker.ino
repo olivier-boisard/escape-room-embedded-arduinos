@@ -3,6 +3,18 @@
 class UidChecker {
   public:
 
+    UidChecker() {}
+    
+    UidChecker(const UidChecker& other) {
+      setExpectedUid(other.expectedUid);
+    }
+
+    const UidChecker& operator=(const UidChecker& other) {
+      setExpectedUid(other.expectedUid);
+    }
+
+    virtual ~UidChecker() {}
+
     void setExpectedUid(const MFRC522::Uid& expectedUid) {
       size_t uidSize = expectedUid.size;
       if (uidSize > MAX_UID_SIZE) { // TODO this should somehow raise a warning

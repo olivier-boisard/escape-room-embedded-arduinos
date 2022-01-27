@@ -1,53 +1,61 @@
 #define MAX_N_CALLBACKS  8
 
-class NewUidCallbackInterface {
+class NewUidObserverInterface {
   public:
-    virtual void run(const MFRC522::Uid& expectedUid) = 0;
+    virtual void run(const MFRC522::Uid& uid) = 0;
   
-    virtual ~NewUidCallbackInterface() {}
+    virtual ~NewUidObserverInterface() {}
+};
+
+class ExpectedUidUpdater : public NewUidObserverInterface {
+  public:
+    ExpectedUidUpdater(UidChecker* uidChecker) : uidChecker(uidChecker) {}
+
+    void run(const MFRC522::Uid& uid) {
+      uidChecker->setExpectedUid(uid);
+    }
+
+  private:
+    UidChecker* uidChecker;
+};
+
+class UidWriterWrapper : public NewUidObserverInterface {
+  public:
+    UidWriterWrapper(const UidWriterInterface* uidWriter) : uidWriter(uidWriter) {}
+
+    void run(const MFRC522::Uid& uid) {
+      uidWriter->write(uid);
+    }
+
+  private:
+    UidWriterInterface* uidWriter;
 };
 
 class ConfigurationNoCardState : public StateInterface {
   public:
-    ConfigurationNoCardState(MFRC522* mfrc522) : mfrc522(mfrc522) {}
-  
+    ConfigurationNoCardState(const MFRC522* mfrc522) : mfrc522(mfrc522) {}
     State run() {
       State newState = State::configurationNoCard;
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, LOW);
       if (tryReadCardSerial(*mfrc522)) {
-        for (size_t i = 0 ; i < nCallbacks ; i++) {
-          callbacks[i]->run(mfrc522->uid);
+        for (size_t i = 0 ; i < nObservers ; i++) {
+          observers[i]->run(mfrc522->uid);
         }
         newState = State::configurationCardIsPresent;
-        // TODO Callback 1
-        //noCardState.setExpectedUid(uid);
-
-        // TODO Callback 2
-        //if (uidWriter == 0) {
-          //TODO raise error somehow
-        //  return;
-        //}
-        //uidWriter->write(uid);
-        //newState = State::configurationCardIsPresent;
       }
       return newState;
    }
 
-   void addNewUidCallback(const NewUidCallbackInterface& callback) {
-      if (nCallbacks == MAX_N_CALLBACKS) {// TODO raise error somehow
+   void addNewUidObserver(const NewUidObserverInterface* callback) {
+      if (nObservers == MAX_N_CALLBACKS) {// TODO raise error somehow
         return;
       }
-      callbacks[nCallbacks++] = &callback;
-   }
-
-   void setExpectedUid(const MFRC522::Uid& expectedUid) {
-      uidChecker.setExpectedUid(expectedUid);
+      observers[nObservers++] = callback;
    }
 
   private:
-    UidChecker uidChecker;
     MFRC522* mfrc522;
-    NewUidCallbackInterface* callbacks[MAX_N_CALLBACKS];
-    size_t nCallbacks = 0;
+    NewUidObserverInterface* observers[MAX_N_CALLBACKS];
+    size_t nObservers = 0;
 };

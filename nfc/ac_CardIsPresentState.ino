@@ -1,6 +1,7 @@
 class CardIsPresentState : public StateInterface {
   public:
-    CardIsPresentState(MFRC522* mfrc522) : mfrc522(mfrc522) {}
+  //TODO is it possible to get rid of the pointer here?
+    CardIsPresentState(const MFRC522* mfrc522) : mfrc522(mfrc522) {}
 
     State run() {
       State newState = State::cardIsPresent;

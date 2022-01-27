@@ -5,6 +5,9 @@ void setup() {
   stateMachine.setUidWriter(&uidWriter);
   stateMachine.initialize();
 
+  configurationNoCardState.addNewUidObserver(&expectedUidUpdater);
+  configurationNoCardState.addNewUidObserver(&uidWriterWrapper);
+
   mfrc522.PCD_Init();
   pinMode(GREEN_LED_PIN, OUTPUT);
   pinMode(RED_LED_PIN, OUTPUT);
