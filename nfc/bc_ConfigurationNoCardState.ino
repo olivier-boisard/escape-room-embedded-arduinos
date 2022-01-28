@@ -1,36 +1,5 @@
 #define MAX_N_CALLBACKS  8
 
-class NewUidObserverInterface {
-  public:
-    virtual void run(const MFRC522::Uid& uid) = 0;
-  
-    virtual ~NewUidObserverInterface() {}
-};
-
-class ExpectedUidUpdater : public NewUidObserverInterface {
-  public:
-    ExpectedUidUpdater(UidChecker* uidChecker) : uidChecker(uidChecker) {}
-
-    void run(const MFRC522::Uid& uid) {
-      uidChecker->setExpectedUid(uid);
-    }
-
-  private:
-    UidChecker* uidChecker;
-};
-
-class UidWriterWrapper : public NewUidObserverInterface {
-  public:
-    UidWriterWrapper(const UidWriterInterface* uidWriter) : uidWriter(uidWriter) {}
-
-    void run(const MFRC522::Uid& uid) {
-      uidWriter->write(uid);
-    }
-
-  private:
-    UidWriterInterface* uidWriter;
-};
-
 class ConfigurationNoCardState : public StateInterface {
   public:
     ConfigurationNoCardState(const MFRC522* mfrc522) : mfrc522(mfrc522) {}

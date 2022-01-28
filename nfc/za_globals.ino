@@ -21,9 +21,11 @@ UidToEepromWriter uidWriter(eepromAddress);
 
 UidChecker uidChecker;
 NoCardState noCardState(&mfrc522, &uidChecker);
-CardIsPresentState cardIsPresentState(&mfrc522);
+CardPresenceChecker cardPresenceChecker(&mfrc522);
+CardIsPresentState cardIsPresentState(&cardPresenceChecker);
 ConfigurationNoCardState configurationNoCardState(&mfrc522);
-StateMachine stateMachine(&mfrc522, &uidChecker, &noCardState, &cardIsPresentState, &configurationNoCardState);
+ConfigurationCardIsPresentState configurationCardIsPresentState(&cardPresenceChecker);
+StateMachine stateMachine(&mfrc522, &uidChecker, &noCardState, &cardIsPresentState, &configurationNoCardState, &configurationCardIsPresentState);
 
 ExpectedUidUpdater expectedUidUpdater(&uidChecker);
 UidWriterWrapper uidWriterWrapper(&uidWriter);

@@ -1,5 +1,3 @@
-#define MAX_UID_SIZE 10
-
 class UidChecker {
   public:
 
@@ -7,7 +5,7 @@ class UidChecker {
 
     void setExpectedUid(const MFRC522::Uid& expectedUid) {
       size_t uidSize = expectedUid.size;
-      if (uidSize > MAX_UID_SIZE) { // TODO this should somehow raise a warning
+      if (uidSize > MAX_UID_SIZE) { // TODO raise error somehow
         uidSize = MAX_UID_SIZE;
       }
       this->expectedUid.size = uidSize;
@@ -33,4 +31,5 @@ class UidChecker {
   
   private:
     MFRC522::Uid expectedUid{0};
+    constexpr static size_t MAX_UID_SIZE = 4;
 };

@@ -5,12 +5,14 @@ class StateMachine {
       const UidChecker* uidChecker,
       const NoCardState* noCardState,
       const CardIsPresentState* cardIsPresentState,
-      const ConfigurationNoCardState* configurationNoCardState
+      const ConfigurationNoCardState* configurationNoCardState,
+      const ConfigurationCardIsPresentState* configurationCardIsPresentState
     ) : mfrc522(mfrc522),
         uidChecker(uidChecker),
         noCardState(noCardState),
         cardIsPresentState(cardIsPresentState),
-        configurationNoCardState(configurationNoCardState) {}
+        configurationNoCardState(configurationNoCardState),
+        configurationCardIsPresentState(configurationCardIsPresentState) {}
 
     void initialize() {
       MFRC522::Uid validUid{0};
@@ -34,7 +36,7 @@ class StateMachine {
           state = configurationNoCardState->run();
           break;
        case State::configurationCardIsPresent:
-          processConfigurationCardIsPresentState();
+          state = configurationCardIsPresentState->run();
           break;
        default:
           break;
@@ -62,24 +64,5 @@ class StateMachine {
     NoCardState* noCardState;    
     CardIsPresentState* cardIsPresentState;
     ConfigurationNoCardState* configurationNoCardState;
-  
-    void processConfigurationCardIsPresentState() {
-        digitalWrite(BLUE_LED_PIN, HIGH);
-        digitalWrite(GREEN_LED_PIN, HIGH);
-        digitalWrite(RED_LED_PIN, LOW);
-        if (!checkCardIsPresent()) {
-          state = State::configurationNoCard;
-        }
-    }
-
-    bool checkCardIsPresent() {
-      bool cardIsPresentFlag = false;
-      for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++) {
-        if (tryReadCardSerial(*mfrc522)) {
-          cardIsPresentFlag = true;
-          break;
-        }
-      }
-      return cardIsPresentFlag;
-   }
+    ConfigurationCardIsPresentState* configurationCardIsPresentState;
 };

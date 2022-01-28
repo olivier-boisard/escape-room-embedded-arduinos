@@ -33,3 +33,8 @@
 #define N_ABSENCE_CHECKS 2
 
 #define SWITCH_INPUT_PIN 7
+
+// TODO refactor
+bool tryReadCardSerial(MFRC522& mfrc522) {
+  return mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial();
+}
