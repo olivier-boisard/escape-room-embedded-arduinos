@@ -8,7 +8,7 @@ class ConfigurationCardIsPresentState : public StateInterface {
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, HIGH);
       digitalWrite(RED_LED_PIN, LOW);
-      if (!cardPresenceChecker->cardIsPresent()) {
+      if (!cardPresenceChecker->uidIsReadable()) {
         newState = State::configurationNoCard;
       }
       return newState;

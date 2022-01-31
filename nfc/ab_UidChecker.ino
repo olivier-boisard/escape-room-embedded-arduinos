@@ -4,17 +4,19 @@ class UidCheckerInterface {
     virtual ~UidCheckerInterface() {}
 };
 
-class UidChecker : public UidCheckerInterface {
+class UidChecker : public UidCheckerInterface, public NewUidObserverInterface {
   public:
 
-    UidChecker() {}
+    bool checkUid(const PiccUid& uid) {
+      return expectedUid == uid;
+    }
 
     void setExpectedUid(const PiccUid& expectedUid) {
       this->expectedUid = expectedUid;
     }
 
-    bool checkUid(const PiccUid& uid) {
-      return expectedUid == uid;
+    void update(const PiccUid& expectedUid) {
+      setExpectedUid(expectedUid);
     }
   
   private:

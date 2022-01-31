@@ -8,7 +8,7 @@ class ConfigurationNoCardState : public StateInterface {
       PiccUid readUid;
       if (uidReader->generate(&readUid)) {
         for (size_t i = 0 ; i < nObservers ; i++) {
-          observers[i]->run(readUid);
+          observers[i]->update(readUid);
         }
         newState = State::configurationCardIsPresent;
       }

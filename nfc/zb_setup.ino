@@ -8,8 +8,8 @@ void setup() {
     //TODO raise error somehow
   }
   
-  configurationNoCardState.addNewUidObserver(&expectedUidUpdater);
-  configurationNoCardState.addNewUidObserver(&uidWriterWrapper);
+  configurationNoCardState.addNewUidObserver(&uidChecker);
+  configurationNoCardState.addNewUidObserver(&uidWriter);
 
   mfrc522.PCD_Init();
   pinMode(GREEN_LED_PIN, OUTPUT);

@@ -26,6 +26,3 @@ CardIsPresentState cardIsPresentState(&uidFromSerialCardReader);
 ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
 ConfigurationCardIsPresentState configurationCardIsPresentState(&uidFromSerialCardReader);
 StateMachine stateMachine(&noCardState, &cardIsPresentState, &configurationNoCardState, &configurationCardIsPresentState);
-
-ExpectedUidUpdater expectedUidUpdater(&uidChecker);
-UidWriterWrapper uidWriterWrapper(&uidWriter);
