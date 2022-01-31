@@ -31,5 +31,4 @@
 #define RED_LED_PIN 8
 #define LOOP_DELAY_MS 100
 #define N_ABSENCE_CHECKS 2
-
 #define BUTTON_INPUT_PIN 7
