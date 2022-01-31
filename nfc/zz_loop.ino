@@ -1,7 +1,5 @@
 void loop() {
-  if (button.pressedAndReleased()) {
-    stateMachine.toggleConfigurationMode();
-  }
+  button.process();
   stateMachine.process();
   delay(LOOP_DELAY_MS);
 }

@@ -1,4 +1,4 @@
-class StateMachine {
+class StateMachine : public ButtonObserverInterface {
   public:
     StateMachine() {
       for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
@@ -19,7 +19,7 @@ class StateMachine {
       }
     }
 
-    void toggleConfigurationMode() {
+    void onButtonPressedAndReleased() {
       state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
     }
   

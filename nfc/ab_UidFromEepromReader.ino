@@ -1,5 +1,3 @@
-#include <EEPROM.h>
-
 class UidFromEepromReader : public AbstractPiccUidFactory {
   public:
     UidFromEepromReader(int address) : address(address) {}

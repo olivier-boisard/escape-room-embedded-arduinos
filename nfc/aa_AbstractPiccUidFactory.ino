@@ -15,4 +15,7 @@ class AbstractPiccUidFactory {
     }
     
    virtual ~AbstractPiccUidFactory() {}
+
+  private:
+    constexpr static size_t N_ABSENCE_CHECKS = 2;
 };

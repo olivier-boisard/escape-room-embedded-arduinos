@@ -18,6 +18,8 @@
  * Red          8
  */
 
+#include <EEPROM.h>
+
 #include <MFRC522v2.h>
 #include <MFRC522DriverSPI.h>
 #include <MFRC522DriverPinSimple.h>
@@ -30,5 +32,4 @@
 #define GREEN_LED_PIN 9
 #define RED_LED_PIN 8
 #define LOOP_DELAY_MS 100
-#define N_ABSENCE_CHECKS 2
 #define BUTTON_INPUT_PIN 7

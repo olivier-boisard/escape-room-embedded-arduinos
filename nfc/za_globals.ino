@@ -1,8 +1,3 @@
-#include <MFRC522v2.h>
-#include <MFRC522DriverSPI.h>
-#include <MFRC522DriverPinSimple.h>
-#include <MFRC522Constants.h>
-
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
   ss_pin,
@@ -18,11 +13,11 @@ MFRC522 mfrc522{driver};
 int eepromAddress = 8;
 UidFromEepromReader uidFromEepromReader(eepromAddress);
 UidToEepromWriter uidWriter(eepromAddress);
-UidChecker uidChecker;
+UpdateableUidChecker uidChecker;
 MFRC522UidReader uidFromSerialCardReader(&mfrc522);
 NoCardState noCardState(&uidFromSerialCardReader, &uidChecker);
 CardIsPresentState cardIsPresentState(&uidFromSerialCardReader);
 ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
 ConfigurationCardIsPresentState configurationCardIsPresentState(&uidFromSerialCardReader);
-Button button;
+Button button(BUTTON_INPUT_PIN);
 StateMachine stateMachine;
