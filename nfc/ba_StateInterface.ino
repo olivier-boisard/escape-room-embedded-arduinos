@@ -1,8 +1,8 @@
 typedef enum {
-  noCard,
-  cardIsPresent,
-  configurationNoCard,
-  configurationCardIsPresent
+  noCard = 0,
+  cardIsPresent = 1,
+  configurationNoCard = 2,
+  configurationCardIsPresent = 3
 } State;
 
 class StateInterface {

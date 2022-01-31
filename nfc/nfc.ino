@@ -32,4 +32,4 @@
 #define LOOP_DELAY_MS 100
 #define N_ABSENCE_CHECKS 2
 
-#define SWITCH_INPUT_PIN 7
+#define BUTTON_INPUT_PIN 7

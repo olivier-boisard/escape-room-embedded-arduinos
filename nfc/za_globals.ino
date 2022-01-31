@@ -18,11 +18,11 @@ MFRC522 mfrc522{driver};
 int eepromAddress = 8;
 UidFromEepromReader uidFromEepromReader(eepromAddress);
 UidToEepromWriter uidWriter(eepromAddress);
-
 UidChecker uidChecker;
 MFRC522UidReader uidFromSerialCardReader(&mfrc522);
 NoCardState noCardState(&uidFromSerialCardReader, &uidChecker);
 CardIsPresentState cardIsPresentState(&uidFromSerialCardReader);
 ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
 ConfigurationCardIsPresentState configurationCardIsPresentState(&uidFromSerialCardReader);
-StateMachine stateMachine(&noCardState, &cardIsPresentState, &configurationNoCardState, &configurationCardIsPresentState);
+Button button;
+StateMachine stateMachine;

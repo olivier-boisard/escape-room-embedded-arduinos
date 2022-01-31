@@ -1,31 +1,21 @@
 class StateMachine {
   public:
-    StateMachine(
-      const NoCardState* noCardState,
-      const CardIsPresentState* cardIsPresentState,
-      const ConfigurationNoCardState* configurationNoCardState,
-      const ConfigurationCardIsPresentState* configurationCardIsPresentState
-    ) : noCardState(noCardState),
-        cardIsPresentState(cardIsPresentState),
-        configurationNoCardState(configurationNoCardState),
-        configurationCardIsPresentState(configurationCardIsPresentState) {}
+    StateMachine() {
+      for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
+        states[i] = 0;
+      }
+    }
+
+    void addStateFunction(State state, const StateInterface* stateFunction) {
+      states[state] = stateFunction;
+    }
 
     void process() {
-      switch (state) {
-        case State::noCard:
-          state = noCardState->run();
-          break;
-       case State::cardIsPresent:
-          state = cardIsPresentState->run();
-          break;
-       case State::configurationNoCard:
-          state = configurationNoCardState->run();
-          break;
-       case State::configurationCardIsPresent:
-          state = configurationCardIsPresentState->run();
-          break;
-       default:
-          break;
+      StateInterface* stateFunction = states[state];
+      if (stateFunction != 0) {
+        state = stateFunction->run();
+      } else {
+        //TODO raise error somehow
       }
     }
 
@@ -35,8 +25,6 @@ class StateMachine {
   
   private:
     State state = State::noCard;
-    NoCardState* noCardState;    
-    CardIsPresentState* cardIsPresentState;
-    ConfigurationNoCardState* configurationNoCardState;
-    ConfigurationCardIsPresentState* configurationCardIsPresentState;
+    constexpr static size_t MAX_N_STATE_FUNCTIONS = 16;
+    StateInterface* states[MAX_N_STATE_FUNCTIONS];
 };
