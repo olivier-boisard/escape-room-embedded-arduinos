@@ -1,12 +1,14 @@
-class UidToEepromWriter : public UidWriterInterface {
+#include <EEPROM.h>
+
+class UidToEepromWriter : public NewUidObserverInterface {
   public:
     UidToEepromWriter(int eepromAddress) : eepromAddress(eepromAddress) {}
   
-    void write(const MFRC522::Uid& uid) {
+    void run(const PiccUid& uid) {
       int uidSize = uid.size;
       EEPROM.update(eepromAddress, uidSize);
       for (int i = 0 ; i < uidSize ; i++) {
-        EEPROM.update(eepromAddress + i + 1, uid.uidByte[i]);
+        EEPROM.update(eepromAddress + i + 1, uid.value[i]);
       }
    }
 

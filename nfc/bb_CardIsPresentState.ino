@@ -1,7 +1,7 @@
 class CardIsPresentState : public StateInterface {
   public:
   
-    CardIsPresentState(const CardPresenceChecker* cardPresenceChecker)
+    CardIsPresentState(const AbstractPiccUidFactory* cardPresenceChecker)
       : cardPresenceChecker(cardPresenceChecker) {}
 
     State run() {
@@ -16,5 +16,5 @@ class CardIsPresentState : public StateInterface {
     }
 
   private:
-    CardPresenceChecker* cardPresenceChecker;
+    AbstractPiccUidFactory* cardPresenceChecker;
 };

@@ -1,11 +1,11 @@
 class UidWriterWrapper : public NewUidObserverInterface {
   public:
-    UidWriterWrapper(const UidWriterInterface* uidWriter) : uidWriter(uidWriter) {}
+    UidWriterWrapper(const NewUidObserverInterface* uidWriter) : uidWriter(uidWriter) {}
 
-    void run(const MFRC522::Uid& uid) {
-      uidWriter->write(uid);
+    void run(const PiccUid& uid) {
+      uidWriter->run(uid);
     }
 
   private:
-    UidWriterInterface* uidWriter;
+    NewUidObserverInterface* uidWriter;
 };

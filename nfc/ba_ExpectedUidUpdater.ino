@@ -2,7 +2,7 @@ class ExpectedUidUpdater : public NewUidObserverInterface {
   public:
     ExpectedUidUpdater(UidChecker* uidChecker) : uidChecker(uidChecker) {}
 
-    void run(const MFRC522::Uid& uid) {
+    void run(const PiccUid& uid) {
       uidChecker->setExpectedUid(uid);
     }
 

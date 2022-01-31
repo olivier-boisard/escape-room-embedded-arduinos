@@ -1,15 +1,14 @@
-#define MAX_N_CALLBACKS  8
-
 class ConfigurationNoCardState : public StateInterface {
   public:
-    ConfigurationNoCardState(const MFRC522* mfrc522) : mfrc522(mfrc522) {}
+    ConfigurationNoCardState(const AbstractPiccUidFactory* uidReader) : uidReader(uidReader) {}
     State run() {
       State newState = State::configurationNoCard;
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, LOW);
-      if (tryReadCardSerial(*mfrc522)) {
+      PiccUid readUid;
+      if (uidReader->generate(&readUid)) {
         for (size_t i = 0 ; i < nObservers ; i++) {
-          observers[i]->run(mfrc522->uid);
+          observers[i]->run(readUid);
         }
         newState = State::configurationCardIsPresent;
       }
@@ -24,7 +23,8 @@ class ConfigurationNoCardState : public StateInterface {
    }
 
   private:
-    MFRC522* mfrc522;
+    constexpr static size_t MAX_N_CALLBACKS = 8;
+    AbstractPiccUidFactory* uidReader;
     NewUidObserverInterface* observers[MAX_N_CALLBACKS];
     size_t nObservers = 0;
 };

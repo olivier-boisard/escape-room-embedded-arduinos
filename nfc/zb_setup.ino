@@ -1,7 +1,7 @@
 #include <EEPROM.h>
 
 void setup() {
-  stateMachine.setUidReader(&uidReader);
+  stateMachine.setUidLoader(&uidFromEepromReader);
   stateMachine.setUidWriter(&uidWriter);
   stateMachine.initialize();
 

@@ -1,26 +1,23 @@
 class StateMachine {
   public:
     StateMachine(
-      const MFRC522* mfrc522,
       const UidChecker* uidChecker,
       const NoCardState* noCardState,
       const CardIsPresentState* cardIsPresentState,
       const ConfigurationNoCardState* configurationNoCardState,
       const ConfigurationCardIsPresentState* configurationCardIsPresentState
-    ) : mfrc522(mfrc522),
-        uidChecker(uidChecker),
+    ) : uidChecker(uidChecker),
         noCardState(noCardState),
         cardIsPresentState(cardIsPresentState),
         configurationNoCardState(configurationNoCardState),
         configurationCardIsPresentState(configurationCardIsPresentState) {}
 
     void initialize() {
-      MFRC522::Uid validUid{0};
-      if (uidReader == 0) {
+      PiccUid validUid;
+      if (!uidLoader->generate(&validUid)) {
         //TODO raise error somehow
         return;
       }
-      uidReader->read(&validUid);
       uidChecker->setExpectedUid(validUid);
     }
 
@@ -43,11 +40,11 @@ class StateMachine {
       }
     }
 
-    void setUidReader(const UidReaderInterface* uidReader) {
-      this->uidReader = uidReader;
+    void setUidLoader(const AbstractPiccUidFactory* uidLoader) {
+      this->uidLoader = uidLoader;
     }
 
-    void setUidWriter(const UidWriterInterface* uidWriter) {
+    void setUidWriter(const NewUidObserverInterface* uidWriter) {
       this->uidWriter = uidWriter;
     }
 
@@ -56,11 +53,10 @@ class StateMachine {
     }
   
   private:
-    MFRC522* mfrc522;
-    UidChecker* uidChecker;
     State state = State::noCard;
-    UidReaderInterface* uidReader = 0;
-    UidWriterInterface* uidWriter = 0;
+    UidChecker* uidChecker;
+    AbstractPiccUidFactory* uidLoader = 0;
+    NewUidObserverInterface* uidWriter = 0;
     NoCardState* noCardState;    
     CardIsPresentState* cardIsPresentState;
     ConfigurationNoCardState* configurationNoCardState;
