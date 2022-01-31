@@ -1,3 +1,4 @@
+// TODO breaks the DIP
 class ExpectedUidUpdater : public NewUidObserverInterface {
   public:
     ExpectedUidUpdater(UidChecker* uidChecker) : uidChecker(uidChecker) {}

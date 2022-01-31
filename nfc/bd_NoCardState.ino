@@ -1,6 +1,6 @@
 class NoCardState : public StateInterface {
   public:
-    NoCardState(const AbstractPiccUidFactory* uidReader, const UidChecker* uidChecker)
+    NoCardState(const AbstractPiccUidFactory* uidReader, const UidCheckerInterface* uidChecker)
       : uidReader(uidReader), uidChecker(uidChecker) {}
   
     State run() {
@@ -21,6 +21,6 @@ class NoCardState : public StateInterface {
    }
 
   private:
-   UidChecker* uidChecker;
+   UidCheckerInterface* uidChecker;
    AbstractPiccUidFactory* uidReader;
 };

@@ -1,4 +1,10 @@
-class UidChecker {
+class UidCheckerInterface {
+  public:
+    virtual bool checkUid(const PiccUid& uid) = 0;
+    virtual ~UidCheckerInterface() {}
+};
+
+class UidChecker : public UidCheckerInterface {
   public:
 
     UidChecker() {}

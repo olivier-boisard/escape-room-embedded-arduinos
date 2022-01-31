@@ -1,10 +1,13 @@
 #include <EEPROM.h>
 
 void setup() {
-  stateMachine.setUidLoader(&uidFromEepromReader);
-  stateMachine.setUidWriter(&uidWriter);
-  stateMachine.initialize();
-
+  PiccUid validUid;
+  if (uidFromEepromReader.generate(&validUid)) {
+    uidChecker.setExpectedUid(validUid);
+  } else {
+    //TODO raise error somehow
+  }
+  
   configurationNoCardState.addNewUidObserver(&expectedUidUpdater);
   configurationNoCardState.addNewUidObserver(&uidWriterWrapper);
 
