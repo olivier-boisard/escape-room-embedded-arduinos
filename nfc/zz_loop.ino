@@ -1,5 +1,6 @@
 void loop() {
-  button.process();
+  configurationButton.process();
+  magnetButton.process();
   stateMachine.process();
   delay(LOOP_DELAY_MS);
 }

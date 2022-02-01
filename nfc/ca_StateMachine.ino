@@ -1,3 +1,4 @@
+//TODO break dependency to ButtonObserverInterface via a wrapper
 class StateMachine : public ButtonObserverInterface {
   public:
     StateMachine() {

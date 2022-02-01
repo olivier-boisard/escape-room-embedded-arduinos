@@ -19,5 +19,9 @@ NoCardState noCardState(&uidFromSerialCardReader, &uidChecker);
 CardIsPresentState cardIsPresentState(&uidFromSerialCardReader);
 ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
 ConfigurationCardIsPresentState configurationCardIsPresentState(&uidFromSerialCardReader);
-Button button(BUTTON_INPUT_PIN);
 StateMachine stateMachine;
+
+Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
+
+Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
+ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
