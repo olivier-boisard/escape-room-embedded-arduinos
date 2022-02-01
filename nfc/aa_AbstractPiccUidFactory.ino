@@ -1,3 +1,4 @@
+//TODO break this class
 class AbstractPiccUidFactory {
   public: 
     virtual bool generate(PiccUid* output) = 0;
