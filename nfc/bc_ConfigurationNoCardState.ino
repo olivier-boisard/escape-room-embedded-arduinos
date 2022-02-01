@@ -1,7 +1,8 @@
 class ConfigurationNoCardState : public StateInterface {
   public:
     ConfigurationNoCardState(const AbstractPiccUidFactory* uidReader) : uidReader(uidReader) {}
-    State run() {
+    
+    State run() override {
       State newState = State::configurationNoCard;
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, LOW);

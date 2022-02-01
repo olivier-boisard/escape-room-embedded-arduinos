@@ -4,7 +4,7 @@ class UidToEepromWriter : public NewUidObserverInterface {
   public:
     UidToEepromWriter(int eepromAddress) : eepromAddress(eepromAddress) {}
   
-    void update(const PiccUid& uid) {
+    void update(const PiccUid& uid) override {
       int uidSize = uid.size;
       EEPROM.update(eepromAddress, uidSize);
       for (int i = 0 ; i < uidSize ; i++) {

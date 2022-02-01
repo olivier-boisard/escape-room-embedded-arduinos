@@ -2,7 +2,7 @@ class MFRC522UidReader : public AbstractPiccUidFactory {
   public:
     MFRC522UidReader(const MFRC522* mfrc522) : mfrc522(mfrc522) {}
 
-    bool generate(PiccUid* output) {
+    bool generate(PiccUid* output) override {
       bool readSuccessful = false;
       if (mfrc522->PICC_IsNewCardPresent() && mfrc522->PICC_ReadCardSerial()) {
         readSuccessful = true;

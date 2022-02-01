@@ -2,7 +2,7 @@ class ButtonControlledMagnet : public NiladicVoidFunctionInterface {
   public:
     ButtonControlledMagnet(int controlPin) : controlPin(controlPin) {}
   
-    void run() {
+    void run() override {
       if (locked) {
         digitalWrite(controlPin, HIGH);
         locked = false;

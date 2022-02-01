@@ -19,7 +19,7 @@ class StateMachine : public NiladicVoidFunctionInterface {
       }
     }
 
-    void run() {
+    void run() override {
       toggleConfigurationMode();
     }
   

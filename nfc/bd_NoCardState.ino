@@ -3,7 +3,7 @@ class NoCardState : public StateInterface {
     NoCardState(const AbstractPiccUidFactory* uidReader, const UidCheckerInterface* uidChecker)
       : uidReader(uidReader), uidChecker(uidChecker) {}
   
-    State run() {
+    State run() override {
       State newState = State::noCard;
       digitalWrite(BLUE_LED_PIN, LOW);
       PiccUid readPicc;

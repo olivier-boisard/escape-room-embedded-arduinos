@@ -3,7 +3,7 @@ class ConfigurationCardIsPresentState : public StateInterface {
     ConfigurationCardIsPresentState(const AbstractPiccUidFactory* cardPresenceChecker)
       : cardPresenceChecker(cardPresenceChecker) {}
   
-    State run() {
+    State run() override {
       State newState = State::configurationCardIsPresent;
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, HIGH);
