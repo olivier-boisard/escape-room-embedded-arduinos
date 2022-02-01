@@ -1,3 +1,15 @@
+class StateMachineConfigurationModeButtonControl : public ButtonObserverInterface {
+  public:
+    StateMachineConfigurationModeButtonControl(const StateMachine* stateMachine) : stateMachine(stateMachine) {}
+
+    void onButtonPressedAndReleased() {
+      stateMachine->toggleConfigurationMode();
+    }
+
+  private:
+    StateMachine* stateMachine;
+};
+
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
   ss_pin,
@@ -25,3 +37,5 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
 ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
+
+StateMachineConfigurationModeButtonControl stateMachineConfigurationModeToggler(&stateMachine);

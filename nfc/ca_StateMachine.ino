@@ -1,5 +1,4 @@
-//TODO break dependency to ButtonObserverInterface via a wrapper
-class StateMachine : public ButtonObserverInterface {
+class StateMachine {
   public:
     StateMachine() {
       for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
@@ -20,7 +19,7 @@ class StateMachine : public ButtonObserverInterface {
       }
     }
 
-    void onButtonPressedAndReleased() {
+    void toggleConfigurationMode() {
       state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
     }
   

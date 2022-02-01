@@ -14,7 +14,7 @@ void setup() {
   stateMachine.addStateFunction(State::cardIsPresent, &cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, &configurationNoCardState);
   stateMachine.addStateFunction(State::configurationCardIsPresent, &configurationCardIsPresentState);
-  configurationButton.addObserver(&stateMachine); 
+  configurationButton.addObserver(&stateMachineConfigurationModeToggler); 
   magnetButton.addObserver(&magnet);
 
   // Initialize MFRC522 driver
