@@ -1,8 +1,8 @@
-class ButtonControlledMagnet : public ButtonObserverInterface {
+class ButtonControlledMagnet : public NiladicVoidFunctionInterface {
   public:
     ButtonControlledMagnet(int controlPin) : controlPin(controlPin) {}
   
-    void onButtonPressedAndReleased() {
+    void run() {
       if (locked) {
         digitalWrite(controlPin, HIGH);
         locked = false;

@@ -5,12 +5,12 @@ class Button {
     void process() {
       if (pressedAndReleased()) {
         for (size_t i = 0 ; i < nObservers ; i++) {
-          observers[i]->onButtonPressedAndReleased();
+          observers[i]->run();
         }
       }
     }
 
-    void addObserver(const ButtonObserverInterface* observer) {
+    void addCallback(const NiladicVoidFunctionInterface* observer) {
       observers[nObservers++] = observer;
     }
   
@@ -20,7 +20,7 @@ class Button {
     constexpr static size_t DEBOUNCE_DELAY_PER_CHECK_MS = 10;
     constexpr static size_t DEBOUNCE_N_CHECKS = 5;
     constexpr static size_t N_MAX_OBSERVERS = 8;
-    ButtonObserverInterface* observers[N_MAX_OBSERVERS];
+    NiladicVoidFunctionInterface* observers[N_MAX_OBSERVERS];
     size_t nObservers = 0;
 
     bool pressedAndReleased() {
