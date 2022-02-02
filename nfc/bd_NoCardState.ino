@@ -1,4 +1,4 @@
-class NoCardState : public StateFunction {
+class NoCardState : public StateFunction, public NiladicVoidFunctionCaller {
   public:
     NoCardState(const PiccUidFactory* uidReader, const UidChecker* uidChecker)
       : uidReader(uidReader), uidChecker(uidChecker) {}
@@ -11,6 +11,7 @@ class NoCardState : public StateFunction {
         if (uidChecker->run(readPicc)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
+          callCallbacks();
         } else {
           digitalWrite(GREEN_LED_PIN, LOW);
           digitalWrite(RED_LED_PIN, HIGH);

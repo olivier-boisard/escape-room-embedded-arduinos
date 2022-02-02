@@ -17,6 +17,8 @@ void setup() {
   configurationButton.addCallback(&stateMachine); 
   magnetButton.addCallback(&magnet);
 
+  noCardState.addCallback(&magnet);
+
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();
 
