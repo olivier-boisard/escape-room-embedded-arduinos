@@ -10,7 +10,7 @@ class Button {
       }
     }
 
-    void addCallback(const NiladicVoidFunctionInterface* observer) {
+    void addCallback(const NiladicVoidFunction* observer) {
       observers[nObservers++] = observer;
     }
   
@@ -20,7 +20,7 @@ class Button {
     constexpr static size_t DEBOUNCE_DELAY_PER_CHECK_MS = 10;
     constexpr static size_t DEBOUNCE_N_CHECKS = 5;
     constexpr static size_t N_MAX_OBSERVERS = 8;
-    NiladicVoidFunctionInterface* observers[N_MAX_OBSERVERS];
+    NiladicVoidFunction* observers[N_MAX_OBSERVERS];
     size_t nObservers = 0;
 
     bool pressedAndReleased() {

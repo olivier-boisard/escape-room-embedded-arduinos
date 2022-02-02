@@ -1,6 +1,6 @@
-class ConfigurationCardIsPresentState : public StateInterface {
+class ConfigurationCardIsPresentState : public StateFunction {
   public:
-    ConfigurationCardIsPresentState(const AbstractPiccUidFactory* cardPresenceChecker)
+    ConfigurationCardIsPresentState(const NiladicBoolFunction* cardPresenceChecker)
       : cardPresenceChecker(cardPresenceChecker) {}
   
     State run() override {
@@ -8,12 +8,12 @@ class ConfigurationCardIsPresentState : public StateInterface {
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, HIGH);
       digitalWrite(RED_LED_PIN, LOW);
-      if (!cardPresenceChecker->uidIsReadable()) {
+      if (!cardPresenceChecker->run()) {
         newState = State::configurationNoCard;
       }
       return newState;
     }
 
   private:
-    AbstractPiccUidFactory* cardPresenceChecker;
+    NiladicBoolFunction* cardPresenceChecker;
 };

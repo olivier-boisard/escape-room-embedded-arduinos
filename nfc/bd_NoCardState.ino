@@ -1,6 +1,6 @@
-class NoCardState : public StateInterface {
+class NoCardState : public StateFunction {
   public:
-    NoCardState(const AbstractPiccUidFactory* uidReader, const UidCheckerInterface* uidChecker)
+    NoCardState(const PiccUidFactory* uidReader, const UidChecker* uidChecker)
       : uidReader(uidReader), uidChecker(uidChecker) {}
   
     State run() override {
@@ -8,7 +8,7 @@ class NoCardState : public StateInterface {
       digitalWrite(BLUE_LED_PIN, LOW);
       PiccUid readPicc;
       if (uidReader->generate(&readPicc)) {
-        if (uidChecker->checkUid(readPicc)) {
+        if (uidChecker->run(readPicc)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
         } else {
@@ -21,6 +21,6 @@ class NoCardState : public StateInterface {
    }
 
   private:
-   UidCheckerInterface* uidChecker;
-   AbstractPiccUidFactory* uidReader;
+   UidChecker* uidChecker;
+   PiccUidFactory* uidReader;
 };

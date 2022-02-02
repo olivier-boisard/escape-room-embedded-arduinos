@@ -1,6 +1,6 @@
-class ConfigurationNoCardState : public StateInterface {
+class ConfigurationNoCardState : public StateFunction {
   public:
-    ConfigurationNoCardState(const AbstractPiccUidFactory* uidReader) : uidReader(uidReader) {}
+    ConfigurationNoCardState(const PiccUidFactory* uidReader) : uidReader(uidReader) {}
     
     State run() override {
       State newState = State::configurationNoCard;
@@ -16,7 +16,7 @@ class ConfigurationNoCardState : public StateInterface {
       return newState;
    }
 
-   void addNewUidObserver(const NewUidObserverInterface* callback) {
+   void addUidObserver(const UidObserver* callback) {
       if (nObservers == MAX_N_CALLBACKS) {// TODO raise error somehow
         return;
       }
@@ -25,7 +25,7 @@ class ConfigurationNoCardState : public StateInterface {
 
   private:
     constexpr static size_t MAX_N_CALLBACKS = 8;
-    AbstractPiccUidFactory* uidReader;
-    NewUidObserverInterface* observers[MAX_N_CALLBACKS];
+    PiccUidFactory* uidReader;
+    UidObserver* observers[MAX_N_CALLBACKS];
     size_t nObservers = 0;
 };

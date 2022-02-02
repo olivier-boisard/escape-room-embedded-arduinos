@@ -8,8 +8,8 @@ void setup() {
   }
 
   // Wiring
-  configurationNoCardState.addNewUidObserver(&uidChecker);
-  configurationNoCardState.addNewUidObserver(&uidWriter);
+  configurationNoCardState.addUidObserver(&uidChecker);
+  configurationNoCardState.addUidObserver(&uidWriter);
   stateMachine.addStateFunction(State::noCard, &noCardState);
   stateMachine.addStateFunction(State::cardIsPresent, &cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, &configurationNoCardState);

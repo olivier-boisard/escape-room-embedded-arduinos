@@ -1,4 +1,4 @@
-class StateMachine : public NiladicVoidFunctionInterface {
+class StateMachine : public NiladicVoidFunction {
   public:
     StateMachine() {
       for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
@@ -6,12 +6,12 @@ class StateMachine : public NiladicVoidFunctionInterface {
       }
     }
 
-    void addStateFunction(State state, const StateInterface* stateFunction) {
+    void addStateFunction(State state, const StateFunction* stateFunction) {
       states[state] = stateFunction;
     }
 
     void process() {
-      StateInterface* stateFunction = states[state];
+      StateFunction* stateFunction = states[state];
       if (stateFunction != 0) {
         state = stateFunction->run();
       } else {
@@ -26,7 +26,7 @@ class StateMachine : public NiladicVoidFunctionInterface {
   private:
     State state = State::noCard;
     constexpr static size_t MAX_N_STATE_FUNCTIONS = 16;
-    StateInterface* states[MAX_N_STATE_FUNCTIONS];
+    StateFunction* states[MAX_N_STATE_FUNCTIONS];
 
     void toggleConfigurationMode() {
       state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;

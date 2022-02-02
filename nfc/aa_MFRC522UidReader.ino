@@ -1,4 +1,4 @@
-class MFRC522UidReader : public AbstractPiccUidFactory {
+class MFRC522UidReader : public PiccUidFactory {
   public:
     MFRC522UidReader(const MFRC522* mfrc522) : mfrc522(mfrc522) {}
 

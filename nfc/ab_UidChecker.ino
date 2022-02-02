@@ -1,7 +1,7 @@
-class UpdateableUidChecker : public UidCheckerInterface, public NewUidObserverInterface {
+class UpdateableUidChecker : public UidChecker, public UidObserver {
   public:
 
-    bool checkUid(const PiccUid& uid) override {
+    bool run(const PiccUid& uid) override {
       return expectedUid == uid;
     }
 

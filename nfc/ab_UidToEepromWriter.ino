@@ -1,6 +1,6 @@
 #include <EEPROM.h>
 
-class UidToEepromWriter : public NewUidObserverInterface {
+class UidToEepromWriter : public UidObserver {
   public:
     UidToEepromWriter(int eepromAddress) : eepromAddress(eepromAddress) {}
   

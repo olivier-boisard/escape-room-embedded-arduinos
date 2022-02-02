@@ -1,4 +1,4 @@
-class ButtonControlledMagnet : public NiladicVoidFunctionInterface {
+class ButtonControlledMagnet : public NiladicVoidFunction {
   public:
     ButtonControlledMagnet(int controlPin) : controlPin(controlPin) {}
   

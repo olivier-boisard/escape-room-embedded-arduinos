@@ -1,4 +1,4 @@
-class UidFromEepromReader : public AbstractPiccUidFactory {
+class UidFromEepromReader : public PiccUidFactory {
   public:
     UidFromEepromReader(int address) : address(address) {}
 

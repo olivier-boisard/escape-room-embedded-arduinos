@@ -5,9 +5,8 @@ typedef enum {
   configurationCardIsPresent = 3
 } State;
 
-class StateInterface {
+class StateFunction {
   public:
     virtual State run() = 0;
-
-    virtual ~StateInterface() {}
+    virtual ~StateFunction() {}
 };

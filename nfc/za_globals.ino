@@ -15,10 +15,11 @@ UidFromEepromReader uidFromEepromReader(eepromAddress);
 UidToEepromWriter uidWriter(eepromAddress);
 UpdateableUidChecker uidChecker;
 MFRC522UidReader uidFromSerialCardReader(&mfrc522);
+UidIsReadableChecker uidIsReadableChecker(&uidFromSerialCardReader);
 NoCardState noCardState(&uidFromSerialCardReader, &uidChecker);
-CardIsPresentState cardIsPresentState(&uidFromSerialCardReader);
+CardIsPresentState cardIsPresentState(&uidIsReadableChecker);
 ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
-ConfigurationCardIsPresentState configurationCardIsPresentState(&uidFromSerialCardReader);
+ConfigurationCardIsPresentState configurationCardIsPresentState(&uidIsReadableChecker);
 StateMachine stateMachine;
 
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
