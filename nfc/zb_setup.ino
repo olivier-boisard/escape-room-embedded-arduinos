@@ -1,4 +1,6 @@
 void setup() {
+  Serial.begin(9600);
+  
   // Set expected UID
   PiccUid validUid;
   if (uidFromEepromReader.generate(&validUid)) {

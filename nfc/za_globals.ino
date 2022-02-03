@@ -1,3 +1,14 @@
+class SerialReader {
+  public:
+    void read() {
+      int incomingByte = 0;
+      if (Serial.available() > 0) {
+        incomingByte = Serial.read();
+        Serial.write(incomingByte + 1);
+      }
+    }
+};
+
 MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
   ss_pin,
@@ -26,3 +37,5 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
 ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
+
+SerialReader serialReader;
