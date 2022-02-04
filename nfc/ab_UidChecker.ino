@@ -15,5 +15,4 @@ class UpdateableUidChecker : public UidChecker, public UidObserver {
   
   private:
     PiccUid expectedUid;
-    constexpr static size_t MAX_UID_SIZE = 4;
 };

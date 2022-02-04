@@ -14,7 +14,7 @@ class UidObservable {
    }
   
   private:
-    constexpr static size_t MAX_N_OBSERVERS = 8;
+    const static size_t MAX_N_OBSERVERS = 8;
     UidObserver* observers[MAX_N_OBSERVERS];
     size_t nObservers = 0;
 };

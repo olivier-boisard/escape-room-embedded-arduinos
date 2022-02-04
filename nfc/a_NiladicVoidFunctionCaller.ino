@@ -14,7 +14,7 @@ class NiladicVoidFunctionCaller {
    }
   
   private:
-    constexpr static size_t MAX_N_CALLBACKS = 8;
+    const static size_t MAX_N_CALLBACKS = 8;
     NiladicVoidFunction* callbacks[MAX_N_CALLBACKS];
     size_t nCallbacks = 0;
 };

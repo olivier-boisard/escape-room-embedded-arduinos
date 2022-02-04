@@ -3,9 +3,10 @@ class UidIsReadableChecker : public NiladicBoolFunction {
     UidIsReadableChecker(const PiccUidFactory* piccUidFactory) : piccUidFactory(piccUidFactory) {}
 
     bool run() override {
+      size_t nAbsenceChecks = 2;
       bool cardIsPresentFlag = false;
       PiccUid dummy;
-      for (int i = 0 ; i < N_ABSENCE_CHECKS ; i++) {
+      for (int i = 0 ; i < nAbsenceChecks ; i++) {
         if (piccUidFactory->generate(&dummy)) {
           cardIsPresentFlag = true;
           break;
@@ -16,5 +17,4 @@ class UidIsReadableChecker : public NiladicBoolFunction {
 
   private:
     PiccUidFactory* piccUidFactory;
-    constexpr static size_t N_ABSENCE_CHECKS = 2;
 };

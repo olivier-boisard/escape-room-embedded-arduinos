@@ -25,7 +25,7 @@ class StateMachine : public NiladicVoidFunction {
   
   private:
     State state = State::noCard;
-    constexpr static size_t MAX_N_STATE_FUNCTIONS = 16;
+    const static size_t MAX_N_STATE_FUNCTIONS = 16;
     StateFunction* states[MAX_N_STATE_FUNCTIONS];
 
     void toggleConfigurationMode() {

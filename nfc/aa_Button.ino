@@ -11,15 +11,16 @@ class Button : public NiladicVoidFunctionCaller {
   private:
     bool released = true;
     int inputPin;
-    constexpr static size_t DEBOUNCE_DELAY_PER_CHECK_MS = 10;
-    constexpr static size_t DEBOUNCE_N_CHECKS = 5;
 
     bool pressedAndReleased() {
+      size_t debounceDelayPerCheckMs = 10;
+      size_t debounceNChecks = 5;
+      
       bool output = false;
       if (digitalRead(inputPin) == LOW) {
         bool pressed = true;
-        for (int i = 0 ; i < DEBOUNCE_N_CHECKS ; i++) {
-          delay(DEBOUNCE_DELAY_PER_CHECK_MS);
+        for (int i = 0 ; i < debounceNChecks ; i++) {
+          delay(debounceDelayPerCheckMs);
           if (digitalRead(inputPin) != LOW) {
             pressed = false;
             break;
