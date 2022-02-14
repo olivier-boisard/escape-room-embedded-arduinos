@@ -11,7 +11,7 @@ class SerialReader {
       if (Serial.available() > 0) {
         size_t nReadBytes = Serial.readBytesUntil(0x00, inputBuffer, inputBufferSize);
         if (inputBuffer[0] == handshakeCode) {
-            Serial.write(handshakeCode);
+          Serial.write(handshakeCode);
           if (arrayEquals(sizeof(expectedIncomingCode), inputBuffer + 1, expectedIncomingCode)) {
             Serial.write(firmwareId, sizeof(firmwareId));
           } else {
