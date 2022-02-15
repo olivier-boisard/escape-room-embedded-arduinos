@@ -1,13 +1,13 @@
-class UidIsReadableChecker {
+class UidIsReadableChecker : public NiladicBoolFunction {
   public:
-    UidIsReadableChecker(const function<bool(PiccUid*)>& readUid) : readUid(readUid) {}
+    UidIsReadableChecker(const PiccUidFactory* piccUidFactory) : piccUidFactory(piccUidFactory) {}
 
-    bool operator()() {
+    bool run() override {
       size_t nAbsenceChecks = 2;
       bool cardIsPresentFlag = false;
       PiccUid dummy;
       for (int i = 0 ; i < nAbsenceChecks ; i++) {
-        if (readUid(&dummy)) {
+        if (piccUidFactory->generate(&dummy)) {
           cardIsPresentFlag = true;
           break;
         }
@@ -16,5 +16,5 @@ class UidIsReadableChecker {
     }
 
   private:
-    function<bool(PiccUid*)> readUid;
+    PiccUidFactory* piccUidFactory;
 };

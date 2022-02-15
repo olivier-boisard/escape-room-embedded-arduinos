@@ -1,14 +1,14 @@
 class NoCardState : public StateFunction, public NiladicVoidFunctionCaller {
   public:
-    NoCardState(const function<bool(PiccUid*)>& readUid, const UidChecker* uidChecker)
-      : readUid(readUid), uidChecker(uidChecker) {}
+    NoCardState(const PiccUidFactory* uidReader, const UidChecker* uidChecker)
+      : uidReader(uidReader), uidChecker(uidChecker) {}
   
     State run() override {
       State newState = State::noCard;
       digitalWrite(BLUE_LED_PIN, LOW);
-      PiccUid uid;
-      if (readUid(&uid)) {
-        if (uidChecker->run(uid)) {
+      PiccUid readPicc;
+      if (uidReader->generate(&readPicc)) {
+        if (uidChecker->run(readPicc)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
           callCallbacks();
@@ -23,5 +23,5 @@ class NoCardState : public StateFunction, public NiladicVoidFunctionCaller {
 
   private:
    UidChecker* uidChecker;
-   function<bool(PiccUid*)> readUid;
+   PiccUidFactory* uidReader;
 };
