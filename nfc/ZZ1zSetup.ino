@@ -1,9 +1,23 @@
+class StateMachineConfigurationModeToggler {
+  public:
+    StateMachineConfigurationModeToggler(const StateMachine* stateMachine) : stateMachine(stateMachine) {}
+  
+    void operator()() {
+      stateMachine->toggleConfigurationMode();
+    }
+  
+  private:
+    StateMachine* stateMachine;
+};
+
+StateMachineConfigurationModeToggler stateMachineConfigurationModeToggler(&stateMachine);
+
 void setup() {
   Serial.begin(9600);
   
   // Set expected UID
   PiccUid validUid;
-  if (uidFromEepromReader.generate(&validUid)) {
+  if (readUidFromEeprom(&validUid)) {
     uidChecker.setExpectedUid(validUid);
   } else {
     //TODO raise error somehow
@@ -16,10 +30,10 @@ void setup() {
   stateMachine.addStateFunction(State::cardIsPresent, &cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, &configurationNoCardState);
   stateMachine.addStateFunction(State::configurationCardIsPresent, &configurationCardIsPresentState);
-  configurationButton.addCallback(&stateMachine); 
-  magnetButton.addCallback(&magnet);
+  configurationButton.addCallback(stateMachineConfigurationModeToggler);
+  magnetButton.addCallback(magnet);
 
-  noCardState.addCallback(&magnet);
+  noCardState.addCallback(magnet);
 
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();

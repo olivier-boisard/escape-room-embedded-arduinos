@@ -11,15 +11,15 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 MFRC522 mfrc522{driver};
 
 int eepromAddress = 8;
-UidFromEepromReader uidFromEepromReader(eepromAddress);
+UidFromEepromReader readUidFromEeprom(eepromAddress);
 UidToEepromWriter uidWriter(eepromAddress);
 UpdateableUidChecker uidChecker;
-MFRC522UidReader uidFromSerialCardReader(&mfrc522);
-UidIsReadableChecker uidIsReadableChecker(&uidFromSerialCardReader);
-NoCardState noCardState(&uidFromSerialCardReader, &uidChecker);
-CardIsPresentState cardIsPresentState(&uidIsReadableChecker);
-ConfigurationNoCardState configurationNoCardState(&uidFromSerialCardReader);
-ConfigurationCardIsPresentState configurationCardIsPresentState(&uidIsReadableChecker);
+MFRC522UidReader readUidFromSerialCard(&mfrc522);
+UidIsReadableChecker isCardPresent(readUidFromSerialCard);
+NoCardState noCardState(readUidFromSerialCard, &uidChecker);
+CardIsPresentState cardIsPresentState(isCardPresent);
+ConfigurationNoCardState configurationNoCardState(readUidFromSerialCard);
+ConfigurationCardIsPresentState configurationCardIsPresentState(isCardPresent);
 StateMachine stateMachine;
 
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);

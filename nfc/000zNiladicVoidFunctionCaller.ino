@@ -1,6 +1,6 @@
 class NiladicVoidFunctionCaller {
   public:
-    void addCallback(const NiladicVoidFunction* callback) {
+    void addCallback(const function<void()>& callback) {
       if (nCallbacks == MAX_N_CALLBACKS) {// TODO raise error somehow
         return;
       }
@@ -9,12 +9,12 @@ class NiladicVoidFunctionCaller {
 
    void callCallbacks() {
     for (size_t i = 0 ; i < nCallbacks ; i++) {
-        callbacks[i]->run();
+        callbacks[i]();
      }
    }
   
   private:
     const static size_t MAX_N_CALLBACKS = 8;
-    NiladicVoidFunction* callbacks[MAX_N_CALLBACKS];
+    function<void()> callbacks[MAX_N_CALLBACKS];
     size_t nCallbacks = 0;
 };
