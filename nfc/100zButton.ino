@@ -1,4 +1,4 @@
-class Button : public NiladicVoidFunctionCaller {
+class Button : public CallbackStackMixin<> {
   public:
     Button(int inputPin) : inputPin(inputPin) {}
 

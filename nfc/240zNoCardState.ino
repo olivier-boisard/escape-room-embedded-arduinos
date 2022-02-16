@@ -1,4 +1,4 @@
-class NoCardState : public StateFunction, public NiladicVoidFunctionCaller {
+class NoCardState : public StateFunction, public CallbackStackMixin<> {
   public:
     NoCardState(const PiccUidFactory* uidReader, const UidChecker* uidChecker)
       : uidReader(uidReader), uidChecker(uidChecker) {}

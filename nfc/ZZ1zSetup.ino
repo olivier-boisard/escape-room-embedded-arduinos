@@ -16,10 +16,9 @@ void setup() {
   stateMachine.addStateFunction(State::cardIsPresent, &cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, &configurationNoCardState);
   stateMachine.addStateFunction(State::configurationCardIsPresent, &configurationCardIsPresentState);
-  configurationButton.addCallback(&stateMachine); 
-  magnetButton.addCallback(&magnet);
-
-  noCardState.addCallback(&magnet);
+  configurationButton.addCallback(configurationModeToggler); 
+  magnetButton.addCallback(magnetToggler);
+  noCardState.addCallback(magnetToggler);
 
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();

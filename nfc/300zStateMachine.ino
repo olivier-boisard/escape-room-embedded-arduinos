@@ -1,4 +1,4 @@
-class StateMachine : public NiladicVoidFunction {
+class StateMachine {
   public:
     StateMachine() {
       for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
@@ -19,16 +19,12 @@ class StateMachine : public NiladicVoidFunction {
       }
     }
 
-    void run() override {
-      toggleConfigurationMode();
+    void toggleConfigurationMode() {
+      state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
     }
-  
+    
   private:
     State state = State::noCard;
     const static size_t MAX_N_STATE_FUNCTIONS = 16;
     StateFunction* states[MAX_N_STATE_FUNCTIONS];
-
-    void toggleConfigurationMode() {
-      state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
-    }
 };

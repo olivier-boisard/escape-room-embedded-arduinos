@@ -29,3 +29,6 @@ ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
 
 SerialByteArrayWriter serialByteArrayWriter;
 BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWriter);
+
+auto configurationModeToggler = [&stateMachine] () {stateMachine.toggleConfigurationMode(); };
+auto magnetToggler = [&magnet] () {magnet.toggle(); };
