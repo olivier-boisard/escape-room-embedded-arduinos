@@ -1,4 +1,5 @@
 void setup() {
+  // Start serial
   Serial.begin(9600);
   
   // Set expected UID
