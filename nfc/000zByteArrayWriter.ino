@@ -5,5 +5,5 @@ class ByteArrayWriter {
     
     void write(byte singleByte) { this->write(&singleByte, 1); }
     
-    virtual ~ByteArrayWriter() {}
+    virtual ~ByteArrayWriter() = default;
 };

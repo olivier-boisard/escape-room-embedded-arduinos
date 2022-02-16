@@ -10,7 +10,7 @@ struct PiccUid {
     copyValue(other.value);
   }
 
-  virtual ~PiccUid() {}
+  virtual ~PiccUid() = default;
 
   bool operator==(const PiccUid& other) {
     bool output = false;
