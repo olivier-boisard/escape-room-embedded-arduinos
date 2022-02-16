@@ -1,5 +1,3 @@
-#include <EEPROM.h>
-
 class UidToEepromWriter {
   public:
     UidToEepromWriter(int eepromAddress) : eepromAddress(eepromAddress) {}
