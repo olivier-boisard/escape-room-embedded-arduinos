@@ -1,21 +1,18 @@
 class StateMachine {
   public:
-    StateMachine() {
-      for (size_t i = 0 ; i < MAX_N_STATE_FUNCTIONS ; i++) {
-        states[i] = 0;
+  
+    void addStateFunction(State state, const function<State()>& stateFunction) {
+      stateFunctions[state] = stateFunction;
+      if (!isRegistered(state)) {
+        registeredStates[nRegisteredStates++] = state;
       }
     }
 
-    void addStateFunction(State state, const StateFunction* stateFunction) {
-      states[state] = stateFunction;
-    }
-
     void process() {
-      StateFunction* stateFunction = states[state];
-      if (stateFunction != 0) {
-        state = stateFunction->run();
+      if (isRegistered(state)) {
+        state = stateFunctions[state]();
       } else {
-        //TODO raise error somehow
+        //TODO manage error
       }
     }
 
@@ -26,5 +23,18 @@ class StateMachine {
   private:
     State state = State::noCard;
     const static size_t MAX_N_STATE_FUNCTIONS = 16;
-    StateFunction* states[MAX_N_STATE_FUNCTIONS];
+    function<State()> stateFunctions[MAX_N_STATE_FUNCTIONS];
+    State registeredStates[MAX_N_STATE_FUNCTIONS];
+    size_t nRegisteredStates = 0;
+
+    bool isRegistered(State stateToCheck) {
+      bool output = false;
+      for (size_t i = 0 ; i < nRegisteredStates ; i++) {
+        if (stateToCheck == registeredStates[i]) {
+          output = true;
+          break;
+        }
+      }
+      return output;
+    }
 };

@@ -1,10 +1,10 @@
-class CardIsPresentState : public StateFunction {
+class CardIsPresentState {
   public:
   
     CardIsPresentState(const function<bool()>& isCardPresent)
       : isCardPresent(isCardPresent) {}
 
-    State run() override {
+    State operator()() {
       State newState = State::cardIsPresent;
       digitalWrite(BLUE_LED_PIN, LOW);
       if (!isCardPresent()) {

@@ -4,9 +4,3 @@ typedef enum {
   configurationNoCard = 2,
   configurationCardIsPresent = 3
 } State;
-
-class StateFunction {
-  public:
-    virtual State run() = 0;
-    virtual ~StateFunction() {}
-};

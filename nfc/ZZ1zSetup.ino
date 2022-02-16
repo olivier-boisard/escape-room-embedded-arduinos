@@ -12,10 +12,10 @@ void setup() {
   // Wiring
   configurationNoCardState.addCallback(updateUidChecker);
   configurationNoCardState.addCallback(writeUid);
-  stateMachine.addStateFunction(State::noCard, &noCardState);
-  stateMachine.addStateFunction(State::cardIsPresent, &cardIsPresentState);
-  stateMachine.addStateFunction(State::configurationNoCard, &configurationNoCardState);
-  stateMachine.addStateFunction(State::configurationCardIsPresent, &configurationCardIsPresentState);
+  stateMachine.addStateFunction(State::noCard, noCardState);
+  stateMachine.addStateFunction(State::cardIsPresent, cardIsPresentState);
+  stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
+  stateMachine.addStateFunction(State::configurationCardIsPresent, configurationCardIsPresentState);
   configurationButton.addCallback(configurationModeToggler); 
   magnetButton.addCallback(magnetToggler);
   noCardState.addCallback(magnetToggler);

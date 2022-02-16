@@ -1,9 +1,9 @@
-class NoCardState : public StateFunction, public CallbackStackMixin<> {
+class NoCardState : public CallbackStackMixin<> {
   public:
     NoCardState(const function<bool(PiccUid*)>& readUid, const function<bool(const PiccUid& uid)>& checkUid)
       : readUid(readUid), checkUid(checkUid) {}
   
-    State run() override {
+    State operator()() {
       State newState = State::noCard;
       digitalWrite(BLUE_LED_PIN, LOW);
       PiccUid uid;

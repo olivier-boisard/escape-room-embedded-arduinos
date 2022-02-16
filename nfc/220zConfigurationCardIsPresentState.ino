@@ -1,9 +1,9 @@
-class ConfigurationCardIsPresentState : public StateFunction {
+class ConfigurationCardIsPresentState {
   public:
     ConfigurationCardIsPresentState(const function<bool()>& isCardPresent)
       : isCardPresent(isCardPresent) {}
   
-    State run() override {
+    State operator()() {
       State newState = State::configurationCardIsPresent;
       digitalWrite(BLUE_LED_PIN, HIGH);
       digitalWrite(GREEN_LED_PIN, HIGH);
