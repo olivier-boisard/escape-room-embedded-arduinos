@@ -14,7 +14,7 @@ int eepromAddress = 8;
 UidFromEepromReader readUidFromEeprom(eepromAddress);
 UidToEepromWriter writeUid(eepromAddress);
 UpdateableUidChecker uidChecker;
-MFRC522UidReader readUidFromMFRC522(&mfrc522);
+MFRC522UidReader readUidFromMFRC522(mfrc522);
 UidIsReadableChecker isUidReadable(readUidFromMFRC522);
 CardIsPresentState cardIsPresentState(isUidReadable);
 ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);

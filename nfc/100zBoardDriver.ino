@@ -1,7 +1,7 @@
 class BoardDriver {
   public:
-    BoardDriver(const function<size_t(byte[], size_t)>& readByteArray, const ByteArrayWriter& byteArrayWriter)
-      : readByteArray(readByteArray), byteArrayWriter(&byteArrayWriter) {}
+    BoardDriver(const function<size_t(byte[], size_t)>& readByteArray, ByteArrayWriter& byteArrayWriter)
+      : readByteArray(readByteArray), byteArrayWriter(byteArrayWriter) {}
   
     void read() {
       byte handshakeCode = 0x10;
@@ -13,20 +13,20 @@ class BoardDriver {
       
       if (readByteArray(inputBuffer, inputBufferSize) > 0) {
         if (inputBuffer[0] == handshakeCode) {
-          byteArrayWriter->write(handshakeCode);
+          byteArrayWriter.write(handshakeCode);
           if (arrayEquals(sizeof(expectedIncomingCode), inputBuffer + 1, expectedIncomingCode)) {
-            byteArrayWriter->write(firmwareId, sizeof(firmwareId));
+            byteArrayWriter.write(firmwareId, sizeof(firmwareId));
           } else {
-            byteArrayWriter->write(errorCode);
+            byteArrayWriter.write(errorCode);
           }
         } else {
-          byteArrayWriter->write(errorCode);
+          byteArrayWriter.write(errorCode);
         }
-        byteArrayWriter->flush();
+        byteArrayWriter.flush();
       }
     }
 
   private:
     function<size_t(byte[], size_t)> readByteArray;
-    ByteArrayWriter* byteArrayWriter;
+    ByteArrayWriter& byteArrayWriter;
 };
