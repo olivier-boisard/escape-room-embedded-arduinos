@@ -1,4 +1,4 @@
-class ConfigurationNoCardState : public StateFunction, public UidObservable {
+class ConfigurationNoCardState : public StateFunction, public CallbackStackMixin<const PiccUid&> {
   public:
     ConfigurationNoCardState(const function<bool(PiccUid*)>& readUid) : readUid(readUid) {}
     
@@ -8,7 +8,7 @@ class ConfigurationNoCardState : public StateFunction, public UidObservable {
       digitalWrite(GREEN_LED_PIN, LOW);
       PiccUid uid;
       if (readUid(&uid)) {
-        notifyObservers(uid);
+        callCallbacks(uid);
         newState = State::configurationCardIsPresent;
       }
       return newState;

@@ -1,4 +1,4 @@
-class UpdateableUidChecker : public UidObserver {
+class UpdateableUidChecker {
   public:
 
     bool checkUid(const PiccUid& uid) {
@@ -9,7 +9,7 @@ class UpdateableUidChecker : public UidObserver {
       this->expectedUid = expectedUid;
     }
 
-    void update(const PiccUid& expectedUid) override {
+    void update(const PiccUid& expectedUid) {
       setExpectedUid(expectedUid);
     }
   

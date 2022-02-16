@@ -1,10 +1,10 @@
 #include <EEPROM.h>
 
-class UidToEepromWriter : public UidObserver {
+class UidToEepromWriter {
   public:
     UidToEepromWriter(int eepromAddress) : eepromAddress(eepromAddress) {}
   
-    void update(const PiccUid& uid) override {
+    void operator()(const PiccUid& uid) {
       int uidSize = uid.size;
       EEPROM.update(eepromAddress, uidSize);
       for (int i = 0 ; i < uidSize ; i++) {
