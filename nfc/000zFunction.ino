@@ -1,5 +1,6 @@
 template<class> class function; 
 
+//TODO manage when calling function with null pointer
 template<class Return, class... Args>
 class function<Return(Args...)> {
 public:
