@@ -1,5 +1,5 @@
 void loop() {
-  boardDriver.read();
+  boardDriver.processInput();
   configurationButton.process();
   magnetButton.process();
   stateMachine.process();
