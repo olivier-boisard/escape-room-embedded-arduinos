@@ -1,7 +1,7 @@
 class BoardDriver {
   public:
-    BoardDriver(const ByteArrayReader& byteArrayReader, const ByteArrayWriter& byteArrayWriter)
-      : byteArrayReader(&byteArrayReader), byteArrayWriter(&byteArrayWriter) {}
+    BoardDriver(const function<size_t(byte[], size_t)>& readByteArray, const ByteArrayWriter& byteArrayWriter)
+      : readByteArray(readByteArray), byteArrayWriter(&byteArrayWriter) {}
   
     void read() {
       byte handshakeCode = 0x10;
@@ -11,7 +11,7 @@ class BoardDriver {
       size_t inputBufferSize = 16;
       byte inputBuffer[inputBufferSize];
       
-      if (byteArrayReader->read(inputBuffer, inputBufferSize) > 0) {
+      if (readByteArray(inputBuffer, inputBufferSize) > 0) {
         if (inputBuffer[0] == handshakeCode) {
           byteArrayWriter->write(handshakeCode);
           if (arrayEquals(sizeof(expectedIncomingCode), inputBuffer + 1, expectedIncomingCode)) {
@@ -27,6 +27,6 @@ class BoardDriver {
     }
 
   private:
-    ByteArrayReader* byteArrayReader;
+    function<size_t(byte[], size_t)> readByteArray;
     ByteArrayWriter* byteArrayWriter;
 };

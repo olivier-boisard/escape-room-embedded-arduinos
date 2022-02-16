@@ -27,6 +27,5 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
 ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
 
-NullTerminatedSerialByteArrayReader nullTerminalSerialByteArrayReader;
 SerialByteArrayWriter serialByteArrayWriter;
-BoardDriver boardDriver(nullTerminalSerialByteArrayReader, serialByteArrayWriter);
+BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWriter);
