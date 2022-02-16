@@ -16,7 +16,6 @@ UidToEepromWriter uidWriter(eepromAddress);
 UpdateableUidChecker uidChecker;
 MFRC522UidReader readUidFromMFRC522(&mfrc522);
 UidIsReadableChecker isUidReadable(readUidFromMFRC522);
-NoCardState noCardState(readUidFromMFRC522, &uidChecker);
 CardIsPresentState cardIsPresentState(isUidReadable);
 ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
 ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
@@ -32,3 +31,6 @@ BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWr
 
 auto configurationModeToggler = [&stateMachine] () {stateMachine.toggleConfigurationMode(); };
 auto magnetToggler = [&magnet] () {magnet.toggle(); };
+auto checkUid = [&uidChecker] (const PiccUid& uid) {return uidChecker.checkUid(uid); };
+
+NoCardState noCardState(readUidFromMFRC522, checkUid);
