@@ -3,7 +3,7 @@ void setup() {
   
   // Set expected UID
   PiccUid validUid;
-  if (uidFromEepromReader.generate(&validUid)) {
+  if (readUidFromEeprom(&validUid)) {
     uidChecker.setExpectedUid(validUid);
   } else {
     //TODO raise error somehow

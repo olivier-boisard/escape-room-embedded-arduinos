@@ -1,14 +1,14 @@
 class NoCardState : public StateFunction, public CallbackStackMixin<> {
   public:
-    NoCardState(const PiccUidFactory* uidReader, const UidChecker* uidChecker)
-      : uidReader(uidReader), uidChecker(uidChecker) {}
+    NoCardState(const function<bool(PiccUid*)>& readUid, const UidChecker* uidChecker)
+      : readUid(readUid), uidChecker(uidChecker) {}
   
     State run() override {
       State newState = State::noCard;
       digitalWrite(BLUE_LED_PIN, LOW);
-      PiccUid readPicc;
-      if (uidReader->generate(&readPicc)) {
-        if (uidChecker->run(readPicc)) {
+      PiccUid uid;
+      if (readUid(&uid)) {
+        if (uidChecker->run(uid)) {
           digitalWrite(GREEN_LED_PIN, HIGH);
           digitalWrite(RED_LED_PIN, LOW);
           callCallbacks();
@@ -23,5 +23,5 @@ class NoCardState : public StateFunction, public CallbackStackMixin<> {
 
   private:
    UidChecker* uidChecker;
-   PiccUidFactory* uidReader;
+   function<bool(PiccUid*)> readUid;
 };
