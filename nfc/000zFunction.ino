@@ -13,10 +13,10 @@ public:
     function(Function* callable) : callable(reinterpret_cast<void*>(callable)), optionalFunctionClassInstance(nullptr) {}
     
     Return operator()(Args... args) {
-        if (optionalFunctionClassInstance) {
-            return reinterpret_cast<Return(*)(void*, Args...)>(callable)(optionalFunctionClassInstance, args...);
-        }
-        return reinterpret_cast<Return(*)(Args...)>(callable)(args...);
+      if (optionalFunctionClassInstance) {
+        return reinterpret_cast<Return(*)(void*, Args...)>(callable)(optionalFunctionClassInstance, args...);
+      }
+      return reinterpret_cast<Return(*)(Args...)>(callable)(args...);
     }
     
 private:
