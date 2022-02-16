@@ -1,8 +1,8 @@
-class UidIsReadableChecker : public NiladicBoolFunction {
+class UidIsReadableChecker {
   public:
     UidIsReadableChecker(const PiccUidFactory* piccUidFactory) : piccUidFactory(piccUidFactory) {}
 
-    bool run() override {
+    bool operator()() {
       size_t nAbsenceChecks = 2;
       bool cardIsPresentFlag = false;
       PiccUid dummy;

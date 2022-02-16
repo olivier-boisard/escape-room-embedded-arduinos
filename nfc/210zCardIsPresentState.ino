@@ -1,13 +1,13 @@
 class CardIsPresentState : public StateFunction {
   public:
   
-    CardIsPresentState(const NiladicBoolFunction* cardPresenceChecker)
-      : cardPresenceChecker(cardPresenceChecker) {}
+    CardIsPresentState(const function<bool()>& isCardPresent)
+      : isCardPresent(isCardPresent) {}
 
     State run() override {
       State newState = State::cardIsPresent;
       digitalWrite(BLUE_LED_PIN, LOW);
-      if (!cardPresenceChecker->run()) {
+      if (!isCardPresent()) {
         digitalWrite(GREEN_LED_PIN, LOW);
         digitalWrite(RED_LED_PIN, LOW);
         newState = State::noCard;
@@ -16,5 +16,5 @@ class CardIsPresentState : public StateFunction {
     }
 
   private:
-    NiladicBoolFunction* cardPresenceChecker;
+    function<bool()> isCardPresent;
 };
