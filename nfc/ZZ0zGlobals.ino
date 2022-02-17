@@ -41,4 +41,4 @@ auto magnetToggler = [&magnet] () {magnet.toggle(); };
 
 // Communication
 SerialByteArrayWriter serialByteArrayWriter;
-BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWriter, BoardDriver::processHandshakeCommandFunction);
+BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWriter, processHandshakeCommand);
