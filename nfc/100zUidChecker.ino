@@ -1,7 +1,7 @@
 class UpdateableUidChecker {
   public:
 
-    bool checkUid(const PiccUid& uid) {
+    bool checkUid(const PiccUid& uid) const {
       return expectedUid == uid;
     }
 

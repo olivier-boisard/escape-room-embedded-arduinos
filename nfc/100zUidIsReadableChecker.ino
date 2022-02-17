@@ -3,7 +3,7 @@ class UidIsReadableChecker {
     UidIsReadableChecker(const function<bool(PiccUid*)>& readUid) : readUid(readUid) {}
 
     bool operator()() {
-      size_t nAbsenceChecks = 2;
+      constexpr size_t nAbsenceChecks = 2;
       bool cardIsPresentFlag = false;
       PiccUid dummy;
       for (int i = 0 ; i < nAbsenceChecks ; i++) {

@@ -13,6 +13,6 @@ class ButtonControlledMagnet {
     }
 
   private:
-    int controlPin;
+    const int controlPin;
     bool locked = true;
 };

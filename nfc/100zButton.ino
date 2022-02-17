@@ -2,19 +2,19 @@ class Button : public CallbackStackMixin<> {
   public:
     Button(int inputPin) : inputPin(inputPin) {}
 
-    void process() {
+    void process() const {
       if (pressedAndReleased()) {
         callCallbacks();
       }
     }
   
   private:
-    bool released = true;
-    int inputPin;
+    const int inputPin;
 
-    bool pressedAndReleased() {
-      size_t debounceDelayPerCheckMs = 10;
-      size_t debounceNChecks = 5;
+    bool pressedAndReleased() const {
+      constexpr size_t debounceDelayPerCheckMs = 10;
+      constexpr size_t debounceNChecks = 5;
+      static bool released = true;
       
       bool output = false;
       if (digitalRead(inputPin) == LOW) {

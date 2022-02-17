@@ -11,5 +11,5 @@ class UidToEepromWriter {
    }
 
   private:
-   int eepromAddress;
+   const int eepromAddress;
 };

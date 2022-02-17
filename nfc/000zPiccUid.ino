@@ -12,7 +12,7 @@ struct PiccUid {
 
   virtual ~PiccUid() = default;
 
-  bool operator==(const PiccUid& other) {
+  bool operator==(const PiccUid& other) const {
     bool output = false;
     if (size == other.size) {
       output = arrayEquals(size, value, other.value);
@@ -20,7 +20,7 @@ struct PiccUid {
     return output;
   }
   
-  const static size_t MAX_SIZE = 8;
+  constexpr static size_t MAX_SIZE = 8;
   size_t size = 0;
   byte value[MAX_SIZE];
 
