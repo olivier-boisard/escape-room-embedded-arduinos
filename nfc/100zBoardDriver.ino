@@ -1,20 +1,21 @@
-int processHandShake(const byte inputBuffer[], size_t inputBufferSize, byte* outputBuffer) {
+size_t processHandShake(const byte incommingCode[], size_t incommingCodeSize, byte* outputBuffer) {
   constexpr byte expectedIncomingCode[] = {0x01, 0xEE, 0x35, 0xD7, 0x2A, 0x80, 0x58, 0xEA};
   constexpr byte firmwareId[] = {0x85, 0xF2, 0x9E, 0xE3, 0x43, 0x19, 0xEA, 0xF6};
-  constexpr byte firmwareIdSize = 8;
-  constexpr int errorReturnCode = -1;
+  constexpr byte firmwareIdSize = sizeof(firmwareId);
+  constexpr byte errorCode = 0xFF;
 
-  bool isSuccess = false;
-  if (sizeof(firmwareId) == inputBufferSize) {
-    isSuccess = arrayEquals(sizeof(expectedIncomingCode), inputBuffer, expectedIncomingCode);
-    if (isSuccess) {
+  size_t nWrittenBytes = 0;
+  if (sizeof(expectedIncomingCode) == incommingCodeSize) {
+    if (arrayEquals(incommingCodeSize, incommingCode, expectedIncomingCode)) {
       for (size_t i = 0 ; i < firmwareIdSize ; i++) {
-        outputBuffer[i] = firmwareId[i];
+        outputBuffer[nWrittenBytes++] = firmwareId[i];
       }
+    } else {
+      outputBuffer[nWrittenBytes++] = errorCode;
     }
   }
   
-  return isSuccess ? sizeof(firmwareId) : errorReturnCode;
+  return nWrittenBytes;
 }
 
 class BoardDriver {
@@ -22,7 +23,7 @@ class BoardDriver {
     BoardDriver(
       const function<size_t(byte[], size_t)>& readByteArray,
       ByteArrayWriter& byteArrayWriter,
-      const function<int(const byte[], size_t, byte*)>& processHandshakeCommand
+      const function<size_t(const byte[], size_t, byte*)>& processHandshakeCommand
     ) : readByteArray(readByteArray),
         byteArrayWriter(byteArrayWriter),
         processHandshakeCommand(processHandshakeCommand) {}
@@ -30,17 +31,12 @@ class BoardDriver {
     void processInput() {
       constexpr size_t bufferSize = 16;
       byte inputBuffer[bufferSize];
+      byte outputBuffer[bufferSize];
 
       int readBytes = readByteArray(inputBuffer, bufferSize);
       if (readBytes > 0) {
-        byte outputBuffer[bufferSize];
-        int status = processCommand(inputBuffer, readBytes, outputBuffer);
-        if (status > 0) {
-          byteArrayWriter.write(outputBuffer, status);
-        } else {
-          constexpr byte errorCode = 0xFF;
-          byteArrayWriter.write(errorCode);
-        }
+        size_t nWrittenBytes = processCommand(inputBuffer, readBytes, outputBuffer);
+        byteArrayWriter.write(outputBuffer, nWrittenBytes);
         byteArrayWriter.flush();
       }
     }
@@ -48,22 +44,30 @@ class BoardDriver {
   private:
     function<size_t(byte[], size_t)> readByteArray;
     ByteArrayWriter& byteArrayWriter;
-    function<int(const byte[], size_t, byte*)> processHandshakeCommand;
+    function<size_t(const byte[], size_t, byte*)> processHandshakeCommand;
 
-    bool processCommand(const byte inputBuffer[], size_t size, byte* outputBuffer) {
+    size_t processCommand(const byte inputBuffer[], size_t inputSize, byte* outputBuffer) {
       constexpr byte handshakeCode = 0x10;
-      
-      int status = 0;
+      constexpr size_t commandArgOffset = 1;
       const byte command = inputBuffer[0];
-      outputBuffer[0] = command;
+      int nWrittenBytes = 0;
+            
+      outputBuffer[nWrittenBytes++] = command;
       switch (command) {
         case handshakeCode:
-          status = processHandshakeCommand(inputBuffer + 1, size - 1, outputBuffer + 1);
+          nWrittenBytes += processHandshakeCommand(
+            inputBuffer + commandArgOffset,
+            inputSize - commandArgOffset,
+            outputBuffer + nWrittenBytes
+          );
           break;
         default:
           break;
       }
+      return nWrittenBytes;
+    }
 
-      return status > 0;
+    bool isSuccess(int status) {
+      return status >= 0;
     }
 };
