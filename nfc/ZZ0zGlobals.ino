@@ -40,5 +40,5 @@ ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
 auto magnetToggler = [&magnet] () {magnet.toggle(); };
 
 // Communication
-SerialByteArrayWriter serialByteArrayWriter;
-BoardDriver boardDriver(readNullTerminatedByteArrayFromSerial, serialByteArrayWriter, processHandShake);
+SerialCommunicationManager communicationManager;
+BoardDriver boardDriver(communicationManager, processHandShake);

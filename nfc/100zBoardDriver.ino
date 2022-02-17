@@ -1,11 +1,9 @@
 class BoardDriver {
   public:
     BoardDriver(
-      const function<size_t(byte[], size_t)>& readByteArray,
-      ByteArrayWriter& byteArrayWriter,
+      CommunicationManager& communicationManager,
       const function<size_t(const byte[], size_t, byte*)>& processHandshakeCommand
-    ) : readByteArray(readByteArray),
-        byteArrayWriter(byteArrayWriter),
+    ) : communicationManager(communicationManager),
         processHandshakeCommand(processHandshakeCommand) {}
   
     void processInput() {
@@ -13,17 +11,16 @@ class BoardDriver {
       byte inputBuffer[bufferSize];
       byte outputBuffer[bufferSize];
 
-      int readBytes = readByteArray(inputBuffer, bufferSize);
+      int readBytes = communicationManager.read(inputBuffer, bufferSize);
       if (readBytes > 0) {
         size_t nWrittenBytes = processCommand(inputBuffer, readBytes, outputBuffer);
-        byteArrayWriter.write(outputBuffer, nWrittenBytes);
-        byteArrayWriter.flush();
+        communicationManager.write(outputBuffer, nWrittenBytes);
+        communicationManager.flush();
       }
     }
 
   private:
-    function<size_t(byte[], size_t)> readByteArray;
-    ByteArrayWriter& byteArrayWriter;
+    CommunicationManager& communicationManager;
     function<size_t(const byte[], size_t, byte*)> processHandshakeCommand;
 
     size_t processCommand(const byte inputBuffer[], size_t inputSize, byte* outputBuffer) {
@@ -44,6 +41,7 @@ class BoardDriver {
         default:
           break;
       }
+      outputBuffer[nWrittenBytes++] = 0x00;
       return nWrittenBytes;
     }
 

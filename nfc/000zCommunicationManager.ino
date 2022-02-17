@@ -1,5 +1,6 @@
-class ByteArrayWriter {
+class CommunicationManager {
   public:
+    virtual size_t read(byte inputBuffer[], size_t maxSize) = 0;
     virtual void write(const byte outputBuffer[], size_t size) = 0;
     virtual void flush() = 0;
     
@@ -7,5 +8,5 @@ class ByteArrayWriter {
       this->write(&singleByte, 1);
     }
     
-    virtual ~ByteArrayWriter() = default;
+    virtual ~CommunicationManager() = default;
 };
