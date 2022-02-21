@@ -40,5 +40,5 @@ Toggler magnetToggler(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Communication
 SerialCommunicationManager communicationManager;
-LockCommandProcessor toggleLockProcessor(magnetToggler);
-BoardDriver boardDriver(communicationManager, processHandShake, toggleLockProcessor);
+LockCommandProcessor lockCommandProcessor(magnetToggler);
+BoardDriver boardDriver(communicationManager, processHandshake, lockCommandProcessor);
