@@ -36,7 +36,7 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
-Toggler magnetToggler(MAGNET_CONTROL_OUTPUT_PIN);
+PinToggler magnetToggler(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Communication
 SerialCommunicationManager communicationManager;

@@ -1,18 +1,19 @@
-class Toggler {
+class PinToggler {
   public:
-    Toggler(int controlPin) : controlPin(controlPin) {}
+    PinToggler(int pin) : pin(pin) {}
   
-    void operator()() {
-      if (locked) {
-        digitalWrite(controlPin, HIGH);
-        locked = false;
+    bool operator()() {
+      if (active) {
+        digitalWrite(pin, HIGH);
+        active = false;
       } else {
-        digitalWrite(controlPin, LOW);
-        locked = true;
+        digitalWrite(pin, LOW);
+        active = true;
       }
+      return active;
     }
 
   private:
-    const int controlPin;
-    bool locked = true;
+    const int pin;
+    bool active = true;
 };
