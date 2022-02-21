@@ -18,7 +18,7 @@ class LockCommandProcessor {
         for (size_t i = 0 ; i < sizeof(response) ; i++) {
           outputBuffer[nWrittenBytes++] = response[i];
         }
-        outputBuffer[nWrittenBytes++] = locked ? 0x02 : 0x01;
+        outputBuffer[nWrittenBytes++] = locked ? closedStatus : openStatus;
       } else {
         outputBuffer[nWrittenBytes++] = errorCode;
       }
