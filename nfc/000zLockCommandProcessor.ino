@@ -1,4 +1,4 @@
-class ToggleLockCommandProcessor {
+class LockCommandProcessor {
   public:
     ToggleLockCommandProcessor(const function<void()>& callback) : callback(callback) {}
   
