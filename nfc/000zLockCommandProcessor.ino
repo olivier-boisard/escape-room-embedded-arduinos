@@ -1,6 +1,6 @@
 class LockCommandProcessor {
   public:
-    ToggleLockCommandProcessor(const function<void()>& callback) : callback(callback) {}
+    LockCommandProcessor(const function<void()>& callback) : callback(callback) {}
   
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte toggleCommand = 0x03;
