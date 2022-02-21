@@ -21,6 +21,14 @@ UpdateableUidChecker uidChecker;
 auto checkUid = [&uidChecker] (const PiccUid& uid) {return uidChecker.checkUid(uid); };
 auto updateUidChecker = [&uidChecker] (const PiccUid& uid) {return uidChecker.update(uid); };
 
+// Basic controls
+Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
+ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
+
+// Communication 1
+StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
+SerialCommunicationManager communicationManager;
+
 // State machine
 MFRC522UidReader readUidFromMFRC522(mfrc522);
 UidIsReadableChecker isUidReadable(readUidFromMFRC522);
@@ -29,7 +37,6 @@ CardIsPresentState cardIsPresentState(isUidReadable);
 ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
 ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
 StateMachine stateMachine;
-StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
 auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
   statusRequestProcessor.setConfigurationModeEnabled(stateMachine.toggleConfigurationMode());
 };
@@ -38,8 +45,6 @@ auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
-Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
-ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
 auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
   statusRequestProcessor.setMagnetEnabled(toggleMagnet());
 };
@@ -47,8 +52,7 @@ auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
   if (status == correctPicc) toggleMagnetWrapper();
 };
 
-// Communication
-SerialCommunicationManager communicationManager;
+// Communication 2
 LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
 BoardDriver boardDriver(
