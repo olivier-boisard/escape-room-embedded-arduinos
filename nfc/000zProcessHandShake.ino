@@ -8,14 +8,11 @@ size_t processHandshake(const byte incommingCode[], size_t incommingCodeSize, by
   bool success = false;
   if (sizeof(expectedIncomingCode) == incommingCodeSize) {
     if (arrayEquals(incommingCodeSize, incommingCode, expectedIncomingCode)) {
+      success = true;
       for (size_t i = 0 ; i < firmwareIdSize ; i++) {
         outputBuffer[nWrittenBytes++] = firmwareId[i];
       }
-    } else {
-      success = false;
     }
-  } else {
-    success = false;
   }
   
   if (!success) {
