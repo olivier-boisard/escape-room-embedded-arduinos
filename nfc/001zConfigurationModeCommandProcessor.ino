@@ -12,11 +12,11 @@ class ConfigurationModeCommandProcessor {
       size_t nWrittenBytes = 0;
       
       if (commandSize == 1 && command[0] == 0x03) {
-        bool toggled = callback();
+        bool enabled = callback();
         for (size_t i = 0 ; i < sizeof(response) ; i++) {
           outputBuffer[nWrittenBytes++] = response[i];
         }
-        outputBuffer[nWrittenBytes++] = toggled ? 0x02 : 0x01;
+        outputBuffer[nWrittenBytes++] = enabled ? enabledStatus : disabledStatus;
       } else {
         outputBuffer[nWrittenBytes++] = errorCode;
       }
