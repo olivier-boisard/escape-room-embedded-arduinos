@@ -39,8 +39,13 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
-PinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
-auto magnetTogglerWrapper = [&toggleMagnet] (PiccReaderStatus status) {if (status == correctPicc) toggleMagnet(); };
+ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
+auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
+  statusRequestProcessor.setMagnetEnabled(toggleMagnet());
+};
+auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
+  if (status == correctPicc) toggleMagnetWrapper();
+};
 
 // Communication
 SerialCommunicationManager communicationManager;

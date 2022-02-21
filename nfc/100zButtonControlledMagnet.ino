@@ -1,6 +1,6 @@
-class PinToggler {
+class ActiveLowPinToggler {
   public:
-    PinToggler(int pin) : pin(pin) {}
+    ActiveLowPinToggler(int pin) : pin(pin) {}
   
     bool operator()() {
       if (active) {

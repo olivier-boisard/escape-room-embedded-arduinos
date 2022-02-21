@@ -63,10 +63,14 @@ class StatusRequestProcessor {
       configurationModeEnabled = enabled;
     }
 
+    void setMagnetEnabled(bool enabled) {
+      magnetEnabled = enabled;
+    }
+
   private:
     constexpr static size_t piccReaderStatusBufferSize = 8;
     PiccReaderStatus piccReaderStatus[piccReaderStatusBufferSize];
     size_t nPiccReaders;
     bool configurationModeEnabled = false;
-    bool magnetEnabled = false;
+    bool magnetEnabled = true;
 };

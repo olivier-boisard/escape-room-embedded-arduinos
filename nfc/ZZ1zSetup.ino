@@ -18,8 +18,8 @@ void setup() {
   stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
   stateMachine.addStateFunction(State::configurationCardIsPresent, configurationCardIsPresentState);
   configurationButton.addCallback(configurationModeToggler);
-  magnetButton.addCallback(toggleMagnet);
-  noCardState.addCallback(magnetTogglerWrapper);
+  magnetButton.addCallback(toggleMagnetWrapper);
+  noCardState.addCallback(controlMagnetWithPicc);
   noCardState.addCallback(setPiccReaderZeroState);
 
   // Initialize MFRC522 driver
