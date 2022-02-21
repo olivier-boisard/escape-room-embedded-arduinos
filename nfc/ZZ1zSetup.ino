@@ -17,7 +17,7 @@ void setup() {
   stateMachine.addStateFunction(State::cardIsPresent, cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
   stateMachine.addStateFunction(State::configurationCardIsPresent, configurationCardIsPresentState);
-  configurationButton.addCallback(configurationModeToggler); 
+  configurationButton.addCallback(configurationModeToggler);
   magnetButton.addCallback(toggleMagnet);
   noCardState.addCallback(magnetTogglerWrapper);
   noCardState.addCallback(setPiccReaderZeroState);
