@@ -32,28 +32,26 @@ class BoardDriver {
       constexpr size_t commandArgOffset = 1;
       const byte command = inputBuffer[0];
       int nWrittenBytes = 0;
-            
+
       outputBuffer[nWrittenBytes++] = command;
-      function<size_t(const byte[], size_t, byte*)> functionToRun;
+      function<size_t(const byte[], size_t, byte*)> commandProcessor;
       switch (command) {
         case handshakeCode:
-          functionToRun = processHandshakeCommand;
+          commandProcessor = processHandshakeCommand;
+          break;
         case lockCode:
-          functionToRun = processLockCommand;
+          commandProcessor = processLockCommand;
           break;
         default:
           break;
       }
-      nWrittenBytes += functionToRun(
+      nWrittenBytes += commandProcessor(
         inputBuffer + commandArgOffset,
         inputSize - commandArgOffset,
         outputBuffer + nWrittenBytes
       );
+      
       outputBuffer[nWrittenBytes++] = 0x00;
       return nWrittenBytes;
-    }
-
-    bool isSuccess(int status) {
-      return status >= 0;
     }
 };
