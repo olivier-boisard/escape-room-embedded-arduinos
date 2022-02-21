@@ -36,10 +36,18 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
-PinToggler magnetToggler(MAGNET_CONTROL_OUTPUT_PIN);
+PinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
+auto magnetTogglerWrapper = [&toggleMagnet] (PiccReaderStatus status) {if (status == correctPicc) toggleMagnet(); };
 
 // Communication
 SerialCommunicationManager communicationManager;
-LockCommandProcessor lockCommandProcessor(magnetToggler);
+LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
-BoardDriver boardDriver(communicationManager, processHandshake, lockCommandProcessor, configurationModeCommandProcessor);
+StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
+BoardDriver boardDriver(
+  communicationManager,
+  processHandshake,
+  statusRequestProcessor,
+  lockCommandProcessor,
+  configurationModeCommandProcessor
+);
