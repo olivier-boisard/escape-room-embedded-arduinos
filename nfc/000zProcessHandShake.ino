@@ -5,14 +5,21 @@ size_t processHandShake(const byte incommingCode[], size_t incommingCodeSize, by
   constexpr byte errorCode = 0xFF;
 
   size_t nWrittenBytes = 0;
+  bool success = false;
   if (sizeof(expectedIncomingCode) == incommingCodeSize) {
     if (arrayEquals(incommingCodeSize, incommingCode, expectedIncomingCode)) {
       for (size_t i = 0 ; i < firmwareIdSize ; i++) {
         outputBuffer[nWrittenBytes++] = firmwareId[i];
       }
     } else {
-      outputBuffer[nWrittenBytes++] = errorCode;
+      success = false;
     }
+  } else {
+    success = false;
+  }
+  
+  if (!success) {
+    outputBuffer[nWrittenBytes++] = errorCode;
   }
   
   return nWrittenBytes;
