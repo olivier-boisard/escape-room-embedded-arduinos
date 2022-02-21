@@ -29,7 +29,10 @@ CardIsPresentState cardIsPresentState(isUidReadable);
 ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
 ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
 StateMachine stateMachine;
-auto configurationModeToggler = [&stateMachine] () {stateMachine.toggleConfigurationMode(); };
+StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
+auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
+  statusRequestProcessor.setConfigurationModeEnabled(stateMachine.toggleConfigurationMode());
+};
 
 // Configuration
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
@@ -43,7 +46,6 @@ auto magnetTogglerWrapper = [&toggleMagnet] (PiccReaderStatus status) {if (statu
 SerialCommunicationManager communicationManager;
 LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
-StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
 BoardDriver boardDriver(
   communicationManager,
   processHandshake,
@@ -52,3 +54,4 @@ BoardDriver boardDriver(
   configurationModeCommandProcessor
 );
 auto setPiccReaderZeroState = [&statusRequestProcessor] (PiccReaderStatus status) {statusRequestProcessor.setPiccReaderStatus(0, status); };
+auto setConfigurationModeEnabled = [&statusRequestProcessor] (bool enabled) {statusRequestProcessor.setConfigurationModeEnabled(enabled); };

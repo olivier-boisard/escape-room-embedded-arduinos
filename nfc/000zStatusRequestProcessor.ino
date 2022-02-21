@@ -59,6 +59,10 @@ class StatusRequestProcessor {
       piccReaderStatus[piccReaderIndex] = status;
     }
 
+    void setConfigurationModeEnabled(bool enabled) {
+      configurationModeEnabled = enabled;
+    }
+
   private:
     constexpr static size_t piccReaderStatusBufferSize = 8;
     PiccReaderStatus piccReaderStatus[piccReaderStatusBufferSize];

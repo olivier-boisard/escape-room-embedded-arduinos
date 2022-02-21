@@ -16,8 +16,9 @@ class StateMachine {
       }
     }
 
-    void toggleConfigurationMode() {
+    bool toggleConfigurationMode() {
       state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
+      return state == State::configurationNoCard;
     }
     
   private:
