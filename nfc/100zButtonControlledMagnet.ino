@@ -1,8 +1,8 @@
-class ButtonControlledMagnet {
+class Toggler {
   public:
-    ButtonControlledMagnet(int controlPin) : controlPin(controlPin) {}
+    Toggler(int controlPin) : controlPin(controlPin) {}
   
-    void toggle() {
+    void operator()() {
       if (locked) {
         digitalWrite(controlPin, HIGH);
         locked = false;

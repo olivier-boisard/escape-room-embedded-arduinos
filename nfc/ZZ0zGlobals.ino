@@ -36,9 +36,9 @@ Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
 Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
-ButtonControlledMagnet magnet(MAGNET_CONTROL_OUTPUT_PIN);
-auto magnetToggler = [&magnet] () {magnet.toggle(); };
+Toggler magnetToggler(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Communication
 SerialCommunicationManager communicationManager;
-BoardDriver boardDriver(communicationManager, processHandShake);
+ToggleLockCommandProcessor toggleLockProcessor(magnetToggler);
+BoardDriver boardDriver(communicationManager, processHandShake, toggleLockProcessor);
