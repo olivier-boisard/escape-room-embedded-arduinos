@@ -51,3 +51,4 @@ BoardDriver boardDriver(
   lockCommandProcessor,
   configurationModeCommandProcessor
 );
+auto setPiccReaderZeroState = [&statusRequestProcessor] (PiccReaderStatus status) {statusRequestProcessor.setPiccReaderStatus(0, status); };

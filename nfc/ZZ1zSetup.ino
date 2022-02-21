@@ -20,6 +20,7 @@ void setup() {
   configurationButton.addCallback(configurationModeToggler); 
   magnetButton.addCallback(toggleMagnet);
   noCardState.addCallback(magnetTogglerWrapper);
+  noCardState.addCallback(setPiccReaderZeroState);
 
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();
