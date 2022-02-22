@@ -1,4 +1,4 @@
-class CardIsPresentState {
+class CardIsPresentState : public CallbackStackMixin<PiccReaderStatus> {
   public:
   
     CardIsPresentState(const function<bool()>& isCardPresent)
@@ -10,6 +10,7 @@ class CardIsPresentState {
         digitalWrite(GREEN_LED_PIN, LOW);
         digitalWrite(RED_LED_PIN, LOW);
         newState = State::noCard;
+        callCallbacks(noPicc);
       }
       return newState;
     }

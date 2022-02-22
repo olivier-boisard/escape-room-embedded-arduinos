@@ -11,8 +11,9 @@ void setup() {
   }
 
   // Wiring
-  configurationNoCardState.addCallback(updateUidChecker);
-  configurationNoCardState.addCallback(writeUid);
+  configurationNoCardState.addNewUidCallback(updateUidChecker);
+  configurationNoCardState.addNewUidCallback(writeUid);
+  configurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
   stateMachine.addStateFunction(State::noCard, noCardState);
   stateMachine.addStateFunction(State::cardIsPresent, cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
@@ -22,6 +23,7 @@ void setup() {
   magnetButton.addCallback(toggleMagnetWrapper);
   noCardState.addCallback(controlMagnetWithPicc);
   noCardState.addCallback(setPiccReaderZeroState);
+  cardIsPresentState.addCallback(setPiccReaderZeroState);
 
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();
