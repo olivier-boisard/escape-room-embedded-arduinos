@@ -50,7 +50,10 @@ auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {send
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
-auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {statusRequestProcessor.setMagnetEnabled(toggleMagnet()); };
+auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
+  statusRequestProcessor.setMagnetEnabled(toggleMagnet());
+  sendStatusRequestCommand();
+};
 auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
   if (status == correctPicc) toggleMagnetWrapper();
 };
