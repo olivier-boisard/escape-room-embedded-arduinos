@@ -1,4 +1,4 @@
-class StateMachine {
+class StateMachine : public CallbackStackMixin<State> {
   public:
   
     void addStateFunction(State state, const function<State()>& stateFunction) {
@@ -10,14 +10,16 @@ class StateMachine {
 
     void process() {
       if (isRegistered(state)) {
-        state = stateFunctions[state]();
+        State newState = stateFunctions[state]();
+        updateState(newState);
       } else {
         //TODO manage error
       }
     }
 
     bool toggleConfigurationMode() {
-      state = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
+      State newState = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
+      updateState(newState);
       return state == State::configurationNoCard;
     }
     
@@ -27,6 +29,13 @@ class StateMachine {
     function<State()> stateFunctions[MAX_N_STATE_FUNCTIONS];
     State registeredStates[MAX_N_STATE_FUNCTIONS];
     size_t nRegisteredStates = 0;
+
+    void updateState(State newState) {
+      if (newState != state) {
+        callCallbacks(newState);
+      }
+      state = newState;
+    }
 
     bool isRegistered(State stateToCheck) const {
       bool output = false;

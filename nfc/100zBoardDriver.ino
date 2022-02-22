@@ -27,6 +27,11 @@ class BoardDriver {
       }
     }
 
+    constexpr static byte HANDSHAKE_CODE = 0x10;
+    constexpr static byte STATUS_REQUEST_CODE = 0x20;
+    constexpr static byte LOCK_CODE = 0x30;
+    constexpr static byte CONFIGURATION_CODE = 0x40;
+
   private:
     CommunicationManager& communicationManager;
     function<size_t(const byte[], size_t, byte*)> processHandshakeCommand;
@@ -35,10 +40,6 @@ class BoardDriver {
     function<size_t(const byte[], size_t, byte*)> processConfigurationModeCommand;
 
     size_t processCommand(const byte inputBuffer[], size_t inputSize, byte* outputBuffer) {
-      constexpr byte handshakeCode = 0x10;
-      constexpr byte statusRequestCode = 0x20;
-      constexpr byte lockCode = 0x30;
-      constexpr byte configurationCode = 0x40;
       constexpr size_t commandArgOffset = 1;
       const byte command = inputBuffer[0];
       int nWrittenBytes = 0;
@@ -46,16 +47,16 @@ class BoardDriver {
       outputBuffer[nWrittenBytes++] = command;
       function<size_t(const byte[], size_t, byte*)> commandProcessor;
       switch (command) {
-        case handshakeCode:
+        case HANDSHAKE_CODE:
           commandProcessor = processHandshakeCommand;
           break;
-        case statusRequestCode:
+        case STATUS_REQUEST_CODE:
           commandProcessor = statusRequestCommand;
           break;
-        case lockCode:
+        case LOCK_CODE:
           commandProcessor = processLockCommand;
           break;
-        case configurationCode:
+        case CONFIGURATION_CODE:
           commandProcessor = processConfigurationModeCommand;
           break;
         default:

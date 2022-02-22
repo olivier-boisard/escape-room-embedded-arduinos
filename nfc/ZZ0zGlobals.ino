@@ -27,7 +27,7 @@ ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Communication 1
 StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
-SerialCommunicationManager communicationManager;
+SerialAndInternalCommunicationManager serialAndInternalCommunicationManager;
 
 // State machine
 MFRC522UidReader readUidFromMFRC522(mfrc522);
@@ -41,13 +41,16 @@ auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
   statusRequestProcessor.setConfigurationModeEnabled(stateMachine.toggleConfigurationMode());
 };
 
+auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
+  serialAndInternalCommunicationManager.setInternalMessage(&BoardDriver::STATUS_REQUEST_CODE, 1);
+};
+auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {sendStatusRequestCommand(); };
+
 // Configuration
 Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
 
 // Magnet
-auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
-  statusRequestProcessor.setMagnetEnabled(toggleMagnet());
-};
+auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {statusRequestProcessor.setMagnetEnabled(toggleMagnet()); };
 auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
   if (status == correctPicc) toggleMagnetWrapper();
 };
@@ -56,11 +59,15 @@ auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
 LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
 BoardDriver boardDriver(
-  communicationManager,
+  serialAndInternalCommunicationManager,
   processHandshake,
   statusRequestProcessor,
   lockCommandProcessor,
   configurationModeCommandProcessor
 );
-auto setPiccReaderZeroState = [&statusRequestProcessor] (PiccReaderStatus status) {statusRequestProcessor.setPiccReaderStatus(0, status); };
-auto setConfigurationModeEnabled = [&statusRequestProcessor] (bool enabled) {statusRequestProcessor.setConfigurationModeEnabled(enabled); };
+auto setPiccReaderZeroState = [&statusRequestProcessor] (PiccReaderStatus status) {
+  statusRequestProcessor.setPiccReaderStatus(0, status);
+};
+auto setConfigurationModeEnabled = [&statusRequestProcessor] (bool enabled) {
+  statusRequestProcessor.setConfigurationModeEnabled(enabled);
+};
