@@ -10,10 +10,9 @@ void setup() {
     //TODO raise error somehow
   }
 
-  // Wiring
+  // Wiring: connecting to PICC reader 0
   configurationNoCardState.addNewUidCallback(updateUidChecker);
   configurationNoCardState.addNewUidCallback(writeUid);
-  configurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
   stateMachine.addStateFunction(State::noCard, noCardState);
   stateMachine.addStateFunction(State::cardIsPresent, cardIsPresentState);
   stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
@@ -22,8 +21,10 @@ void setup() {
   configurationButton.addCallback(configurationModeToggler);
   magnetButton.addCallback(toggleMagnetWrapper);
   noCardState.addCallback(controlMagnetWithPicc);
+  configurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
   noCardState.addCallback(setPiccReaderZeroState);
   cardIsPresentState.addCallback(setPiccReaderZeroState);
+  configurationCardIsPresentState.addCallback(setPiccReaderZeroState);
 
   // Initialize MFRC522 driver
   mfrc522.PCD_Init();

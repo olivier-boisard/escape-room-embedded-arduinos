@@ -1,4 +1,4 @@
-class ConfigurationCardIsPresentState {
+class ConfigurationCardIsPresentState : public CallbackStackMixin<PiccReaderStatus> {
   public:
     ConfigurationCardIsPresentState(const function<bool()>& isCardPresent)
       : isCardPresent(isCardPresent) {}
@@ -10,6 +10,7 @@ class ConfigurationCardIsPresentState {
       digitalWrite(RED_LED_PIN, LOW);
       if (!isCardPresent()) {
         newState = State::configurationNoCard;
+        callCallbacks(noPicc);
       }
       return newState;
     }
