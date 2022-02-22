@@ -5,7 +5,7 @@ class NoCardState : public CallbackStackMixin<PiccReaderStatus> {
   
     State operator()() {
       State newState = State::noCard;
-      //digitalWrite(BLUE_LED_PIN, LOW);
+      digitalWrite(BLUE_LED_PIN, LOW);
       PiccUid uid;
       PiccReaderStatus piccReaderSatus = noPicc;
       if (readUid(&uid)) {
