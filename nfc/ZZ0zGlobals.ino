@@ -22,7 +22,6 @@ auto checkUid = [&uidChecker] (const PiccUid& uid) {return uidChecker.checkUid(u
 auto updateUidChecker = [&uidChecker] (const PiccUid& uid) {return uidChecker.update(uid); };
 
 // Basic controls
-Button magnetButton(MAGNET_BUTTON_INPUT_PIN);
 ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Communication 1
