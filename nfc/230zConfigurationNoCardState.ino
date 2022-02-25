@@ -4,8 +4,6 @@ class ConfigurationNoCardState : private CallbackStackMixin<const PiccUid&>, pri
     
     State operator()() {
       State newState = State::configurationNoCard;
-      digitalWrite(BLUE_LED_PIN, HIGH);
-      digitalWrite(GREEN_LED_PIN, LOW);
       PiccUid uid;
       if (readUid(&uid)) {
         CallbackStackMixin<const PiccUid&>::callCallbacks(uid);

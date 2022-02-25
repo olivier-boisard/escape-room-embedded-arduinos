@@ -45,9 +45,6 @@ auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
 };
 auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {sendStatusRequestCommand(); };
 
-// Configuration
-Button configurationButton(CONFIG_BUTTON_INPUT_PIN);
-
 // Magnet
 auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
   statusRequestProcessor.setMagnetEnabled(toggleMagnet());

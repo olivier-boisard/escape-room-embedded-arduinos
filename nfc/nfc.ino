@@ -28,11 +28,6 @@
 
 // Config
 #define SS_PIN 10
-#define BLUE_LED_PIN 6
-#define GREEN_LED_PIN 9
-#define RED_LED_PIN 8
 #define LOOP_DELAY_MS 100
-#define CONFIG_BUTTON_INPUT_PIN 7
-#define MAGNET_BUTTON_INPUT_PIN 5
 #define MAGNET_CONTROL_OUTPUT_PIN 4
 #define N_MFRC522_READERS 1

@@ -7,8 +7,6 @@ class CardIsPresentState : public CallbackStackMixin<PiccReaderStatus> {
     State operator()() {
       State newState = State::cardIsPresent;
       if (!isCardPresent()) {
-        digitalWrite(GREEN_LED_PIN, LOW);
-        digitalWrite(RED_LED_PIN, LOW);
         newState = State::noCard;
         callCallbacks(noPicc);
       }
