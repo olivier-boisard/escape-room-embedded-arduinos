@@ -37,7 +37,9 @@ ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
 ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
 StateMachine stateMachine;
 auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
-  return statusRequestProcessor.setConfigurationModeEnabled(stateMachine.toggleConfigurationMode());
+  bool enabled = stateMachine.toggleConfigurationMode();
+  statusRequestProcessor.setConfigurationModeEnabled(enabled);
+  return enabled;
 };
 
 auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
