@@ -1,6 +1,6 @@
-class MFRC522UidReader {
+class Mfrc522UidReader {
   public:
-    MFRC522UidReader(MFRC522& mfrc522) : mfrc522(mfrc522) {}
+    Mfrc522UidReader(MFRC522& mfrc522) : mfrc522(mfrc522) {}
 
     bool operator()(PiccUid* output) {
       bool readSuccessful = false;

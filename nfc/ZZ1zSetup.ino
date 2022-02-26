@@ -16,16 +16,12 @@ void setup() {
   mfrc522Board1StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board1ConfigurationNoCardState);
   mfrc522Board1StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board1ConfigurationCardIsPresentState);
   mfrc522Board1StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board1NoCardState.addCallback(controlMagnetWithPicc);
-  mfrc522Board1ConfigurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
-  mfrc522Board1NoCardState.addCallback(setPiccReaderZeroState);
-  mfrc522Board1CardIsPresentState.addCallback(setPiccReaderZeroState);
-  mfrc522Board1ConfigurationCardIsPresentState.addCallback(setPiccReaderZeroState);
+  mfrc522Board1NoCardState.addCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1CardIsPresentState.addCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1ConfigurationCardIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1Mfrc522.PCD_Init();
 
-  // Set pin modes
-  pinMode(MAGNET_CONTROL_OUTPUT_PIN, OUTPUT);
-
-  // Initialize pin values
-  digitalWrite(MAGNET_CONTROL_OUTPUT_PIN, LOW);
+  // Magnet control
+  piccReaderStatusMonitor.addCallback(controlMagnet);
 }

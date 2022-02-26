@@ -6,12 +6,9 @@ class NoCardState : public CallbackStackMixin<PiccReaderStatus> {
     State operator()() {
       State newState = State::noCard;
       PiccUid uid;
-      PiccReaderStatus piccReaderSatus = noPicc;
       if (readUid(&uid)) {
-        piccReaderSatus = checkUid(uid) ? correctPicc : wrongPicc;
-        newState = State::cardIsPresent;
+        callCallbacks(checkUid(uid) ? correctPicc : wrongPicc);
       }
-      callCallbacks(piccReaderSatus);
       return newState;
    }
 
