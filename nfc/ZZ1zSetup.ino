@@ -1,6 +1,6 @@
 void setup() {
   // Start serial
-  Serial.begin(9600);
+  Serial.begin(SERIAL_PORT_BAUDRATE);
   
   // Configuring PICC reader 0
   PiccUid mfrc522Board0ValidUid;
