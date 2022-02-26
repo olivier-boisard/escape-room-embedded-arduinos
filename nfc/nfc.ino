@@ -29,6 +29,9 @@
 // Config
 #define SDA_PIN_0 10
 #define SDA_PIN_1 9
+#define SDA_PIN_2 8
+#define SDA_PIN_3 7
+#define SDA_PIN_4 6
 #define MAGNET_CONTROL_OUTPUT_PIN 4
-#define N_MFRC522_READERS 2
+#define N_MFRC522_READERS 5
 #define SERIAL_PORT_BAUDRATE 9600
