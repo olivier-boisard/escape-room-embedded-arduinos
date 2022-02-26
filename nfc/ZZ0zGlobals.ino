@@ -48,9 +48,11 @@ auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {send
 
 // Magnet
 auto controlMagnet = [&magnetController, &statusRequestProcessor] (bool allPiccCorrect) {
-  bool enableMagnet = !allPiccCorrect;
-  enableMagnet ? magnetController.enable() : magnetController.disable();
-  statusRequestProcessor.setMagnetEnabled(enableMagnet);
+  bool disableMagnet = allPiccCorrect;
+  if (disableMagnet) {
+    magnetController.disable();
+    statusRequestProcessor.setMagnetEnabled(false);
+  }
 };
 auto toggleMagnet = [&magnetController] () {
   return magnetController.toggle();
