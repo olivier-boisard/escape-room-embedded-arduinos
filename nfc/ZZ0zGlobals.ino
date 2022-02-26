@@ -54,8 +54,10 @@ auto controlMagnet = [&magnetController, &statusRequestProcessor] (bool allPiccC
     statusRequestProcessor.setMagnetEnabled(false);
   }
 };
-auto toggleMagnet = [&magnetController] () {
-  return magnetController.toggle();
+auto toggleMagnet = [&magnetController, &statusRequestProcessor] () {
+  bool magnetEnabled = magnetController.toggle();
+  statusRequestProcessor.setMagnetEnabled(magnetEnabled);
+  return magnetEnabled;
 };
 auto configurationModeToggler = [&mfrc522Board1StateMachine, &statusRequestProcessor] () {
   bool enabled = mfrc522Board1StateMachine.toggleConfigurationMode();
