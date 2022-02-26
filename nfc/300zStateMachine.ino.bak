@@ -25,7 +25,7 @@ class StateMachine : public CallbackStackMixin<State> {
     
   private:
     State state = State::noCard;
-    constexpr static size_t MAX_N_STATE_FUNCTIONS = 4;
+    constexpr static size_t MAX_N_STATE_FUNCTIONS = 16;
     function<State()> stateFunctions[MAX_N_STATE_FUNCTIONS];
     State registeredStates[MAX_N_STATE_FUNCTIONS];
     size_t nRegisteredStates = 0;

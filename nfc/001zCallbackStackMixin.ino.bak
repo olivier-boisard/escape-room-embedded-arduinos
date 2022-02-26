@@ -16,7 +16,7 @@ class CallbackStackMixin {
     }
   
   private:
-    constexpr static size_t MAX_SIZE = 4;
+    constexpr static size_t MAX_SIZE = 8;
     function<void(Args...)> callbacks[MAX_SIZE];
     size_t nCallbacks = 0;
 };
