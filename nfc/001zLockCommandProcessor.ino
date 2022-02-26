@@ -1,9 +1,7 @@
-//TODO factorize with ConfigurationModeCommandProcessor
 class LockCommandProcessor {
   public:
     LockCommandProcessor(const function<bool()>& callback) : callback(callback) {}
 
-    //TODO wrap first 2 args
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte openStatus = 0x01;
       constexpr byte closedStatus = 0x02;

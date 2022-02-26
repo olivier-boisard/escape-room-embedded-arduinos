@@ -10,6 +10,9 @@ class CorrectPiccStatusesObservable : public CallbackStackMixin<bool> {
     }
     
     void updatePiccReaderStatus(size_t piccReaderId, PiccReaderStatus status) {
+      if (piccReaderId > nPiccReaders) {
+        //TODO handle error
+      }
       statuses[piccReaderId] = status;
       callCallbacks(allPiccAreCorrect());
     }

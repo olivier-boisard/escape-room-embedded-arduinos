@@ -35,7 +35,7 @@ ConfigurationCardIsPresentState mfrc522Board1ConfigurationCardIsPresentState(mfr
 StateMachine mfrc522Board1StateMachine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-ActiveHighPinController magnetController(MAGNET_CONTROL_OUTPUT_PIN);
+ActiveLowPinController magnetController(MAGNET_CONTROL_OUTPUT_PIN);
 
 // Board driver
 StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
@@ -47,18 +47,19 @@ auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
 auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {sendStatusRequestCommand(); };
 
 // Magnet
-auto controlMagnet = [&magnetController, &statusRequestProcessor] (bool enableMagnet) {
+auto controlMagnet = [&magnetController, &statusRequestProcessor] (bool allPiccCorrect) {
+  bool enableMagnet = !allPiccCorrect;
   enableMagnet ? magnetController.enable() : magnetController.disable();
   statusRequestProcessor.setMagnetEnabled(enableMagnet);
-  sendStatusRequestCommand();
+};
+auto toggleMagnet = [&magnetController] () {
+  return magnetController.toggle();
 };
 auto configurationModeToggler = [&mfrc522Board1StateMachine, &statusRequestProcessor] () {
   bool enabled = mfrc522Board1StateMachine.toggleConfigurationMode();
   statusRequestProcessor.setConfigurationModeEnabled(enabled);
   return enabled;
 };
-
-auto toggleMagnet = [&magnetController] () {return magnetController.toggle(); };
 LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
 BoardDriver boardDriver(
@@ -77,4 +78,5 @@ auto setConfigurationModeEnabled = [&statusRequestProcessor] (bool enabled) {
 auto mfrc522Board1HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(0, status);
   statusRequestProcessor.setPiccReaderStatus(0, status);
+  sendStatusRequestCommand();
 };
