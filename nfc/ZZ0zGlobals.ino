@@ -1,7 +1,9 @@
-// MFRC522 driver
-MFRC522DriverPinSimple ss_pin = MFRC522DriverPinSimple(SS_PIN);
+// MFRC522
+//// MFRC522 1
+////// MFRC522 driver
+MFRC522DriverPinSimple sdaPin = MFRC522DriverPinSimple(SDA_PIN_1);
 MFRC522DriverSPI driver = MFRC522DriverSPI{
-  ss_pin,
+  sdaPin,
   SPI,
   SPISettings(
     SPI_CLOCK_DIV4,
@@ -11,24 +13,17 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
 };
 MFRC522 mfrc522{driver};
 
-// Persistency
+////// Persistency
 int eepromAddress = 8;
 UidFromEepromReader readUidFromEeprom(eepromAddress);
 UidToEepromWriter writeUid(eepromAddress);
 
-// Uid checker
+////// Uid checker
 UpdateableUidChecker uidChecker;
 auto checkUid = [&uidChecker] (const PiccUid& uid) {return uidChecker.checkUid(uid); };
 auto updateUidChecker = [&uidChecker] (const PiccUid& uid) {return uidChecker.update(uid); };
 
-// Basic controls
-ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
-
-// Communication 1
-StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
-SerialAndInternalCommunicationManager serialAndInternalCommunicationManager;
-
-// State machine
+////// State machine
 MFRC522UidReader readUidFromMFRC522(mfrc522);
 UidIsReadableChecker isUidReadable(readUidFromMFRC522);
 NoCardState noCardState(readUidFromMFRC522, checkUid);
@@ -36,11 +31,13 @@ CardIsPresentState cardIsPresentState(isUidReadable);
 ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
 ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
 StateMachine stateMachine;
-auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
-  bool enabled = stateMachine.toggleConfigurationMode();
-  statusRequestProcessor.setConfigurationModeEnabled(enabled);
-  return enabled;
-};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Board driver
+ActiveLowPinToggler toggleMagnet(MAGNET_CONTROL_OUTPUT_PIN);
+StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
+SerialAndInternalCommunicationManager serialAndInternalCommunicationManager;
 
 auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
   serialAndInternalCommunicationManager.setInternalMessage(&BoardDriver::STATUS_REQUEST_CODE, 1);
@@ -55,8 +52,12 @@ auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
 auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
   if (status == correctPicc) toggleMagnetWrapper();
 };
+auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
+  bool enabled = stateMachine.toggleConfigurationMode();
+  statusRequestProcessor.setConfigurationModeEnabled(enabled);
+  return enabled;
+};
 
-// Communication 2
 LockCommandProcessor lockCommandProcessor(toggleMagnet);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
 BoardDriver boardDriver(

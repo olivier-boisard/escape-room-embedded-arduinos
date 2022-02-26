@@ -27,7 +27,8 @@
 #include <MFRC522Constants.h>
 
 // Config
-#define SS_PIN 10
+#define SDA_PIN_1 10
+#define SDA_PIN_2 9
 #define LOOP_DELAY_MS 100
 #define MAGNET_CONTROL_OUTPUT_PIN 4
 #define N_MFRC522_READERS 1
