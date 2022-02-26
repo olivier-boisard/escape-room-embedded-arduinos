@@ -2,26 +2,6 @@ void setup() {
   // Start serial
   Serial.begin(9600);
   
-  // Configuring PICC reader 0
-  PiccUid mfrc522Board0ValidUid;
-  if (mfrc522Board0ReadUidFromEeprom(&mfrc522Board0ValidUid)) {
-    mfrc522Board0UidChecker.setExpectedUid(mfrc522Board0ValidUid);
-  } else {
-    //TODO raise error somehow
-  }
-  mfrc522Board0ConfigurationNoCardState.addNewUidCallback(mfrc522Board0UpdateUidChecker);
-  mfrc522Board0ConfigurationNoCardState.addNewUidCallback(mfrc522Board0WriteUid);
-  mfrc522Board0StateMachine.addStateFunction(State::noCard, mfrc522Board0NoCardState);
-  mfrc522Board0StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board0CardIsPresentState);
-  mfrc522Board0StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board0ConfigurationNoCardState);
-  mfrc522Board0StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board0ConfigurationCardIsPresentState);
-  mfrc522Board0StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board0NoCardState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0CardIsPresentState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0ConfigurationCardIsPresentState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0Mfrc522.PCD_Init();
-
   // Configuring PICC reader 1
   PiccUid mfrc522Board1ValidUid;
   if (mfrc522Board1ReadUidFromEeprom(&mfrc522Board1ValidUid)) {
