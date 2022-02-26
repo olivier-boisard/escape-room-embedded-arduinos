@@ -2,30 +2,26 @@ void setup() {
   // Start serial
   Serial.begin(9600);
   
-  // Set expected UID
-  PiccUid validUid;
-  if (readUidFromEeprom(&validUid)) {
-    uidChecker.setExpectedUid(validUid);
+  // Configuring PICC reader 1
+  PiccUid mfrc522Board1ValidUid;
+  if (mfrc522Board1ReadUidFromEeprom(&mfrc522Board1ValidUid)) {
+    mfrc522Board1UidChecker.setExpectedUid(mfrc522Board1ValidUid);
   } else {
     //TODO raise error somehow
   }
-
-  // Wiring: connecting to PICC reader 0
-  configurationNoCardState.addNewUidCallback(updateUidChecker);
-  configurationNoCardState.addNewUidCallback(writeUid);
-  stateMachine.addStateFunction(State::noCard, noCardState);
-  stateMachine.addStateFunction(State::cardIsPresent, cardIsPresentState);
-  stateMachine.addStateFunction(State::configurationNoCard, configurationNoCardState);
-  stateMachine.addStateFunction(State::configurationCardIsPresent, configurationCardIsPresentState);
-  stateMachine.addCallback(sendStatusRequestCommandWrapper);
-  noCardState.addCallback(controlMagnetWithPicc);
-  configurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
-  noCardState.addCallback(setPiccReaderZeroState);
-  cardIsPresentState.addCallback(setPiccReaderZeroState);
-  configurationCardIsPresentState.addCallback(setPiccReaderZeroState);
-
-  // Initialize MFRC522 driver
-  mfrc522.PCD_Init();
+  mfrc522Board1ConfigurationNoCardState.addNewUidCallback(mfrc522Board1UpdateUidChecker);
+  mfrc522Board1ConfigurationNoCardState.addNewUidCallback(mfrc522Board1WriteUid);
+  mfrc522Board1StateMachine.addStateFunction(State::noCard, mfrc522Board1NoCardState);
+  mfrc522Board1StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board1CardIsPresentState);
+  mfrc522Board1StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board1ConfigurationNoCardState);
+  mfrc522Board1StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board1ConfigurationCardIsPresentState);
+  mfrc522Board1StateMachine.addCallback(sendStatusRequestCommandWrapper);
+  mfrc522Board1NoCardState.addCallback(controlMagnetWithPicc);
+  mfrc522Board1ConfigurationNoCardState.addNewPiccReaderStatusCallback(setPiccReaderZeroState);
+  mfrc522Board1NoCardState.addCallback(setPiccReaderZeroState);
+  mfrc522Board1CardIsPresentState.addCallback(setPiccReaderZeroState);
+  mfrc522Board1ConfigurationCardIsPresentState.addCallback(setPiccReaderZeroState);
+  mfrc522Board1Mfrc522.PCD_Init();
 
   // Set pin modes
   pinMode(MAGNET_CONTROL_OUTPUT_PIN, OUTPUT);

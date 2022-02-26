@@ -1,9 +1,9 @@
 // MFRC522
 //// MFRC522 1
 ////// MFRC522 driver
-MFRC522DriverPinSimple sdaPin = MFRC522DriverPinSimple(SDA_PIN_1);
-MFRC522DriverSPI driver = MFRC522DriverSPI{
-  sdaPin,
+MFRC522DriverPinSimple mfrc522Board1SdaPin = MFRC522DriverPinSimple(SDA_PIN_1);
+MFRC522DriverSPI mfrc522Board1Driver = MFRC522DriverSPI{
+  mfrc522Board1SdaPin,
   SPI,
   SPISettings(
     SPI_CLOCK_DIV4,
@@ -11,26 +11,26 @@ MFRC522DriverSPI driver = MFRC522DriverSPI{
     SPI_MODE0
   )
 };
-MFRC522 mfrc522{driver};
+MFRC522 mfrc522Board1Mfrc522{mfrc522Board1Driver};
 
 ////// Persistency
-int eepromAddress = 8;
-UidFromEepromReader readUidFromEeprom(eepromAddress);
-UidToEepromWriter writeUid(eepromAddress);
+int mfrc522Board1EepromAddress = 8;
+UidFromEepromReader mfrc522Board1ReadUidFromEeprom(mfrc522Board1EepromAddress);
+UidToEepromWriter mfrc522Board1WriteUid(mfrc522Board1EepromAddress);
 
 ////// Uid checker
-UpdateableUidChecker uidChecker;
-auto checkUid = [&uidChecker] (const PiccUid& uid) {return uidChecker.checkUid(uid); };
-auto updateUidChecker = [&uidChecker] (const PiccUid& uid) {return uidChecker.update(uid); };
+UpdateableUidChecker mfrc522Board1UidChecker;
+auto mfrc522Board1CheckUid = [&mfrc522Board1UidChecker] (const PiccUid& uid) {return mfrc522Board1UidChecker.checkUid(uid); };
+auto mfrc522Board1UpdateUidChecker = [&mfrc522Board1UidChecker] (const PiccUid& uid) {return mfrc522Board1UidChecker.update(uid); };
 
 ////// State machine
-MFRC522UidReader readUidFromMFRC522(mfrc522);
-UidIsReadableChecker isUidReadable(readUidFromMFRC522);
-NoCardState noCardState(readUidFromMFRC522, checkUid);
-CardIsPresentState cardIsPresentState(isUidReadable);
-ConfigurationNoCardState configurationNoCardState(readUidFromMFRC522);
-ConfigurationCardIsPresentState configurationCardIsPresentState(isUidReadable);
-StateMachine stateMachine;
+MFRC522UidReader mfrc522Board1ReadUidFromMFRC522(mfrc522Board1Mfrc522);
+UidIsReadableChecker mfrc522Board1IsUidReadable(mfrc522Board1ReadUidFromMFRC522);
+NoCardState mfrc522Board1NoCardState(mfrc522Board1ReadUidFromMFRC522, mfrc522Board1CheckUid);
+CardIsPresentState mfrc522Board1CardIsPresentState(mfrc522Board1IsUidReadable);
+ConfigurationNoCardState mfrc522Board1ConfigurationNoCardState(mfrc522Board1ReadUidFromMFRC522);
+ConfigurationCardIsPresentState mfrc522Board1ConfigurationCardIsPresentState(mfrc522Board1IsUidReadable);
+StateMachine mfrc522Board1StateMachine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,8 +52,8 @@ auto toggleMagnetWrapper = [&toggleMagnet, &statusRequestProcessor] () {
 auto controlMagnetWithPicc = [&toggleMagnetWrapper] (PiccReaderStatus status) {
   if (status == correctPicc) toggleMagnetWrapper();
 };
-auto configurationModeToggler = [&stateMachine, &statusRequestProcessor] () {
-  bool enabled = stateMachine.toggleConfigurationMode();
+auto configurationModeToggler = [&mfrc522Board1StateMachine, &statusRequestProcessor] () {
+  bool enabled = mfrc522Board1StateMachine.toggleConfigurationMode();
   statusRequestProcessor.setConfigurationModeEnabled(enabled);
   return enabled;
 };

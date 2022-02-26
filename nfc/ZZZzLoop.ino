@@ -1,5 +1,5 @@
 void loop() {
   boardDriver.processInput();
-  stateMachine.process();
+  mfrc522Board1StateMachine.process();
   delay(LOOP_DELAY_MS);
 }
