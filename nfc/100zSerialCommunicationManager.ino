@@ -1,6 +1,6 @@
 class InternalCommunicationManagerMixin {
   public:
-    void setInternalMessage(byte inputBuffer[], size_t messageSize) {
+    void setInternalMessage(const byte inputBuffer[], size_t messageSize) {
       if (messageSize > BUFFER_SIZE) {
         return; //TODO handle error
       }
