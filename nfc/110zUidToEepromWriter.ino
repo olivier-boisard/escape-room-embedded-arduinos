@@ -4,9 +4,9 @@ class UidToEepromWriter {
   
     void operator()(const PiccUid& uid) {
       int uidSize = uid.size;
-      EEPROM.update(eepromAddress, uidSize);
+      EEPROM.write(eepromAddress, uidSize);
       for (int i = 0 ; i < uidSize ; i++) {
-        EEPROM.update(eepromAddress + i + 1, uid.value[i]);
+        EEPROM.write(eepromAddress + i + 1, uid.value[i]);
       }
    }
 
