@@ -1,23 +1,3 @@
-/*
- * Pin layout
- * 
- * -------------------------------------
- * MFRC522      Arduino     
- * Reader/PCD   Uno/101     
- * Pin          Pin         
- * -------------------------------------
- * SDA(SS)      10          
- * MOSI         11
- * MISO         12
- * SCK          13
- * 
- * -------------------------------------
- * LED's          Arduino Uno/101 Pin
- * -------------------------------------
- * Green        9
- * Red          8
- */
-
 #include <EEPROM.h>
 
 #include <MFRC522v2.h>
