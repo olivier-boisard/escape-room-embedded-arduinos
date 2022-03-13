@@ -1,6 +1,6 @@
 #include <Wire.h>
 
-constexpr byte I2C_SLAVE_ADDRESS = 0x01;
+constexpr byte I2C_DEVICE_ADDRESS = 0x01;
 byte lastReceivedByte = 0x00;
 
 void onIc2ReceivedHandler(int) {
@@ -14,7 +14,7 @@ void onI2cRequestHandler() {
 }
 
 void setup() {
-  Wire.begin(I2C_SLAVE_ADDRESS);
+  Wire.begin(I2C_DEVICE_ADDRESS);
   Wire.onReceive(onIc2ReceivedHandler);
   Wire.onRequest(onI2cRequestHandler);
 }
