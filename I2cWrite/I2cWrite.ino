@@ -1,8 +1,7 @@
 #include <Wire.h>
 
-constexpr byte I2C_SLAVE_ADDRESS = 0x01;
+constexpr byte I2C_SLAVE_ADDRESS = 0x08;
 int value = 1;
-
 
 void setup() {
   Serial.begin(9600);
@@ -15,13 +14,6 @@ void loop() {
   Wire.beginTransmission(I2C_SLAVE_ADDRESS);
   Wire.write(value++);
   Wire.endTransmission();
-  
-  Wire.requestFrom(I2C_SLAVE_ADDRESS, 1);
-  while (Wire.available()) {
-    byte b = Wire.read();
-    Serial.println(b);
-  }
-  Serial.println("Empty!");
   
   delay(1000);
 }
