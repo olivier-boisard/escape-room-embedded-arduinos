@@ -1,7 +1,7 @@
 #include <Wire.h>
 
 constexpr byte I2C_SLAVE_ADDRESS = 0x08;
-int value = 1;
+byte value = 0x01;
 
 void setup() {
   Serial.begin(9600);
