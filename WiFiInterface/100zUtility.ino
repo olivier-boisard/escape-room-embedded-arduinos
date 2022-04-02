@@ -5,6 +5,7 @@ void resetBuffer(char buffer[], size_t bufferSize) {
 }
 
 int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
+  int status = WL_CONNECT_FAILED;
   if (EEPROM[eepromAddress++] == VALID_WIFI_CREDENTIALS_CODE) {
     // Read SSID
     size_t ssidLength = EEPROM[eepromAddress++];
@@ -26,7 +27,6 @@ int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
 
     // Connect to WiFi
     WiFi.begin(ssid, password);
-    int status = 0;
     size_t nTries = 20;
     for (size_t i = 0 ; i < nTries ; i++) {
       status = WiFi.status();
@@ -35,7 +35,6 @@ int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
       }
       delay(500);
     }
-    
-    return status;
   }
+  return status;
 }
