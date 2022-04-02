@@ -4,12 +4,12 @@ void resetBuffer(char buffer[], size_t bufferSize) {
   }
 }
 
-void attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
-  if (EEPROM[eepromAddress++] == 0x01) {
+int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
+  if (EEPROM[eepromAddress++] == VALID_WIFI_CREDENTIALS_CODE) {
     // Read SSID
     size_t ssidLength = EEPROM[eepromAddress++];
     if (ssidLength >= SSID_MAX_LENGTH) {
-      return; //TODO raise error somehow
+      return WL_NO_SSID_AVAIL; //TODO raise error somehow
     }
     for (size_t i = 0 ; i < ssidLength ; i++) {
       ssid[i] = EEPROM[eepromAddress++];
@@ -18,7 +18,7 @@ void attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
     // Read password
     size_t passwordLength = EEPROM[eepromAddress++];
     if (passwordLength >= PASSWORD_MAX_LENGTH) {
-      return; // TODO raise error somehow
+      return WL_NO_SSID_AVAIL; // TODO raise error somehow
     }
     for (size_t i = 0 ; i < passwordLength ; i++) {
       password[i] = EEPROM[eepromAddress++];
@@ -26,8 +26,16 @@ void attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
 
     // Connect to WiFi
     WiFi.begin(ssid, password);
-    while (WiFi.status() != WL_CONNECTED) {
+    int status = 0;
+    size_t nTries = 20;
+    for (size_t i = 0 ; i < nTries ; i++) {
+      status = WiFi.status();
+      if (status == WL_CONNECTED) {
+        break;
+      }
       delay(500);
     }
+    
+    return status;
   }
 }
