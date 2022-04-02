@@ -1,0 +1,8 @@
+#include <ESP8266WiFi.h>
+#include <EEPROM.h>
+
+#define SERIAL_PORT_BAUDRATE 9600
+#define EEPROM_ADDRESS 8
+#define SSID_MAX_LENGTH 256
+#define PASSWORD_MAX_LENGTH 256
+#define CONFIG_WIFI_COMMAND 0x01
