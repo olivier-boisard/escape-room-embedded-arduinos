@@ -40,23 +40,23 @@ void configWiFi(char ssid[], char password[], size_t eepromAddress) {
 
 int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
   int status = WL_CONNECT_FAILED;
-  if (EEPROM[eepromAddress++] == VALID_WIFI_CREDENTIALS_CODE) {
-    /*// Read SSID
-    size_t ssidLength = EEPROM[eepromAddress++];
+  if (EEPROM.read(eepromAddress++) == VALID_WIFI_CREDENTIALS_CODE) {
+    // Read SSID
+    size_t ssidLength = EEPROM.read(eepromAddress++);
     if (ssidLength >= SSID_MAX_LENGTH) {
       return WL_NO_SSID_AVAIL; //TODO raise error somehow
     }
     for (size_t i = 0 ; i < ssidLength ; i++) {
-      ssid[i] = EEPROM[eepromAddress++];
+      ssid[i] = EEPROM.read(eepromAddress++);
     }
 
     // Read password
-    size_t passwordLength = EEPROM[eepromAddress++];
+    size_t passwordLength = EEPROM.read(eepromAddress++);
     if (passwordLength >= PASSWORD_MAX_LENGTH) {
       return WL_NO_SSID_AVAIL; // TODO raise error somehow
     }
     for (size_t i = 0 ; i < passwordLength ; i++) {
-      password[i] = EEPROM[eepromAddress++];
+      password[i] = EEPROM.read(eepromAddress++);
     }
 
     // Connect to WiFi
@@ -68,7 +68,7 @@ int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
         break;
       }
       delay(500);
-    }*/
+    }
   }
   return status;
 }
