@@ -6,5 +6,5 @@ void setup() {
   resetBuffer(password, PASSWORD_MAX_LENGTH);
 
   // Attempt connection to WiFi
-  attemptConnectToWifi(ssid, password, EEPROM_ADDRESS);
+  attemptConnectToWifi(EEPROM_ADDRESS);
 }

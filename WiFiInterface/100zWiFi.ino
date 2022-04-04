@@ -24,8 +24,14 @@ void writeIpAddress() {
   }
 }
 
-int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
+int attemptConnectToWifi(size_t eepromAddress) {
   int status = WL_CONNECT_FAILED;
+  char ssid[SSID_MAX_LENGTH];
+  char password[PASSWORD_MAX_LENGTH];
+
+  resetBuffer(ssid, SSID_MAX_LENGTH);
+  resetBuffer(password, PASSWORD_MAX_LENGTH);
+    
   if (EEPROM.read(eepromAddress++) == VALID_WIFI_CREDENTIALS_CODE) {
     // Read SSID
     size_t ssidLength = EEPROM.read(eepromAddress++);
