@@ -1,3 +1,5 @@
+//TODO wrap Serial connection in abstract class.
+
 #include <ESP8266WiFi.h>
 #include <EEPROM.h>
 

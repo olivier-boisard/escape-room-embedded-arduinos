@@ -19,7 +19,7 @@ void resetBuffer(char buffer[], size_t bufferSize) {
 int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
   int status = WL_CONNECT_FAILED;
   if (EEPROM[eepromAddress++] == VALID_WIFI_CREDENTIALS_CODE) {
-    // Read SSID
+    /*// Read SSID
     size_t ssidLength = EEPROM[eepromAddress++];
     if (ssidLength >= SSID_MAX_LENGTH) {
       return WL_NO_SSID_AVAIL; //TODO raise error somehow
@@ -46,7 +46,7 @@ int attemptConnectToWifi(char ssid[], char password[], size_t eepromAddress) {
         break;
       }
       delay(500);
-    }
+    }*/
   }
   return status;
 }
