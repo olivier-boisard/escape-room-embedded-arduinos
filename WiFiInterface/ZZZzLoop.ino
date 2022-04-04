@@ -3,8 +3,15 @@ void loop() {
     byte readByte = Serial.read();
     if (readByte == CONFIG_WIFI_COMMAND) {
       getAndSaveCredentialsFromSerialPort(ssid, password);
-      configWiFi(ssid, password, EEPROM_ADDRESS);
-      writeIpAddress();
+      int status = attemptConnectToWifi(ssid, password, EEPROM_ADDRESS);
+      Serial.write(CONNECTION_RESULT);
+      if (status == WL_CONNECTED) {
+        Serial.write(CONNECTION_SUCCESS);
+        writeIpAddress();
+      } else {
+        Serial.write(CONNECTION_FAILURE);
+      }
+      Serial.flush();
     } else if (readByte == HANDSHAKE_CODE) {
       byte inputBuffer[MAX_BUFFER_SIZE];
       byte outputBuffer[MAX_BUFFER_SIZE];
