@@ -16,6 +16,16 @@ void getAndSaveCredentialsFromSerialPort(char ssidOutputBuffer[], char passwordO
   }
 }
 
+void writeIpAddress() {
+  Serial.write(IP_ADDRESS_CODE);
+  IPAddress ipAddress = WiFi.localIP();
+  constexpr size_t ipAddressLength = 4;
+  for (size_t i = 0 ; i < ipAddressLength ; i++) {
+    Serial.write(ipAddress[i]);
+  }
+  Serial.flush();
+}
+
 void handleConnectionResult(int connectionStatus) {
   byte result = connectionStatus == WL_CONNECTED ? CONNECTION_SUCCESS : CONNECTION_FAILURE;
   Serial.write(CONNECTION_RESULT);
