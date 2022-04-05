@@ -53,6 +53,9 @@ int attemptConnectToWifi(size_t eepromAddress) {
     }
     
     // Connect to WiFi
+    if (WiFi.status() == WL_CONNECTED) {
+      WiFi.disconnect();
+    }
     WiFi.begin(ssid, password);
     size_t nTries = 20;
     for (size_t i = 0 ; i < nTries ; i++) {
@@ -62,7 +65,6 @@ int attemptConnectToWifi(size_t eepromAddress) {
       }
       delay(500);
     }
-  }
 
   return status;
 }

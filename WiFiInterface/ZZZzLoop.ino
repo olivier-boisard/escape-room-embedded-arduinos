@@ -13,6 +13,7 @@ void loop() {
       } else {
         Serial.write(CONNECTION_FAILURE);
       }
+      Serial.write(END_MSG);
       Serial.flush();
     } else if (readByte == HANDSHAKE_CODE) {
       byte inputBuffer[MAX_BUFFER_SIZE];
