@@ -1,4 +1,5 @@
 void loop() {
+  // Read serial port
   if (Serial.available() > 0) {
     byte readByte = Serial.read();
     if (readByte == CONFIG_WIFI_COMMAND) {
@@ -23,7 +24,8 @@ void loop() {
       Serial.flush();
     }
   }
-  
+
+  // Read WiFi
   if (WiFi.status() == WL_CONNECTED) {
     client = server.available();
     if (client) {
