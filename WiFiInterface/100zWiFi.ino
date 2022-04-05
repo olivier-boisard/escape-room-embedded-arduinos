@@ -63,6 +63,6 @@ int attemptConnectToWifi(size_t eepromAddress) {
       delay(500);
     }
   }
-    
+
   return status;
 }
