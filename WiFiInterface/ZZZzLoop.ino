@@ -1,10 +1,10 @@
 void loop() {
   if (Serial.available() > 0) {
     byte readByte = Serial.read();
+    
     if (readByte == CONFIG_WIFI_COMMAND) {
-      resetBuffer(ssid, SSID_MAX_LENGTH);
-      resetBuffer(password, PASSWORD_MAX_LENGTH);
-      getAndSaveCredentialsFromSerialPort(ssid, password);
+      getAndSaveCredentialsFromSerialPort(EEPROM_ADDRESS);
+      
       int status = attemptConnectToWifi(EEPROM_ADDRESS);
       Serial.write(CONNECTION_RESULT);
       if (status == WL_CONNECTED) {
