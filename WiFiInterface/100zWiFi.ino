@@ -16,6 +16,8 @@ void getAndSaveCredentialsFromSerialPort(size_t eepromAddress) {
   for (size_t i = 0 ; i < passwordSize ; i++) {
     EEPROM.write(eepromAddress++, password[i]);
   }
+
+  EEPROM.commit();
 }
 
 void writeIpAddress() {
