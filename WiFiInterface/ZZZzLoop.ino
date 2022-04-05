@@ -36,6 +36,7 @@ void loop() {
           buffer[nWrittenBytes++] = readByte;
         } while (readByte != END_MSG);
         Serial.write(buffer, nWrittenBytes);
+        Serial.flush();
       }
     }
   }
