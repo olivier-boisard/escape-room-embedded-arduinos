@@ -4,7 +4,6 @@ void loop() {
     
     if (readByte == CONFIG_WIFI_COMMAND) {
       getAndSaveCredentialsFromSerialPort(EEPROM_ADDRESS);
-      
       int status = attemptConnectToWifi(EEPROM_ADDRESS);
       Serial.write(CONNECTION_RESULT);
       if (status == WL_CONNECTED) {
