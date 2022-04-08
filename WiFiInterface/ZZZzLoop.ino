@@ -22,6 +22,23 @@ void loop() {
       outputBuffer[nWrittenBytes++] = END_MSG;
       Serial.write(outputBuffer, nWrittenBytes);
       Serial.flush();
+    } else if (readByte == FORWARD_SERIAL_MESSAGE_COMMAND) {
+      //Write WiFi
+      byte buffer[MAX_BUFFER_SIZE];
+      size_t nBytesToWrite = Serial.readBytesUntil(0x00, buffer, MAX_BUFFER_SIZE);
+      buffer[nBytesToWrite++] = END_MSG;
+      if (!client) {
+        client = server.available();
+      }
+
+      if (client) {
+        if (client.connected()) {
+          for (size_t i = 0 ; i < nBytesToWrite ; i++) {
+            client.write(buffer[i]);
+          }
+          client.flush();
+        }
+      }
     }
   }
 

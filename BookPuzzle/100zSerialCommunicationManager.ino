@@ -34,13 +34,22 @@ class SerialCommunicationManager : public CommunicationManager {
       return Serial.available() > 0 ? Serial.readBytesUntil(0x00, inputBuffer, maxSize) : 0;
     }
   
-    virtual void write(const byte outputBuffer[], size_t size) override {
-      Serial.write(outputBuffer, size);
+    virtual void write(const byte buffer[], size_t size) override {
+      byte outputBuffer[MAX_BUFFER_SIZE];
+      size_t nWrittenBytes = 0;
+      outputBuffer[nWrittenBytes++] = MESSAGE_START_CODE;
+      for (size_t i = 0 ; i < size ; i++) {
+        outputBuffer[nWrittenBytes++] = buffer[i];
+      }
+      Serial.write(outputBuffer, nWrittenBytes);
     }
 
     virtual void flush() override {
       Serial.flush();
     }
+
+    constexpr static size_t MAX_BUFFER_SIZE = 64;
+    constexpr static byte MESSAGE_START_CODE = 0x99;
 };
 
 class SerialAndInternalCommunicationManager : public SerialCommunicationManager, public InternalCommunicationManagerMixin {

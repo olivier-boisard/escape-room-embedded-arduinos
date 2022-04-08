@@ -1,5 +1,4 @@
 //TODO wrap Serial connection in abstract class.
-
 #include <ESP8266WiFi.h>
 #include <EEPROM.h>
 
@@ -10,6 +9,7 @@
 #define PASSWORD_MAX_LENGTH 256
 #define MAX_BUFFER_SIZE 64
 #define CONFIG_WIFI_COMMAND 0x01
+#define FORWARD_SERIAL_MESSAGE_COMMAND 0x99
 #define VALID_WIFI_CREDENTIALS_CODE 0x02
 #define CONNECTION_RESULT 0x32
 #define CONNECTION_SUCCESS 0x02
