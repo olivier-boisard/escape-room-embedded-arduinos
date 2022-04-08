@@ -27,18 +27,23 @@ void loop() {
 
   // Read WiFi
   if (WiFi.status() == WL_CONNECTED) {
-    client = server.available();
+    if (!client) {
+      client = server.available();
+    }
+    
     if (client) {
       if (client.connected()) {
         byte buffer[MAX_BUFFER_SIZE];
         size_t nWrittenBytes = 0;
         byte readByte = 0x00;
-        do {
-          byte readByte = client.read();
-          buffer[nWrittenBytes++] = readByte;
-        } while (readByte != END_MSG);
-        Serial.write(buffer, nWrittenBytes);
-        Serial.flush();
+        if (client.available() > 0) {
+          do {
+            byte readByte = client.read();
+            buffer[nWrittenBytes++] = readByte;
+          } while (readByte != END_MSG);
+          Serial.write(buffer, nWrittenBytes);
+          Serial.flush();
+        }
       }
     }
   }
