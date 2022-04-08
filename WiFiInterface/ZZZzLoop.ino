@@ -38,7 +38,7 @@ void loop() {
         byte readByte = 0x00;
         if (client.available() > 0) {
           do {
-            byte readByte = client.read();
+            readByte = client.read();
             buffer[nWrittenBytes++] = readByte;
           } while (readByte != END_MSG);
           Serial.write(buffer, nWrittenBytes);
