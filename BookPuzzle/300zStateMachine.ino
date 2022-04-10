@@ -2,7 +2,7 @@ class StateMachine : public CallbackStackMixin<State> {
   public:
   
     void addStateFunction(State state, const function<State()>& stateFunction) {
-      stateFunctions[state] = stateFunction;
+      stateFunctions[(int) state] = stateFunction;
       if (!isRegistered(state)) {
         registeredStates[nRegisteredStates++] = state;
       }
@@ -10,7 +10,7 @@ class StateMachine : public CallbackStackMixin<State> {
 
     void process() {
       if (isRegistered(state)) {
-        State newState = stateFunctions[state]();
+        State newState = stateFunctions[(int) state]();
         updateState(newState);
       } else {
         //TODO manage error
@@ -18,13 +18,13 @@ class StateMachine : public CallbackStackMixin<State> {
     }
 
     bool toggleConfigurationMode() {
-      State newState = state != State::configurationNoCard ? State::configurationNoCard : State::noCard;
+      State newState = state != State::configurationNoPicc ? State::configurationNoPicc : State::noPicc;
       updateState(newState);
-      return state == State::configurationNoCard;
+      return state == State::configurationNoPicc;
     }
     
   private:
-    State state = State::noCard;
+    State state = State::noPicc;
     constexpr static size_t MAX_N_STATE_FUNCTIONS = 4;
     function<State()> stateFunctions[MAX_N_STATE_FUNCTIONS];
     State registeredStates[MAX_N_STATE_FUNCTIONS];

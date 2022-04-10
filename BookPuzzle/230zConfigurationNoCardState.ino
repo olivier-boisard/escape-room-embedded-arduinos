@@ -1,13 +1,13 @@
-class ConfigurationNoCardState : private CallbackStackMixin<const PiccUid&>, private CallbackStackMixin<PiccReaderStatus> {
+class ConfigurationNoPiccState : private CallbackStackMixin<const PiccUid&>, private CallbackStackMixin<PiccReaderStatus> {
   public:
-    ConfigurationNoCardState(const function<bool(PiccUid*)>& readUid) : readUid(readUid) {}
+    ConfigurationNoPiccState(const function<bool(PiccUid*)>& readUid) : readUid(readUid) {}
     
     State operator()() {
-      State newState = State::configurationNoCard;
+      State newState = State::configurationNoPicc;
       PiccUid uid;
       if (readUid(&uid)) {
         CallbackStackMixin<const PiccUid&>::callCallbacks(uid);
-        newState = State::configurationCardIsPresent;
+        newState = State::configurationPiccIsPresent;
         CallbackStackMixin<PiccReaderStatus>::callCallbacks(PiccReaderStatus::newPicc);
       }
       return newState;

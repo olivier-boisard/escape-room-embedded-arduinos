@@ -9,17 +9,17 @@ void setup() {
   } else {
     //TODO raise error somehow
   }
-  mfrc522Board0ConfigurationNoCardState.addNewUidCallback(mfrc522Board0UpdateUidChecker);
-  mfrc522Board0ConfigurationNoCardState.addNewUidCallback(mfrc522Board0WriteUid);
-  mfrc522Board0StateMachine.addStateFunction(State::noCard, mfrc522Board0NoCardState);
-  mfrc522Board0StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board0CardIsPresentState);
-  mfrc522Board0StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board0ConfigurationNoCardState);
-  mfrc522Board0StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board0ConfigurationCardIsPresentState);
+  mfrc522Board0ConfigurationNoPiccState.addNewUidCallback(mfrc522Board0UpdateUidChecker);
+  mfrc522Board0ConfigurationNoPiccState.addNewUidCallback(mfrc522Board0WriteUid);
+  mfrc522Board0StateMachine.addStateFunction(State::noPicc, mfrc522Board0NoPiccState);
+  mfrc522Board0StateMachine.addStateFunction(State::piccIsPresent, mfrc522Board0PiccIsPresentState);
+  mfrc522Board0StateMachine.addStateFunction(State::configurationNoPicc, mfrc522Board0ConfigurationNoPiccState);
+  mfrc522Board0StateMachine.addStateFunction(State::configurationPiccIsPresent, mfrc522Board0ConfigurationPiccIsPresentState);
   mfrc522Board0StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board0NoCardState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0CardIsPresentState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0ConfigurationCardIsPresentState.addCallback(mfrc522Board0HandleStatus);
+  mfrc522Board0NoPiccState.addCallback(mfrc522Board0HandleStatus);
+  mfrc522Board0ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board0HandleStatus);
+  mfrc522Board0PiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
+  mfrc522Board0ConfigurationPiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
   mfrc522Board0Mfrc522.PCD_Init();
 
   // Configuring PICC reader 1
@@ -29,17 +29,17 @@ void setup() {
   } else {
     //TODO raise error somehow
   }
-  mfrc522Board1ConfigurationNoCardState.addNewUidCallback(mfrc522Board1UpdateUidChecker);
-  mfrc522Board1ConfigurationNoCardState.addNewUidCallback(mfrc522Board1WriteUid);
-  mfrc522Board1StateMachine.addStateFunction(State::noCard, mfrc522Board1NoCardState);
-  mfrc522Board1StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board1CardIsPresentState);
-  mfrc522Board1StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board1ConfigurationNoCardState);
-  mfrc522Board1StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board1ConfigurationCardIsPresentState);
+  mfrc522Board1ConfigurationNoPiccState.addNewUidCallback(mfrc522Board1UpdateUidChecker);
+  mfrc522Board1ConfigurationNoPiccState.addNewUidCallback(mfrc522Board1WriteUid);
+  mfrc522Board1StateMachine.addStateFunction(State::noPicc, mfrc522Board1NoPiccState);
+  mfrc522Board1StateMachine.addStateFunction(State::piccIsPresent, mfrc522Board1PiccIsPresentState);
+  mfrc522Board1StateMachine.addStateFunction(State::configurationNoPicc, mfrc522Board1ConfigurationNoPiccState);
+  mfrc522Board1StateMachine.addStateFunction(State::configurationPiccIsPresent, mfrc522Board1ConfigurationPiccIsPresentState);
   mfrc522Board1StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board1NoCardState.addCallback(mfrc522Board1HandleStatus);
-  mfrc522Board1ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board1HandleStatus);
-  mfrc522Board1CardIsPresentState.addCallback(mfrc522Board1HandleStatus);
-  mfrc522Board1ConfigurationCardIsPresentState.addCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1NoPiccState.addCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1PiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
+  mfrc522Board1ConfigurationPiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1Mfrc522.PCD_Init();
 
   // Configuring PICC reader 2
@@ -49,17 +49,17 @@ void setup() {
   } else {
     //TODO raise error somehow
   }
-  mfrc522Board2ConfigurationNoCardState.addNewUidCallback(mfrc522Board2UpdateUidChecker);
-  mfrc522Board2ConfigurationNoCardState.addNewUidCallback(mfrc522Board2WriteUid);
-  mfrc522Board2StateMachine.addStateFunction(State::noCard, mfrc522Board2NoCardState);
-  mfrc522Board2StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board2CardIsPresentState);
-  mfrc522Board2StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board2ConfigurationNoCardState);
-  mfrc522Board2StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board2ConfigurationCardIsPresentState);
+  mfrc522Board2ConfigurationNoPiccState.addNewUidCallback(mfrc522Board2UpdateUidChecker);
+  mfrc522Board2ConfigurationNoPiccState.addNewUidCallback(mfrc522Board2WriteUid);
+  mfrc522Board2StateMachine.addStateFunction(State::noPicc, mfrc522Board2NoPiccState);
+  mfrc522Board2StateMachine.addStateFunction(State::piccIsPresent, mfrc522Board2PiccIsPresentState);
+  mfrc522Board2StateMachine.addStateFunction(State::configurationNoPicc, mfrc522Board2ConfigurationNoPiccState);
+  mfrc522Board2StateMachine.addStateFunction(State::configurationPiccIsPresent, mfrc522Board2ConfigurationPiccIsPresentState);
   mfrc522Board2StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board2NoCardState.addCallback(mfrc522Board2HandleStatus);
-  mfrc522Board2ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board2HandleStatus);
-  mfrc522Board2CardIsPresentState.addCallback(mfrc522Board2HandleStatus);
-  mfrc522Board2ConfigurationCardIsPresentState.addCallback(mfrc522Board2HandleStatus);
+  mfrc522Board2NoPiccState.addCallback(mfrc522Board2HandleStatus);
+  mfrc522Board2ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board2HandleStatus);
+  mfrc522Board2PiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
+  mfrc522Board2ConfigurationPiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
   mfrc522Board2Mfrc522.PCD_Init();
 
   // Configuring PICC reader 3
@@ -69,17 +69,17 @@ void setup() {
   } else {
     //TODO raise error somehow
   }
-  mfrc522Board3ConfigurationNoCardState.addNewUidCallback(mfrc522Board3UpdateUidChecker);
-  mfrc522Board3ConfigurationNoCardState.addNewUidCallback(mfrc522Board3WriteUid);
-  mfrc522Board3StateMachine.addStateFunction(State::noCard, mfrc522Board3NoCardState);
-  mfrc522Board3StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board3CardIsPresentState);
-  mfrc522Board3StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board3ConfigurationNoCardState);
-  mfrc522Board3StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board3ConfigurationCardIsPresentState);
+  mfrc522Board3ConfigurationNoPiccState.addNewUidCallback(mfrc522Board3UpdateUidChecker);
+  mfrc522Board3ConfigurationNoPiccState.addNewUidCallback(mfrc522Board3WriteUid);
+  mfrc522Board3StateMachine.addStateFunction(State::noPicc, mfrc522Board3NoPiccState);
+  mfrc522Board3StateMachine.addStateFunction(State::piccIsPresent, mfrc522Board3PiccIsPresentState);
+  mfrc522Board3StateMachine.addStateFunction(State::configurationNoPicc, mfrc522Board3ConfigurationNoPiccState);
+  mfrc522Board3StateMachine.addStateFunction(State::configurationPiccIsPresent, mfrc522Board3ConfigurationPiccIsPresentState);
   mfrc522Board3StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board3NoCardState.addCallback(mfrc522Board3HandleStatus);
-  mfrc522Board3ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board3HandleStatus);
-  mfrc522Board3CardIsPresentState.addCallback(mfrc522Board3HandleStatus);
-  mfrc522Board3ConfigurationCardIsPresentState.addCallback(mfrc522Board3HandleStatus);
+  mfrc522Board3NoPiccState.addCallback(mfrc522Board3HandleStatus);
+  mfrc522Board3ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board3HandleStatus);
+  mfrc522Board3PiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
+  mfrc522Board3ConfigurationPiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
   mfrc522Board3Mfrc522.PCD_Init();
 
   // Configuring PICC reader 4
@@ -89,19 +89,19 @@ void setup() {
   } else {
     //TODO raise error somehow
   }
-  mfrc522Board4ConfigurationNoCardState.addNewUidCallback(mfrc522Board4UpdateUidChecker);
-  mfrc522Board4ConfigurationNoCardState.addNewUidCallback(mfrc522Board4WriteUid);
-  mfrc522Board4StateMachine.addStateFunction(State::noCard, mfrc522Board4NoCardState);
-  mfrc522Board4StateMachine.addStateFunction(State::cardIsPresent, mfrc522Board4CardIsPresentState);
-  mfrc522Board4StateMachine.addStateFunction(State::configurationNoCard, mfrc522Board4ConfigurationNoCardState);
-  mfrc522Board4StateMachine.addStateFunction(State::configurationCardIsPresent, mfrc522Board4ConfigurationCardIsPresentState);
+  mfrc522Board4ConfigurationNoPiccState.addNewUidCallback(mfrc522Board4UpdateUidChecker);
+  mfrc522Board4ConfigurationNoPiccState.addNewUidCallback(mfrc522Board4WriteUid);
+  mfrc522Board4StateMachine.addStateFunction(State::noPicc, mfrc522Board4NoPiccState);
+  mfrc522Board4StateMachine.addStateFunction(State::piccIsPresent, mfrc522Board4PiccIsPresentState);
+  mfrc522Board4StateMachine.addStateFunction(State::configurationNoPicc, mfrc522Board4ConfigurationNoPiccState);
+  mfrc522Board4StateMachine.addStateFunction(State::configurationPiccIsPresent, mfrc522Board4ConfigurationPiccIsPresentState);
   mfrc522Board4StateMachine.addCallback(sendStatusRequestCommandWrapper);
-  mfrc522Board4NoCardState.addCallback(mfrc522Board4HandleStatus);
-  mfrc522Board4ConfigurationNoCardState.addNewPiccReaderStatusCallback(mfrc522Board4HandleStatus);
-  mfrc522Board4CardIsPresentState.addCallback(mfrc522Board4HandleStatus);
-  mfrc522Board4ConfigurationCardIsPresentState.addCallback(mfrc522Board4HandleStatus);
+  mfrc522Board4NoPiccState.addCallback(mfrc522Board4HandleStatus);
+  mfrc522Board4ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board4HandleStatus);
+  mfrc522Board4PiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
+  mfrc522Board4ConfigurationPiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
   mfrc522Board4Mfrc522.PCD_Init();
 
-  // Magnet control
-  piccReaderStatusMonitor.addCallback(controlMagnet);
+  // Lock control
+  piccReaderStatusMonitor.addCallback(controlLock);
 }

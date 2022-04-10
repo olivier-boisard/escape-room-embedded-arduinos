@@ -4,15 +4,15 @@ class UidIsReadableChecker {
 
     bool operator()() {
       constexpr size_t nAbsenceChecks = 2;
-      bool cardIsPresentFlag = false;
+      bool piccIsPresentFlag = false;
       PiccUid dummy;
       for (int i = 0 ; i < nAbsenceChecks ; i++) {
         if (readUid(&dummy)) {
-          cardIsPresentFlag = true;
+          piccIsPresentFlag = true;
           break;
         }
       }
-      return cardIsPresentFlag;
+      return piccIsPresentFlag;
     }
 
   private:

@@ -5,14 +5,14 @@ class StatusRequestProcessor {
         //TODO reader
       }
       for (size_t i = 0 ; i < piccReaderStatusBufferSize ; i++) {
-        piccReaderStatus[i] = noPicc;
+        piccReaderStatus[i] = PiccReaderStatus::noPicc;
       }
     }
 
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte piccReaderStatusCode = 0x01;
       constexpr byte configurationModeStatusCode = 0x02;
-      constexpr byte magnetStatusCode = 0x03;
+      constexpr byte lockStatusCode = 0x03;
       constexpr byte errorCode = 0xFF;
       constexpr byte enabledCode = 0x03;
       constexpr byte disabledCode = 0x04;
@@ -26,16 +26,16 @@ class StatusRequestProcessor {
         outputBuffer[nWrittenBytes++] = piccReaderStatusCode;
         outputBuffer[nWrittenBytes++] = (byte) nPiccReaders;
         for (size_t i = 0 ; i < nPiccReaders ; i++) {
-          outputBuffer[nWrittenBytes++] = piccReaderStatus[i];
+          outputBuffer[nWrittenBytes++] = (byte) piccReaderStatus[i];
         }
 
         // Configuration mode
         outputBuffer[nWrittenBytes++] = configurationModeStatusCode;
         outputBuffer[nWrittenBytes++] = configurationModeEnabled ? enabledCode : disabledCode;
 
-        // Magnet
-        outputBuffer[nWrittenBytes++] = magnetStatusCode;
-        outputBuffer[nWrittenBytes++] = magnetEnabled ? enabledCode : disabledCode;
+        // Lock
+        outputBuffer[nWrittenBytes++] = lockStatusCode;
+        outputBuffer[nWrittenBytes++] = lockEnabled ? enabledCode : disabledCode;
       }
 
       // Handle error
@@ -57,8 +57,8 @@ class StatusRequestProcessor {
       configurationModeEnabled = enabled;
     }
 
-    void setMagnetEnabled(bool enabled) {
-      magnetEnabled = enabled;
+    void setLockEnabled(bool enabled) {
+      lockEnabled = enabled;
     }
 
   private:
@@ -66,5 +66,5 @@ class StatusRequestProcessor {
     PiccReaderStatus piccReaderStatus[piccReaderStatusBufferSize];
     size_t nPiccReaders;
     bool configurationModeEnabled = false;
-    bool magnetEnabled = true;
+    bool lockEnabled = true;
 };

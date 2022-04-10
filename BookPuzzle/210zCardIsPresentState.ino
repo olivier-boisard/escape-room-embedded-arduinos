@@ -1,18 +1,18 @@
-class CardIsPresentState : public CallbackStackMixin<PiccReaderStatus> {
+class PiccIsPresentState : public CallbackStackMixin<PiccReaderStatus> {
   public:
   
-    CardIsPresentState(const function<bool()>& isCardPresent)
-      : isCardPresent(isCardPresent) {}
+    PiccIsPresentState(const function<bool()>& isPiccPresent)
+      : isPiccPresent(isPiccPresent) {}
 
     State operator()() {
-      State newState = State::cardIsPresent;
-      if (!isCardPresent()) {
-        newState = State::noCard;
-        callCallbacks(noPicc);
+      State newState = State::piccIsPresent;
+      if (!isPiccPresent()) {
+        newState = State::noPicc;
+        callCallbacks(PiccReaderStatus::noPicc);
       }
       return newState;
     }
 
   private:
-    function<bool()> isCardPresent;
+    function<bool()> isPiccPresent;
 };

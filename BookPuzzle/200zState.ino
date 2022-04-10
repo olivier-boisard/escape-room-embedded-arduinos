@@ -1,6 +1,6 @@
-typedef enum {
-  noCard = 0,
-  cardIsPresent = 1,
-  configurationNoCard = 2,
-  configurationCardIsPresent = 3
-} State;
+enum class State {
+  noPicc = 0,
+  piccIsPresent = 1,
+  configurationNoPicc = 2,
+  configurationPiccIsPresent = 3
+};

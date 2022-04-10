@@ -28,10 +28,10 @@ auto mfrc522Board0UpdateUidChecker = [&mfrc522Board0UidChecker] (const PiccUid& 
 ////// State machine
 Mfrc522UidReader mfrc522Board0ReadUidFromMFRC522(mfrc522Board0Mfrc522);
 UidIsReadableChecker mfrc522Board0IsUidReadable(mfrc522Board0ReadUidFromMFRC522);
-NoCardState mfrc522Board0NoCardState(mfrc522Board0ReadUidFromMFRC522, mfrc522Board0CheckUid);
-CardIsPresentState mfrc522Board0CardIsPresentState(mfrc522Board0IsUidReadable);
-ConfigurationNoCardState mfrc522Board0ConfigurationNoCardState(mfrc522Board0ReadUidFromMFRC522);
-ConfigurationCardIsPresentState mfrc522Board0ConfigurationCardIsPresentState(mfrc522Board0IsUidReadable);
+NoPiccState mfrc522Board0NoPiccState(mfrc522Board0ReadUidFromMFRC522, mfrc522Board0CheckUid);
+PiccIsPresentState mfrc522Board0PiccIsPresentState(mfrc522Board0IsUidReadable);
+ConfigurationNoPiccState mfrc522Board0ConfigurationNoPiccState(mfrc522Board0ReadUidFromMFRC522);
+ConfigurationPiccIsPresentState mfrc522Board0ConfigurationPiccIsPresentState(mfrc522Board0IsUidReadable);
 StateMachine mfrc522Board0StateMachine;
 
 //// MFRC522 1
@@ -61,10 +61,10 @@ auto mfrc522Board1UpdateUidChecker = [&mfrc522Board1UidChecker] (const PiccUid& 
 ////// State machine
 Mfrc522UidReader mfrc522Board1ReadUidFromMFRC522(mfrc522Board1Mfrc522);
 UidIsReadableChecker mfrc522Board1IsUidReadable(mfrc522Board1ReadUidFromMFRC522);
-NoCardState mfrc522Board1NoCardState(mfrc522Board1ReadUidFromMFRC522, mfrc522Board1CheckUid);
-CardIsPresentState mfrc522Board1CardIsPresentState(mfrc522Board1IsUidReadable);
-ConfigurationNoCardState mfrc522Board1ConfigurationNoCardState(mfrc522Board1ReadUidFromMFRC522);
-ConfigurationCardIsPresentState mfrc522Board1ConfigurationCardIsPresentState(mfrc522Board1IsUidReadable);
+NoPiccState mfrc522Board1NoPiccState(mfrc522Board1ReadUidFromMFRC522, mfrc522Board1CheckUid);
+PiccIsPresentState mfrc522Board1PiccIsPresentState(mfrc522Board1IsUidReadable);
+ConfigurationNoPiccState mfrc522Board1ConfigurationNoPiccState(mfrc522Board1ReadUidFromMFRC522);
+ConfigurationPiccIsPresentState mfrc522Board1ConfigurationPiccIsPresentState(mfrc522Board1IsUidReadable);
 StateMachine mfrc522Board1StateMachine;
 
 //// MFRC522 2
@@ -94,10 +94,10 @@ auto mfrc522Board2UpdateUidChecker = [&mfrc522Board2UidChecker] (const PiccUid& 
 ////// State machine
 Mfrc522UidReader mfrc522Board2ReadUidFromMFRC522(mfrc522Board2Mfrc522);
 UidIsReadableChecker mfrc522Board2IsUidReadable(mfrc522Board2ReadUidFromMFRC522);
-NoCardState mfrc522Board2NoCardState(mfrc522Board2ReadUidFromMFRC522, mfrc522Board2CheckUid);
-CardIsPresentState mfrc522Board2CardIsPresentState(mfrc522Board2IsUidReadable);
-ConfigurationNoCardState mfrc522Board2ConfigurationNoCardState(mfrc522Board2ReadUidFromMFRC522);
-ConfigurationCardIsPresentState mfrc522Board2ConfigurationCardIsPresentState(mfrc522Board2IsUidReadable);
+NoPiccState mfrc522Board2NoPiccState(mfrc522Board2ReadUidFromMFRC522, mfrc522Board2CheckUid);
+PiccIsPresentState mfrc522Board2PiccIsPresentState(mfrc522Board2IsUidReadable);
+ConfigurationNoPiccState mfrc522Board2ConfigurationNoPiccState(mfrc522Board2ReadUidFromMFRC522);
+ConfigurationPiccIsPresentState mfrc522Board2ConfigurationPiccIsPresentState(mfrc522Board2IsUidReadable);
 StateMachine mfrc522Board2StateMachine;
 
 //// MFRC522 3
@@ -127,10 +127,10 @@ auto mfrc522Board3UpdateUidChecker = [&mfrc522Board3UidChecker] (const PiccUid& 
 ////// State machine
 Mfrc522UidReader mfrc522Board3ReadUidFromMFRC522(mfrc522Board3Mfrc522);
 UidIsReadableChecker mfrc522Board3IsUidReadable(mfrc522Board3ReadUidFromMFRC522);
-NoCardState mfrc522Board3NoCardState(mfrc522Board3ReadUidFromMFRC522, mfrc522Board3CheckUid);
-CardIsPresentState mfrc522Board3CardIsPresentState(mfrc522Board3IsUidReadable);
-ConfigurationNoCardState mfrc522Board3ConfigurationNoCardState(mfrc522Board3ReadUidFromMFRC522);
-ConfigurationCardIsPresentState mfrc522Board3ConfigurationCardIsPresentState(mfrc522Board3IsUidReadable);
+NoPiccState mfrc522Board3NoPiccState(mfrc522Board3ReadUidFromMFRC522, mfrc522Board3CheckUid);
+PiccIsPresentState mfrc522Board3PiccIsPresentState(mfrc522Board3IsUidReadable);
+ConfigurationNoPiccState mfrc522Board3ConfigurationNoPiccState(mfrc522Board3ReadUidFromMFRC522);
+ConfigurationPiccIsPresentState mfrc522Board3ConfigurationPiccIsPresentState(mfrc522Board3IsUidReadable);
 StateMachine mfrc522Board3StateMachine;
 
 //// MFRC522 4
@@ -160,14 +160,14 @@ auto mfrc522Board4UpdateUidChecker = [&mfrc522Board4UidChecker] (const PiccUid& 
 ////// State machine
 Mfrc522UidReader mfrc522Board4ReadUidFromMFRC522(mfrc522Board4Mfrc522);
 UidIsReadableChecker mfrc522Board4IsUidReadable(mfrc522Board4ReadUidFromMFRC522);
-NoCardState mfrc522Board4NoCardState(mfrc522Board4ReadUidFromMFRC522, mfrc522Board4CheckUid);
-CardIsPresentState mfrc522Board4CardIsPresentState(mfrc522Board4IsUidReadable);
-ConfigurationNoCardState mfrc522Board4ConfigurationNoCardState(mfrc522Board4ReadUidFromMFRC522);
-ConfigurationCardIsPresentState mfrc522Board4ConfigurationCardIsPresentState(mfrc522Board4IsUidReadable);
+NoPiccState mfrc522Board4NoPiccState(mfrc522Board4ReadUidFromMFRC522, mfrc522Board4CheckUid);
+PiccIsPresentState mfrc522Board4PiccIsPresentState(mfrc522Board4IsUidReadable);
+ConfigurationNoPiccState mfrc522Board4ConfigurationNoPiccState(mfrc522Board4ReadUidFromMFRC522);
+ConfigurationPiccIsPresentState mfrc522Board4ConfigurationPiccIsPresentState(mfrc522Board4IsUidReadable);
 StateMachine mfrc522Board4StateMachine;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-ActiveLowPinController magnetController(MAGNET_CONTROL_OUTPUT_PIN);
+ActiveLowPinController lockController(LOCK_CONTROL_OUTPUT_PIN);
 
 // Board driver
 StatusRequestProcessor statusRequestProcessor(N_MFRC522_READERS);
@@ -178,18 +178,18 @@ auto sendStatusRequestCommand = [&serialAndInternalCommunicationManager] () {
 };
 auto sendStatusRequestCommandWrapper = [&sendStatusRequestCommand] (State) {sendStatusRequestCommand(); };
 
-// Magnet
-auto controlMagnet = [&magnetController, &statusRequestProcessor] (bool allPiccCorrect) {
-  bool disableMagnet = allPiccCorrect;
-  if (disableMagnet) {
-    magnetController.disable();
-    statusRequestProcessor.setMagnetEnabled(false);
+// Lock
+auto controlLock = [&lockController, &statusRequestProcessor] (bool allPiccCorrect) {
+  bool disableLock = allPiccCorrect;
+  if (disableLock) {
+    lockController.disable();
+    statusRequestProcessor.setLockEnabled(false);
   }
 };
-auto toggleMagnet = [&magnetController, &statusRequestProcessor] () {
-  bool magnetEnabled = magnetController.toggle();
-  statusRequestProcessor.setMagnetEnabled(magnetEnabled);
-  return magnetEnabled;
+auto toggleLock = [&lockController, &statusRequestProcessor] () {
+  bool lockEnabled = lockController.toggle();
+  statusRequestProcessor.setLockEnabled(lockEnabled);
+  return lockEnabled;
 };
 auto configurationModeToggler = [&mfrc522Board0StateMachine, &mfrc522Board1StateMachine, &mfrc522Board2StateMachine, &mfrc522Board3StateMachine, &mfrc522Board4StateMachine, &statusRequestProcessor] () {
   bool enabled = mfrc522Board0StateMachine.toggleConfigurationMode();
@@ -200,7 +200,7 @@ auto configurationModeToggler = [&mfrc522Board0StateMachine, &mfrc522Board1State
   statusRequestProcessor.setConfigurationModeEnabled(enabled);
   return enabled;
 };
-LockCommandProcessor lockCommandProcessor(toggleMagnet);
+LockCommandProcessor lockCommandProcessor(toggleLock);
 ConfigurationModeCommandProcessor configurationModeCommandProcessor(configurationModeToggler);
 BoardDriver boardDriver(
   serialAndInternalCommunicationManager,

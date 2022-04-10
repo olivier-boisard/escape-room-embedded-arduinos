@@ -5,7 +5,7 @@ class CorrectPiccStatusesObservable : public CallbackStackMixin<bool> {
         // TODO raise error somehow
       }
       for (size_t i = 0 ; i < nPiccReaders ; i++) {
-        statuses[i] = noPicc;
+        statuses[i] = PiccReaderStatus::noPicc;
       }
     }
     
@@ -24,7 +24,7 @@ class CorrectPiccStatusesObservable : public CallbackStackMixin<bool> {
     bool allPiccAreCorrect() {
       bool allPiccAreCorrect = true;
       for (size_t i = 0 ; i < nPiccReaders ; i++) {
-        if (statuses[i] != correctPicc) {
+        if (statuses[i] != PiccReaderStatus::correctPicc) {
           allPiccAreCorrect = false;
           break;
         }

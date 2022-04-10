@@ -1,14 +1,14 @@
-class NoCardState : public CallbackStackMixin<PiccReaderStatus> {
+class NoPiccState : public CallbackStackMixin<PiccReaderStatus> {
   public:
-    NoCardState(const function<bool(PiccUid*)>& readUid, const function<bool(const PiccUid& uid)>& checkUid)
+    NoPiccState(const function<bool(PiccUid*)>& readUid, const function<bool(const PiccUid& uid)>& checkUid)
       : readUid(readUid), checkUid(checkUid) {}
   
     State operator()() {
-      State newState = State::noCard;
+      State newState = State::noPicc;
       PiccUid uid;
       if (readUid(&uid)) {
-        newState = State::cardIsPresent;
-        callCallbacks(checkUid(uid) ? correctPicc : wrongPicc);
+        newState = State::piccIsPresent;
+        callCallbacks(checkUid(uid) ? PiccReaderStatus::correctPicc : PiccReaderStatus::wrongPicc);
       }
       return newState;
    }
