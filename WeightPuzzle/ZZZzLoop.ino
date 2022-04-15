@@ -1,4 +1,6 @@
 void loop() {
+  boardDriver.processInput();
   hx711Handler.process();
-  delay(100);
+  delay(DELAY_MS);
 }
+ 

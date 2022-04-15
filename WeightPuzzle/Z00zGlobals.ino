@@ -15,4 +15,7 @@ auto sendReading = [&hx711Handler, serialAndInternalCommunicationManager] (long 
   serialAndInternalCommunicationManager.write(buffer, nWrittenBytes);
 };
 
-long previousReading = 0;
+BoardDriver boardDriver(
+  serialAndInternalCommunicationManager,
+  processHandshake
+);
