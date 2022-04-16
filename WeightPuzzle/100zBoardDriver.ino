@@ -10,7 +10,7 @@ class BoardDriver {
         statusRequestCommand(statusRequestCommand) {}
   
     void processInput() {
-      constexpr size_t bufferSize = 16;
+      constexpr size_t bufferSize = 128;
       byte inputBuffer[bufferSize];
       byte outputBuffer[bufferSize];
 
