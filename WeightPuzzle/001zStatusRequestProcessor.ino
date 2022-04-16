@@ -1,6 +1,14 @@
 class StatusRequestProcessor {
   public:
 
+    StatusRequestProcessor() : 
+        lockEnabled(true),
+        minWeightInGrams(0),
+        maxWeightInGrams(0),
+        minTimeIntervalInMs(0),
+        weightInGrams(0),
+        updated(true) {}
+
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte lockStatusCode = 0x03;
       constexpr byte currentWeightCode = 0x13;
@@ -68,10 +76,10 @@ class StatusRequestProcessor {
     }
 
   private:
-    bool lockEnabled = true;
-    long minWeightInGrams = 0;
-    long maxWeightInGrams = 0;
-    long minTimeIntervalInMs = 0;
-    long weightInGrams = 0;
-    bool updated = true;
+    bool lockEnabled;
+    long minWeightInGrams;
+    long maxWeightInGrams;
+    long minTimeIntervalInMs;
+    long weightInGrams;
+    bool updated;
 };
