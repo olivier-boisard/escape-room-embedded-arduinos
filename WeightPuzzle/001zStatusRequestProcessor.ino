@@ -63,7 +63,7 @@ class StatusRequestProcessor {
     }
 
     void setWeightInGrams(long newValue) {
-      weightInGrams = newValue;
+      weightInGrams = newValue > 0 ? newValue : 0;
       updated = true;
     }
 
