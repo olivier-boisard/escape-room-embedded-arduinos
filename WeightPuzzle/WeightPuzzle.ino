@@ -7,5 +7,5 @@
 #define MIN_DIFF 5
 #define LONG_SIZE_BYTES 8
 #define N_BITS_IN_BYTES 8
-#define DELAY_MS 100
+#define DELAY_MS 1000
 #define EEPROM_ADDRESS 0x08
