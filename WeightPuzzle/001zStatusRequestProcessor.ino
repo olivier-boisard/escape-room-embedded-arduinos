@@ -3,6 +3,8 @@ class StatusRequestProcessor {
 
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte lockStatusCode = 0x03;
+      constexpr byte currentWeightCode = 0x13;
+      constexpr byte parametersCode = 0x23;
       constexpr byte errorCode = 0xFF;
       constexpr byte enabledCode = 0x03;
       constexpr byte disabledCode = 0x04;
@@ -17,9 +19,11 @@ class StatusRequestProcessor {
         outputBuffer[nWrittenBytes++] = lockEnabled ? enabledCode : disabledCode;
 
         // Current weight
+        outputBuffer[nWrittenBytes++] = currentWeightCode;
         nWrittenBytes += writeLongInBuffer(weightInGrams, outputBuffer + nWrittenBytes);
 
         // Parameters
+        outputBuffer[nWrittenBytes++] = parametersCode;
         nWrittenBytes += writeLongInBuffer(minWeightInGrams, outputBuffer + nWrittenBytes);
         nWrittenBytes += writeLongInBuffer(maxWeightInGrams, outputBuffer + nWrittenBytes);
         nWrittenBytes += writeLongInBuffer(minTimeIntervalInMs, outputBuffer + nWrittenBytes);
