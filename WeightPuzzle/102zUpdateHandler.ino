@@ -7,9 +7,8 @@ class UpdateHandler {
     void operator()() {
       if (statusRequestProcessor.isStatusUpdated()) {
         constexpr size_t bufferSize = 8;
-        constexpr size_t messageSize = 2;
-        constexpr byte MESSAGE_END_CODE = 0x00;
-        byte messageBuffer[bufferSize]= {BoardDriver::STATUS_REQUEST_CODE, MESSAGE_END_CODE};
+        constexpr size_t messageSize = 1;
+        byte messageBuffer[bufferSize]= {BoardDriver::STATUS_REQUEST_CODE};
         internalCommunicationManager.setInternalMessage(messageBuffer, messageSize);
       }
     }
