@@ -8,3 +8,4 @@
 #define LONG_SIZE_BYTES 8
 #define N_BITS_IN_BYTES 8
 #define DELAY_MS 100
+#define EEPROM_ADDRESS 0x08
