@@ -18,15 +18,15 @@ class StatusRequestProcessor {
         outputBuffer[nWrittenBytes++] = lockStatusCode;
         outputBuffer[nWrittenBytes++] = lockEnabled ? enabledCode : disabledCode;
 
-        // Current weight
+        // Current weight 
         outputBuffer[nWrittenBytes++] = currentWeightCode;
-        nWrittenBytes += writeLongInBuffer(weightInGrams, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(weightInGrams, outputBuffer + nWrittenBytes);
 
         // Parameters
         outputBuffer[nWrittenBytes++] = parametersCode;
-        nWrittenBytes += writeLongInBuffer(minWeightInGrams, outputBuffer + nWrittenBytes);
-        nWrittenBytes += writeLongInBuffer(maxWeightInGrams, outputBuffer + nWrittenBytes);
-        nWrittenBytes += writeLongInBuffer(minTimeIntervalInMs, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(minWeightInGrams, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(maxWeightInGrams, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(minTimeIntervalInMs, outputBuffer + nWrittenBytes);
       }
 
       // Handle error

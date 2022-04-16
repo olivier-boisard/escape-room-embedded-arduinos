@@ -1,12 +1,21 @@
-size_t writeLongInBuffer(long data, byte outputBuffer[]) {
-  byte buffer[LONG_SIZE_BYTES];
-  for (size_t i = 0 ; i < LONG_SIZE_BYTES ; i++) {
-    buffer[i] = (data >> (i * N_BITS_IN_BYTES)) & 255;
+size_t writeLongAsAscii(long data, byte outputBuffer[]) {
+  constexpr size_t nDigitsToWrite = 10;
+  String dataAsString = String(data);
+  size_t nWrittenBytes = 0;
+  
+  for (size_t i = 0 ; i < nDigitsToWrite - dataAsString.length() ; i++) {
+    outputBuffer[nWrittenBytes++] = '0';
   }
-  return LONG_SIZE_BYTES;
+
+  const char* buffer = dataAsString.c_str();
+  for (size_t i = 0 ; i < dataAsString.length() ; i++) {
+    outputBuffer[nWrittenBytes++] = buffer[i];
+  }
+  
+  return nWrittenBytes;
 }
 
-long readLongFromBuffer(byte inputBuffer[]) {
+long readLongFromAscii(byte inputBuffer[]) {
   long output = 0;
   for (size_t i = 0 ; i < LONG_SIZE_BYTES ; i++) {
     output += inputBuffer[i] << ((LONG_SIZE_BYTES - i - 1) * N_BITS_IN_BYTES);
