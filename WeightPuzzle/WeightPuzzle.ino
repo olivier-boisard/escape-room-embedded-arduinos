@@ -3,6 +3,7 @@
 
 #define LOADCELL_DOUT_PIN 7
 #define LOADCELL_SCK_PIN 6
+#define LOCK_CONTROL_OUTPUT_PIN 4
 #define SCALE 95.0f
 #define BAUDRATE 9600
 #define MIN_DIFF 5
