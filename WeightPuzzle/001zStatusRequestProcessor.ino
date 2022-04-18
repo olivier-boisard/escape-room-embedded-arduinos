@@ -1,7 +1,7 @@
 class StatusRequestProcessor {
   public:
 
-    StatusRequestProcessor(size_t longAsStrNDigitsToWrite) : longAsStrNDigitsToWrite(longAsStrNDigitsToWrite) {}
+    StatusRequestProcessor(size_t longAsStrNDigitsToWrite) : longAsStrNDigitsToWrite(longAsStrNDigitsToWrite), configuration(0, 0, 0) {}
 
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte lockStatusCode = 0x03;
@@ -26,9 +26,9 @@ class StatusRequestProcessor {
 
         // Parameters
         outputBuffer[nWrittenBytes++] = parametersCode;
-        nWrittenBytes += writeLongAsAscii(minWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
-        nWrittenBytes += writeLongAsAscii(maxWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
-        nWrittenBytes += writeLongAsAscii(holdingTimeInMs, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
+        nWrittenBytes += writeLongAsAscii(configuration.minWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
+        nWrittenBytes += writeLongAsAscii(configuration.maxWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
+        nWrittenBytes += writeLongAsAscii(configuration.holdingTimeInMs, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
       }
 
       // Handle error
@@ -49,21 +49,10 @@ class StatusRequestProcessor {
       updated = true;
     }
 
-    void setMinWeightInGrams(long newValue) {
-      minWeightInGrams = newValue;
+    void setConfiguration(const Configuration& newValue) {
+      configuration = newValue;
       updated = true;
     }
-
-    void setMaxWeightInGrams(long newValue) {
-      maxWeightInGrams = newValue;
-      updated = true;
-    }
-
-    void setHoldingTimeInMs(long newValue) {
-      holdingTimeInMs = newValue;
-      updated = true;
-    }
-
     void setWeightInGrams(long newValue) {
       weightInGrams = newValue > 0 ? newValue : 0;
       updated = true;
@@ -71,9 +60,7 @@ class StatusRequestProcessor {
 
   private:
     bool lockEnabled = true;
-    long minWeightInGrams = 0;
-    long maxWeightInGrams = 0;
-    long holdingTimeInMs = 0;
+    Configuration configuration;
     long weightInGrams = 0;
     bool updated = true;
     const size_t longAsStrNDigitsToWrite;
