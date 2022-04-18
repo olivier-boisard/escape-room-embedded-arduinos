@@ -45,3 +45,6 @@ WeightObserver weightObserver(disableLock);
 auto updateReadingInWeightObserver = [&weightObserver] (long reading) {
   weightObserver.updateWeight(reading);
 };
+auto updateWeightObserverConfiguration = [&weightObserver] (const Configuration& configuration) {
+  weightObserver.setConfiguration(configuration);
+};
