@@ -1,7 +1,7 @@
 class StatusRequestProcessor {
   public:
 
-    StatusRequestProcessor(size_t longAsStrNDigitsToWrite) : longAsStrNDigitsToWrite(longAsStrNDigitsToWrite), configuration(0, 0, 0) {}
+    StatusRequestProcessor(size_t longAsStrNDigitsToWrite) : longAsStrNDigitsToWrite(longAsStrNDigitsToWrite) {}
 
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte lockStatusCode = 0x03;

@@ -1,6 +1,7 @@
 void setup() {
   // Wiring
   hx711Handler.addCallback(updateReadingInStatus);
+  hx711Handler.addCallback(updateReadingInWeightObserver);
   configurationRequestProcessor.addCallback(updateStatusWithConfiguration);
   configurationRequestProcessor.addCallback(configurationToEepromWriter);
 

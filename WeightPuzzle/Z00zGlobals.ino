@@ -20,16 +20,12 @@ auto updateStatusWithConfiguration = [&statusRequestProcessor] (const Configurat
 UpdateHandler handleUpdate(statusRequestProcessor, serialAndInternalCommunicationManager);
 
 ////////////////////////////////// Lock
-//TODO integrate this
-auto controlLock = [&lockController, &statusRequestProcessor] (bool weightIsCorrectForLongEnough) {
-  bool disableLock = weightIsCorrectForLongEnough;
-  if (disableLock) {
-    lockController.disable();
-    statusRequestProcessor.setLockEnabled(false);
-  }
+auto disableLock = [&lockController, &statusRequestProcessor] () {
+  lockController.disable();
+  statusRequestProcessor.setLockEnabled(false);
 };
 
-auto toggleLock = [&lockController, &statusRequestProcessor] () {
+auto toggleLock = [&lockController, &statusRequestProcessor] () -> bool {
   bool lockEnabled = lockController.toggle();
   statusRequestProcessor.setLockEnabled(lockEnabled);
   return lockEnabled;
@@ -44,3 +40,8 @@ BoardDriver boardDriver(
   lockCommandProcessor,
   configurationRequestProcessor
 );
+
+WeightObserver weightObserver(disableLock);
+auto updateReadingInWeightObserver = [&weightObserver] (long reading) {
+  weightObserver.updateWeight(reading);
+};
