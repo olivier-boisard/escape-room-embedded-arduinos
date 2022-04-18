@@ -4,10 +4,12 @@ class BoardDriver {
     BoardDriver(
       CommunicationManager& communicationManager,
       const function<size_t(const byte[], size_t, byte*)>& processHandshakeCommand,
-      const function<size_t(const byte[], size_t, byte*)>& statusRequestCommand
+      const function<size_t(const byte[], size_t, byte*)>& statusRequestCommand,
+      const function<size_t(const byte[], size_t, byte*)>& configureCommand
     ) : communicationManager(communicationManager),
         processHandshakeCommand(processHandshakeCommand),
-        statusRequestCommand(statusRequestCommand) {}
+        statusRequestCommand(statusRequestCommand),
+        configureCommand(configureCommand) {}
   
     void processInput() {
       constexpr size_t bufferSize = 128;
@@ -24,11 +26,13 @@ class BoardDriver {
 
     constexpr static byte HANDSHAKE_CODE = 0x10;
     constexpr static byte STATUS_REQUEST_CODE = 0x20;
+    constexpr static byte CONFIGURE_CODE = 0x21;
 
   private:
     CommunicationManager& communicationManager;
     function<size_t(const byte[], size_t, byte*)> processHandshakeCommand;
     function<size_t(const byte[], size_t, byte*)> statusRequestCommand;
+    function<size_t(const byte[], size_t, byte*)> configureCommand;
 
     size_t processCommand(const byte inputBuffer[], size_t inputSize, byte* outputBuffer) {
       constexpr size_t commandArgOffset = 1;
@@ -44,6 +48,8 @@ class BoardDriver {
         case STATUS_REQUEST_CODE:
           commandProcessor = statusRequestCommand;
           break;
+        case CONFIGURE_CODE:
+          commandProcessor = configureCommand;
         default:
           break;
       }

@@ -1,6 +1,8 @@
 class StatusRequestProcessor {
   public:
 
+    StatusRequestProcessor(size_t longAsStrNDigitsToWrite) : longAsStrNDigitsToWrite(longAsStrNDigitsToWrite) {}
+
     size_t operator()(const byte command[], size_t commandSize, byte* outputBuffer) {
       constexpr byte lockStatusCode = 0x03;
       constexpr byte currentWeightCode = 0x13;
@@ -20,13 +22,13 @@ class StatusRequestProcessor {
 
         // Current weight 
         outputBuffer[nWrittenBytes++] = currentWeightCode;
-        nWrittenBytes += writeLongAsAscii(weightInGrams, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(weightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
 
         // Parameters
         outputBuffer[nWrittenBytes++] = parametersCode;
-        nWrittenBytes += writeLongAsAscii(minWeightInGrams, outputBuffer + nWrittenBytes);
-        nWrittenBytes += writeLongAsAscii(maxWeightInGrams, outputBuffer + nWrittenBytes);
-        nWrittenBytes += writeLongAsAscii(minTimeIntervalInMs, outputBuffer + nWrittenBytes);
+        nWrittenBytes += writeLongAsAscii(minWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
+        nWrittenBytes += writeLongAsAscii(maxWeightInGrams, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
+        nWrittenBytes += writeLongAsAscii(holdingTimeInMs, outputBuffer + nWrittenBytes, longAsStrNDigitsToWrite);
       }
 
       // Handle error
@@ -57,8 +59,8 @@ class StatusRequestProcessor {
       updated = true;
     }
 
-    void setMinTimeIntervalInMs(long newValue) {
-      minTimeIntervalInMs = newValue;
+    void setHoldingTimeInMs(long newValue) {
+      holdingTimeInMs = newValue;
       updated = true;
     }
 
@@ -71,7 +73,8 @@ class StatusRequestProcessor {
     bool lockEnabled = true;
     long minWeightInGrams = 0;
     long maxWeightInGrams = 0;
-    long minTimeIntervalInMs = 0;
+    long holdingTimeInMs = 0;
     long weightInGrams = 0;
     bool updated = true;
+    const size_t longAsStrNDigitsToWrite;
 };

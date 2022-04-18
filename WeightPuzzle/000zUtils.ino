@@ -1,5 +1,4 @@
-size_t writeLongAsAscii(long data, byte outputBuffer[]) {
-  constexpr size_t nDigitsToWrite = 10;
+size_t writeLongAsAscii(long data, byte outputBuffer[], size_t nDigitsToWrite) {
   String dataAsString = String(data);
   size_t nWrittenBytes = 0;
   
@@ -15,12 +14,19 @@ size_t writeLongAsAscii(long data, byte outputBuffer[]) {
   return nWrittenBytes;
 }
 
-long readLongFromAscii(byte inputBuffer[]) {
-  long output = 0;
-  for (size_t i = 0 ; i < LONG_SIZE_BYTES ; i++) {
-    output += inputBuffer[i] << ((LONG_SIZE_BYTES - i - 1) * N_BITS_IN_BYTES);
+long readLongFromAscii(byte inputBuffer[], size_t nDigitsToRead) {
+  constexpr size_t bufferSize = 16;
+
+  // Get null terminated string
+  char buffer[bufferSize];
+  size_t index = 0;
+  for (size_t i = 0 ; i < nDigitsToRead ; i++) {
+    buffer[index++] = (char) inputBuffer[i];
   }
-  return output;
+  buffer[index++] = '\0';
+
+  // Convert to long
+  return atol(buffer);
 }
 
 template<typename T>

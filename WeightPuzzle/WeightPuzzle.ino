@@ -9,3 +9,4 @@
 #define N_BITS_IN_BYTES 8
 #define DELAY_MS 100
 #define EEPROM_ADDRESS 0x08
+#define LONG_AS_STR_N_DIGITS 10
