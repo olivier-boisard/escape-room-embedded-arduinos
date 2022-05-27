@@ -21,6 +21,7 @@ void setup() {
   mfrc522Board0PiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
   mfrc522Board0ConfigurationPiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
   mfrc522Board0Mfrc522.PCD_Init();
+  mfrc522Board0Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 
   // Configuring PICC reader 1
   PiccUid mfrc522Board1ValidUid;
@@ -41,6 +42,7 @@ void setup() {
   mfrc522Board1PiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1ConfigurationPiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1Mfrc522.PCD_Init();
+  mfrc522Board1Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 
   // Configuring PICC reader 2
   PiccUid mfrc522Board2ValidUid;
@@ -61,6 +63,7 @@ void setup() {
   mfrc522Board2PiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
   mfrc522Board2ConfigurationPiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
   mfrc522Board2Mfrc522.PCD_Init();
+  mfrc522Board2Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 
   // Configuring PICC reader 3
   PiccUid mfrc522Board3ValidUid;
@@ -81,6 +84,7 @@ void setup() {
   mfrc522Board3PiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
   mfrc522Board3ConfigurationPiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
   mfrc522Board3Mfrc522.PCD_Init();
+  mfrc522Board3Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 
   // Configuring PICC reader 4
   PiccUid mfrc522Board4ValidUid;
@@ -101,6 +105,7 @@ void setup() {
   mfrc522Board4PiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
   mfrc522Board4ConfigurationPiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
   mfrc522Board4Mfrc522.PCD_Init();
+  mfrc522Board4Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 
   // Lock control
   piccReaderStatusMonitor.addCallback(controlLock);
