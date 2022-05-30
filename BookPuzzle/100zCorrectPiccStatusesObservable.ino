@@ -22,7 +22,7 @@ class CorrectPiccStatusesObservable : public CallbackStackMixin<bool> {
   private:
 
     bool allPiccAreCorrect() {
-      bool allPiccAreCorrect = true;
+      bool allPiccAreCorrect = nPiccReaders > 0;
       for (size_t i = 0 ; i < nPiccReaders ; i++) {
         if (statuses[i] != PiccReaderStatus::correctPicc) {
           allPiccAreCorrect = false;
