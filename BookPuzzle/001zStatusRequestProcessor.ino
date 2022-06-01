@@ -22,11 +22,13 @@ class StatusRequestProcessor {
       if (commandSize != 0) {
         success = false;
       } else {
-        // Copy PICC readers status
-        outputBuffer[nWrittenBytes++] = piccReaderStatusCode;
-        outputBuffer[nWrittenBytes++] = (byte) nPiccReaders;
-        for (size_t i = 0 ; i < nPiccReaders ; i++) {
-          outputBuffer[nWrittenBytes++] = (byte) piccReaderStatus[i];
+        if (nPiccReaders > 0) {
+          // Copy PICC readers status
+          outputBuffer[nWrittenBytes++] = piccReaderStatusCode;
+          outputBuffer[nWrittenBytes++] = (byte) nPiccReaders;
+          for (size_t i = 0 ; i < nPiccReaders ; i++) {
+            outputBuffer[nWrittenBytes++] = (byte) piccReaderStatus[i];
+          }
         }
 
         // Configuration mode
