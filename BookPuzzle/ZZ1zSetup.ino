@@ -21,8 +21,6 @@ void setup() {
   mfrc522Board0ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board0HandleStatus);
   mfrc522Board0PiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
   mfrc522Board0ConfigurationPiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
-  mfrc522Board0Mfrc522.PCD_Init();
-  mfrc522Board0Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 #endif
 
 #if N_MFRC522_READERS >= 2
@@ -44,8 +42,6 @@ void setup() {
   mfrc522Board1ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board1HandleStatus);
   mfrc522Board1PiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1ConfigurationPiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
-  mfrc522Board1Mfrc522.PCD_Init();
-  mfrc522Board1Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 #endif
 
 #if N_MFRC522_READERS >= 3
@@ -67,8 +63,6 @@ void setup() {
   mfrc522Board2ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board2HandleStatus);
   mfrc522Board2PiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
   mfrc522Board2ConfigurationPiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
-  mfrc522Board2Mfrc522.PCD_Init();
-  mfrc522Board2Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 #endif
 
 #if N_MFRC522_READERS >= 4
@@ -90,8 +84,6 @@ void setup() {
   mfrc522Board3ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board3HandleStatus);
   mfrc522Board3PiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
   mfrc522Board3ConfigurationPiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
-  mfrc522Board3Mfrc522.PCD_Init();
-  mfrc522Board3Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 #endif
 
 #if N_MFRC522_READERS >= 5
@@ -113,8 +105,6 @@ void setup() {
   mfrc522Board4ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board4HandleStatus);
   mfrc522Board4PiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
   mfrc522Board4ConfigurationPiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
-  mfrc522Board4Mfrc522.PCD_Init();
-  mfrc522Board4Mfrc522.PCD_SetAntennaGain(MFRC522_ANTENNA_GAIN);
 #endif
 
   // Lock control
