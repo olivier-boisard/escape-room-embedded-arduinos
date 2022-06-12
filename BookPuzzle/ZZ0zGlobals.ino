@@ -1,7 +1,6 @@
 CorrectPiccStatusesObservable piccReaderStatusMonitor(N_MFRC522_READERS);
 
 // MFRC522
-#if N_MFRC522_READERS >= 1
 //// MFRC522 0
 ////// MFRC522 driver
 MFRC522DriverPinSimple mfrc522Board0SdaPin = MFRC522DriverPinSimple(SDA_PIN_0);
@@ -34,9 +33,7 @@ PiccIsPresentState mfrc522Board0PiccIsPresentState(mfrc522Board0IsUidReadable);
 ConfigurationNoPiccState mfrc522Board0ConfigurationNoPiccState(mfrc522Board0ReadUidFromMFRC522);
 ConfigurationPiccIsPresentState mfrc522Board0ConfigurationPiccIsPresentState(mfrc522Board0IsUidReadable);
 StateMachine mfrc522Board0StateMachine;
-#endif
 
-#if N_MFRC522_READERS >= 2
 //// MFRC522 1
 ////// MFRC522 driver
 MFRC522DriverPinSimple mfrc522Board1SdaPin = MFRC522DriverPinSimple(SDA_PIN_1);
@@ -69,9 +66,7 @@ PiccIsPresentState mfrc522Board1PiccIsPresentState(mfrc522Board1IsUidReadable);
 ConfigurationNoPiccState mfrc522Board1ConfigurationNoPiccState(mfrc522Board1ReadUidFromMFRC522);
 ConfigurationPiccIsPresentState mfrc522Board1ConfigurationPiccIsPresentState(mfrc522Board1IsUidReadable);
 StateMachine mfrc522Board1StateMachine;
-#endif
 
-#if N_MFRC522_READERS >= 3
 //// MFRC522 2
 ////// MFRC522 driver
 MFRC522DriverPinSimple mfrc522Board2SdaPin = MFRC522DriverPinSimple(SDA_PIN_2);
@@ -104,9 +99,7 @@ PiccIsPresentState mfrc522Board2PiccIsPresentState(mfrc522Board2IsUidReadable);
 ConfigurationNoPiccState mfrc522Board2ConfigurationNoPiccState(mfrc522Board2ReadUidFromMFRC522);
 ConfigurationPiccIsPresentState mfrc522Board2ConfigurationPiccIsPresentState(mfrc522Board2IsUidReadable);
 StateMachine mfrc522Board2StateMachine;
-#endif
 
-#if N_MFRC522_READERS >= 4
 //// MFRC522 3
 ////// MFRC522 driver
 MFRC522DriverPinSimple mfrc522Board3SdaPin = MFRC522DriverPinSimple(SDA_PIN_3);
@@ -139,9 +132,7 @@ PiccIsPresentState mfrc522Board3PiccIsPresentState(mfrc522Board3IsUidReadable);
 ConfigurationNoPiccState mfrc522Board3ConfigurationNoPiccState(mfrc522Board3ReadUidFromMFRC522);
 ConfigurationPiccIsPresentState mfrc522Board3ConfigurationPiccIsPresentState(mfrc522Board3IsUidReadable);
 StateMachine mfrc522Board3StateMachine;
-#endif
 
-#if N_MFRC522_READERS >= 5
 //// MFRC522 4
 ////// MFRC522 driver
 MFRC522DriverPinSimple mfrc522Board4SdaPin = MFRC522DriverPinSimple(SDA_PIN_4);
@@ -174,7 +165,6 @@ PiccIsPresentState mfrc522Board4PiccIsPresentState(mfrc522Board4IsUidReadable);
 ConfigurationNoPiccState mfrc522Board4ConfigurationNoPiccState(mfrc522Board4ReadUidFromMFRC522);
 ConfigurationPiccIsPresentState mfrc522Board4ConfigurationPiccIsPresentState(mfrc522Board4IsUidReadable);
 StateMachine mfrc522Board4StateMachine;
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ActiveLowPinController lockController(LOCK_CONTROL_OUTPUT_PIN);
@@ -202,39 +192,19 @@ auto toggleLock = [&lockController, &statusRequestProcessor] () {
   return lockEnabled;
 };
 auto configurationModeToggler = [
-#if N_MFRC522_READERS >= 1
   &mfrc522Board0StateMachine,
-#endif
-#if N_MFRC522_READERS >= 2
   &mfrc522Board1StateMachine,
-#endif
-#if N_MFRC522_READERS >= 3
   &mfrc522Board2StateMachine,
-#endif
-#if N_MFRC522_READERS >= 4
   &mfrc522Board3StateMachine,
-#endif
-#if N_MFRC522_READERS >= 5
   &mfrc522Board4StateMachine,
-#endif
   &statusRequestProcessor
 ] () {
   bool enabled = false;
-#if N_MFRC522_READERS >= 1
   enabled = mfrc522Board0StateMachine.toggleConfigurationMode();
-#endif
-#if N_MFRC522_READERS >= 2
   mfrc522Board1StateMachine.toggleConfigurationMode();
-#endif
-#if N_MFRC522_READERS >= 3
   mfrc522Board2StateMachine.toggleConfigurationMode();
-#endif
-#if N_MFRC522_READERS >= 4
   mfrc522Board3StateMachine.toggleConfigurationMode();
-#endif
-#if N_MFRC522_READERS >= 5
   mfrc522Board4StateMachine.toggleConfigurationMode();
-#endif
   statusRequestProcessor.setConfigurationModeEnabled(enabled);
   return enabled;
 };
@@ -253,38 +223,28 @@ auto setConfigurationModeEnabled = [&statusRequestProcessor] (bool enabled) {
 };
 
 /////
-#if N_MFRC522_READERS >= 1
 auto mfrc522Board0HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(0, status);
   statusRequestProcessor.setPiccReaderStatus(0, status);
   sendStatusRequestCommand();
 };
-#endif
-#if N_MFRC522_READERS >= 2
 auto mfrc522Board1HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(1, status);
   statusRequestProcessor.setPiccReaderStatus(1, status);
   sendStatusRequestCommand();
 };
-#endif
-#if N_MFRC522_READERS >= 3
 auto mfrc522Board2HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(2, status);
   statusRequestProcessor.setPiccReaderStatus(2, status);
   sendStatusRequestCommand();
 };
-#endif
-#if N_MFRC522_READERS >= 4
 auto mfrc522Board3HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(3, status);
   statusRequestProcessor.setPiccReaderStatus(3, status);
   sendStatusRequestCommand();
 };
-#endif
-#if N_MFRC522_READERS >= 5
 auto mfrc522Board4HandleStatus = [&piccReaderStatusMonitor, &statusRequestProcessor] (PiccReaderStatus status) {
   piccReaderStatusMonitor.updatePiccReaderStatus(4, status);
   statusRequestProcessor.setPiccReaderStatus(4, status);
   sendStatusRequestCommand();
 };
-#endif

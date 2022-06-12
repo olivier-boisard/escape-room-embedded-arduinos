@@ -2,7 +2,6 @@ void setup() {
   // Start serial
   Serial.begin(SERIAL_PORT_BAUDRATE);
 
-#if N_MFRC522_READERS >= 1
   // Configuring PICC reader 0
   PiccUid mfrc522Board0ValidUid;
   if (mfrc522Board0ReadUidFromEeprom(&mfrc522Board0ValidUid)) {
@@ -21,9 +20,7 @@ void setup() {
   mfrc522Board0ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board0HandleStatus);
   mfrc522Board0PiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
   mfrc522Board0ConfigurationPiccIsPresentState.addCallback(mfrc522Board0HandleStatus);
-#endif
-
-#if N_MFRC522_READERS >= 2
+  
   // Configuring PICC reader 1
   PiccUid mfrc522Board1ValidUid;
   if (mfrc522Board1ReadUidFromEeprom(&mfrc522Board1ValidUid)) {
@@ -42,9 +39,7 @@ void setup() {
   mfrc522Board1ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board1HandleStatus);
   mfrc522Board1PiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
   mfrc522Board1ConfigurationPiccIsPresentState.addCallback(mfrc522Board1HandleStatus);
-#endif
 
-#if N_MFRC522_READERS >= 3
   // Configuring PICC reader 2
   PiccUid mfrc522Board2ValidUid;
   if (mfrc522Board2ReadUidFromEeprom(&mfrc522Board2ValidUid)) {
@@ -63,9 +58,7 @@ void setup() {
   mfrc522Board2ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board2HandleStatus);
   mfrc522Board2PiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
   mfrc522Board2ConfigurationPiccIsPresentState.addCallback(mfrc522Board2HandleStatus);
-#endif
 
-#if N_MFRC522_READERS >= 4
   // Configuring PICC reader 3
   PiccUid mfrc522Board3ValidUid;
   if (mfrc522Board3ReadUidFromEeprom(&mfrc522Board3ValidUid)) {
@@ -84,9 +77,7 @@ void setup() {
   mfrc522Board3ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board3HandleStatus);
   mfrc522Board3PiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
   mfrc522Board3ConfigurationPiccIsPresentState.addCallback(mfrc522Board3HandleStatus);
-#endif
 
-#if N_MFRC522_READERS >= 5
   // Configuring PICC reader 4
   PiccUid mfrc522Board4ValidUid;
   if (mfrc522Board4ReadUidFromEeprom(&mfrc522Board4ValidUid)) {
@@ -105,7 +96,6 @@ void setup() {
   mfrc522Board4ConfigurationNoPiccState.addNewPiccReaderStatusCallback(mfrc522Board4HandleStatus);
   mfrc522Board4PiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
   mfrc522Board4ConfigurationPiccIsPresentState.addCallback(mfrc522Board4HandleStatus);
-#endif
 
   // Lock control
   piccReaderStatusMonitor.addCallback(controlLock);
