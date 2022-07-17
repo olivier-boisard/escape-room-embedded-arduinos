@@ -63,5 +63,7 @@ void loop() {
         }
       }
     }
+  } else {
+    attemptConnectToWifi(EEPROM_ADDRESS);
   }
 }
