@@ -63,6 +63,7 @@ void loop() {
         }
       } else {
         client.stop();
+        client = server.available();
       }
     }
   } else {
