@@ -61,6 +61,8 @@ void loop() {
           Serial.write(buffer, nWrittenBytes);
           Serial.flush();
         }
+      } else {
+        client.stop();
       }
     }
   } else {
