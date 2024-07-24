@@ -23,7 +23,7 @@ class Mfrc522UidReader {
 
     void startMfrc522() {
       mfrc522.PCD_Init();
-      delay(10);
+      delay(50);
     }
 
     void stopMfrc522() {
